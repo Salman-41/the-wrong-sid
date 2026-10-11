@@ -12,6 +12,9 @@
 | Design previews | PNG previews and contact sheets generated from editable artboards; suitable for internal review, not final production imagery. | Keep as design reference only. |
 
 ## Public-domain/institutional source shortlist
+
+Prototype update (2026-10-11): GFS Didot Regular is now bundled at `public/fonts/GFSDidot-Regular.ttf`, with `public/fonts/OFL-GFS-Didot.txt`, downloaded from the official Google Fonts `ofl/gfsdidot` directory. UI uses the system Arial fallback; Arimo/Cousine remain planned, not bundled. The engine renders original procedural yarns and uses no museum or generated textile images.
+
 - [The Metropolitan Museum of Art Open Access](https://www.metmuseum.org/about-the-met/policies-and-documents/open-access): best direct fit; object record provides image and data in public domain.
 - [Smithsonian Open Access](https://www.si.edu/openaccess): search textile collections; verify each item’s CC0/public-domain status and object metadata individually.
 - [Library of Congress Prints & Photographs](https://www.loc.gov/pictures/): useful for historic textile/fashion prints and digitized materials; check rights advisory per item rather than assuming all holdings are public domain.

@@ -1,32 +1,39 @@
 # Build status
 
-**State: research and planning complete; website not started.** Updated 2026-10-11 (Asia/Karachi). No deploy, service purchase, or push performed.
+**State: textile-engine proof of concept implemented and ready for local use; full exhibition not yet built.** Updated 2026-10-11 (Asia/Karachi). This stage is committed locally; no push, deployment or service purchase.
 
-## Completed
-- Inspected all 12 SVG artboards, PNG previews, desktop/mobile contact sheets, design notes and token file.
-- Audited the six distinct experiences and their responsive compositions, vector/raster content, interactions and risks in `DESIGN_REFERENCE_AUDIT.md`.
-- Verified Awwwards reference records for Twinbru, 45R Denim Karuta and CMO Paris; documented learning boundaries.
-- Checked current official framework guidance: Next.js 16 / React 19.2 compatibility; no blocker for proposed Next/React/GSAP/SVG architecture. Canvas is optional and limited by accessibility needs.
-- Verified plain weave terminology and The Met object facts/public-domain availability; recorded provenance steps and rights gaps.
-- Wrote project rules, art direction, design audit, technical architecture, asset register and this status document.
+## Delivered
+- Read all six planning documents, design notes/tokens, and the 12 SVG references; reviewed paired contact sheets. Retained the paper/plum editorial direction for a focused material examination interface.
+- Next.js 16.4.0, React/React DOM 19.3.0 and TypeScript 5.9.3 are resolved in `package-lock.json`. The Next 16 / React 19 architecture remains intact. No animation library or WebGL is needed for this event-driven study.
+- Shared TypeScript artwork model: warp/weft colors and thickness, repeat matrices, plain weave, defined 2/2 twill, valid five-end satin/sateen (step two), seed and versioned JSON import/export with input validation.
+- Front/reverse views use the same physical yarns: reverse mirrors the horizontal coordinates and inverts crossing order. No independent back-face artwork or image is substituted.
+- Custom Canvas 2D material renderer: continuous yarns and raised float runs, rounded contours, directional shading, overlap/contact shadows, fine seeded fibers and sparse loose fibers. First render was refined to remove angular shoulders and excessively regular fiber marks.
+- Responsive local interface: structure selection, warp/weft swatches and custom colors, solid/banded rhythm, thickness, 1–5× magnification, face toggle/comparison, JSON save/restore and 2000 × 2000 PNG export.
+- OffscreenCanvas worker path with request coalescing, stale-bitmap disposal and main-thread fallback; visible-run culling, batched fiber strokes, event-only redraws, DPR 2/four-million-pixel cap per surface.
+- GFS Didot font downloaded from Google Fonts with its SIL OFL license. Original museum/concept assets are not used for this engine.
 
-## Exact next steps
-1. **Review and accept these plans**; resolve whether the current generated Entrance/Reverse concept image has a retrievable source file and usable rights record.
-2. **Acquire the Collection image** from The Met record/API for object 66.122.20. Save its source URL, retrieval date, dimensions, object metadata and rights evidence in the asset register; replace the illustrated study in final design comps only if that source image is confirmed.
-3. **Finalize type and tokens:** download the selected Google Fonts files, preserve their license notices, inspect GFS Didot fallback/legibility on mobile, and record final typography choices in `DESIGN-TOKENS.json`.
-4. **Turn six experiences into behavior specs**: define weave lift plans (plain, a named twill repeat, satin/sateen), undo/reset behavior, accessible face toggle, repeat transformations, object navigation, and export dimensions/formats. Confirm diagrams and copy match those states.
-5. **Create the Next.js 16 + React 19.2 + TypeScript project** with Node.js 20.9+, route shell for the six named experiences, semantic content, responsive layout scaffolding and small isolated client components. Keep Canvas out until measurement justifies it; use SVG/HTML first and GSAP only for authored transitions.
-6. **Implement each composition against its paired desktop/mobile artboards**, with unique hierarchy/layout per route and the approved visual rules. Build genuine interactions and export output rather than nonfunctional controls.
-7. **Verify** keyboard and touch use, WCAG 2.2 AA contrast/focus, reduced motion, mobile layouts, truthful collection attribution, image rights, repeat seams/export correctness and real-device performance. Track LCP ≤2.5s, INP ≤200ms, CLS ≤0.1 at 75th percentile as field targets; review proposed transfer budgets in `TECHNICAL_ARCHITECTURE.md`.
-8. **Prepare the repository push:** this workspace currently has no `.git` directory (`git status` returned “not a git repository”). Confirm the intended repository root, initialize Git there if appropriate, inspect `git status` and remotes, set `origin` to `https://github.com/Salman-41/the-wrong-side.git`, review staged files and commit, then push the agreed branch. Do not publish credentials; use the existing authenticated GitHub mechanism.
+## Verification evidence
+- `npm test`: **10 passed, 0 failed**. Eight model tests plus rendered crossing ownership over all four structures/both faces and a high-resolution cap test. The renderer check uses an odd, non-repeat-aligned width to catch missed mirroring.
+- `npm run typecheck`: passed.
+- `npm run build`: production build passed; `/` is statically prerendered and the worker bundle compiles.
+- Local development route returned HTTP **200**. Artwork controls render in the server response.
+- Same-renderer native Canvas PNGs reviewed for plain, twill and satin/sateen; overview and macro images are reproducible with `node --import tsx scripts/render-studies.ts`.
+- Example native adapter timings at 800×800, 3.8× zoom after stroke batching: ~108–315 ms for a single surface, 161–324 drawn runs. These are machine-specific native Canvas measurements, not browser, mobile or Core Web Vitals results. Worker rendering protects the main browser thread on supported devices; fallback redraws can block while rendering.
+- Connected browser tool reported no available browser. Browser hydration, worker runtime, download/import interaction, touch/keyboard checks and real-device performance have **not** been verified in this session.
 
-## Open items
-- Confirm provenance/rights/source file for the generated concept textile image.
-- Download the actual Met Open Access image and capture its exact source metadata.
-- Final display/UI font files and their license notices are not yet in the project.
-- Finalize detailed control behavior and export contract before implementation.
-- Repository is not currently initialized as Git in this workspace, so no push can occur from this checkout yet.
+## Run and review
 
-## Research references
-- [Awwwards: Twinbru context](https://www.awwwards.com/owow/), [45R Denim Karuta listing](https://www.awwwards.com/websites/%23FAEDCD/), [CMO Paris](https://www.awwwards.com/sites/cmo-paris)
-- [Next.js 16](https://nextjs.org/blog/next-16), [The Met object 66.122.20](https://www.metmuseum.org/art/collection/search/45411), [GWU Textile Museum glossary](https://museum.gwu.edu/textile-terms), [WCAG 2.2](https://www.w3.org/TR/wcag/)
+```sh
+npm ci
+npm run dev
+```
+
+Open `http://127.0.0.1:3000`. See the root README for controls, model conventions and production/test commands. Approximate lighting/crimp/fiber must not be presented as physically exact fabric mechanics.
+
+## Exact next steps after this stage
+1. Open the prototype in a browser on desktop and mobile. Check all four structures, independent yarn-color changes, thickness/magnification, both faces/comparison and a JSON save → reopen → PNG download. Confirm worker rendering and test the fallback once.
+2. Measure input/render latency on a low-end laptop and a mobile device; adjust detail/resolution if needed. Verify focus, labels, contrast, narrow layouts and reduced-motion behavior. There is no automatic material animation.
+3. Review the engine’s material quality and behavior as the foundation for Loom, Reverse, Pattern Room and Edition; then authorize the full exhibition implementation.
+4. Before Collection implementation, obtain the actual Met Open Access image for object 66.122.20 and record its exact metadata/rights. Resolve provenance of the Entrance/Reverse concept image separately.
+5. Build the remaining complete experiences against their paired SVG compositions, reusing the shared artwork model without repeating page layouts.
+6. A later push task must first inspect the current branch/remotes and repository contents. Git is initialized on `main` with `origin/main` tracking; the previous planning note about missing `.git` is obsolete. Verify the remote URL before a later push. Do not push or deploy as part of this stage.

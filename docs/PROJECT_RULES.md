@@ -21,5 +21,6 @@
 - Before launch, verify image rights, factual copy, keyboard operation, contrast, focus, reduced-motion behavior, mobile usability, and field performance.
 
 ## Scope now
-- Planning and research only. Do not implement, deploy, buy services, or push without a later explicit task.
+- Current authorized stage: implement and commit the interactive textile-engine proof of concept, including focused mathematical tests. The six complete exhibition experiences remain a later stage.
+- Do not deploy, buy services, or push during this stage.
 - Keep decisions and open dependencies current in `docs/BUILD_STATUS.md`.

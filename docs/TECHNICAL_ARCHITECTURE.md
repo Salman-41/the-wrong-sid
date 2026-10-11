@@ -1,5 +1,9 @@
 # Technical architecture (provisional)
 
+## Prototype implementation (2026-10-11)
+
+The textile-engine stage now implements Next 16 / React 19, a deterministic TypeScript interlacement model and custom Canvas 2D renderer. The interactive study lives at `/`; the six exhibition routes remain planned. Dense yarn rendering justifies Canvas here. OffscreenCanvas runs in a worker when available, with a Canvas main-thread fallback. Rendering occurs on state/resize only, culls invisible floats and batches fiber strokes. Each surface is capped at DPR 2 and four million backing pixels. Front/reverse mirror and invert the same artwork; ten focused tests include actual raster crossing ownership. Native Canvas adapter inspection and the production build passed; browser runtime and device profiling remain to be checked. No GSAP motion is needed for this stage.
+
 ## Stack decision
 - **Next.js 16 App Router + React 19.2 + TypeScript.** Current official release information indicates compatibility, with Next 16 requiring Node.js 20.9+ and TypeScript 5.1+. Use current stable patch releases at project start, lock dependencies, and follow the v16 async API migration notes. No compatibility blocker found.
 - **GSAP 3.x** for a small set of authored, interaction-led transitions. Use scoped contexts/`useGSAP`, clean up on unmount, and `matchMedia` for responsive and reduced-motion behavior. Keep content and state transitions functional without animation. Check current GSAP license for chosen use and plugins before adoption.

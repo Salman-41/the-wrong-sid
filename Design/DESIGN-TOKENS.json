@@ -1,0 +1,43 @@
+{
+  "colors": {
+    "paper": "#F2EDE5",
+    "cream": "#F9F5ED",
+    "bone": "#DCCAB3",
+    "ink": "#211725",
+    "dark": "#130E17",
+    "plum": "#201523",
+    "vermilion": "#C54E32",
+    "coral": "#F36D4B",
+    "cobalt": "#143D67",
+    "deepblue": "#102E50",
+    "yellow": "#E3AC38",
+    "mustard": "#D4A22F",
+    "cotton": "#E4D4B8",
+    "navy": "#122C45",
+    "lilac": "#BAA7CF",
+    "moss": "#586557",
+    "grey": "#71675F",
+    "white": "#FFFFFF"
+  },
+  "typography": {
+    "display": "GFS Didot (local authoring preference; editable fallback)",
+    "ui": "Arimo",
+    "technical": "Cousine"
+  },
+  "screens": [
+    "entrance",
+    "loom",
+    "reverse",
+    "pattern-room",
+    "collection",
+    "edition"
+  ],
+  "desktop": [
+    1440,
+    900
+  ],
+  "mobile": [
+    390,
+    844
+  ]
+}

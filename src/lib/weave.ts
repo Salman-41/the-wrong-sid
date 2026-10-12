@@ -7,13 +7,17 @@ export interface Thread {
   thickness: number;
 }
 export interface Artwork {
-  version: 1;
+  version: 2;
   name: string;
   seed: number;
   warp: Thread[];
   weft: Thread[];
   structure: Structure;
   interlacement: Matrix;
+  /** Each inserted pick keeps its rule; structure/interlacement describe the next pick. */
+  pickStructures: Structure[];
+  draftWeft: Thread;
+  rowLimit: number;
 }
 export const STRUCTURES: Record<
   Structure,
@@ -91,6 +95,23 @@ export function createRepeat(structure: Structure): Matrix {
 export function matrixAt(matrix: Matrix, end: number, pick: number): boolean {
   return matrix[mod(pick, matrix.length)][mod(end, matrix[0].length)];
 }
+const repeatTable: Record<Structure, Matrix> = {
+  plain: createRepeat("plain"),
+  "twill-2-2": createRepeat("twill-2-2"),
+  "satin-5": createRepeat("satin-5"),
+  "sateen-5": createRepeat("sateen-5"),
+};
+export function warpOverAt(art: Artwork, end: number, pick: number): boolean {
+  const rule =
+    art.pickStructures[mod(pick, Math.max(1, art.pickStructures.length))] ??
+    art.structure;
+  return matrixAt(repeatTable[rule], end, pick);
+}
+export function clothDescription(art: Artwork): string {
+  if (!art.weft.length) return "Unwoven warp";
+  const unique = [...new Set(art.pickStructures)];
+  return unique.length === 1 ? STRUCTURES[unique[0]].label : "Mixed weave";
+}
 /** Reverse is a physical turn about the vertical axis: mirror X AND invert over/under. */
 export function crossingAt(
   art: Artwork,
@@ -99,7 +120,7 @@ export function crossingAt(
   face: Face,
 ): boolean {
   const sourceEnd = face === "reverse" ? art.warp.length - 1 - end : end;
-  const front = matrixAt(art.interlacement, sourceEnd, pick);
+  const front = warpOverAt(art, sourceEnd, pick);
   return face === "front" ? front : !front;
 }
 export function reverseMatrix(matrix: Matrix): Matrix {
@@ -107,11 +128,14 @@ export function reverseMatrix(matrix: Matrix): Matrix {
 }
 export function makeArtwork(structure: Structure = "plain"): Artwork {
   return {
-    version: 1,
+    version: 2,
     name: "A cloth of your own",
     seed: 418,
     structure,
     interlacement: createRepeat(structure),
+    pickStructures: Array.from({ length: 60 }, () => structure),
+    draftWeft: { color: PALETTE[2].color, thickness: 0.83 },
+    rowLimit: 60,
     warp: Array.from({ length: 60 }, (_, i) => ({
       color: PALETTE[[1, 0][Math.floor(i / 10) % 2]].color,
       thickness: 0.79,
@@ -129,7 +153,7 @@ export function parseArtwork(json: string): Artwork {
   const value = JSON.parse(json);
   if (
     !value ||
-    value.version !== 1 ||
+    (value.version !== 1 && value.version !== 2) ||
     typeof value.name !== "string" ||
     value.name.length > 120 ||
     !Number.isInteger(value.seed) ||
@@ -138,9 +162,9 @@ export function parseArtwork(json: string): Artwork {
     !Object.hasOwn(STRUCTURES, value.structure)
   )
     throw new Error("Unrecognized artwork format.");
-  function threads(list: unknown): Thread[] {
-    if (!Array.isArray(list) || list.length < 2 || list.length > 240)
-      throw new Error("Use between 2 and 240 threads per direction.");
+  function threads(list: unknown, minimum = 2): Thread[] {
+    if (!Array.isArray(list) || list.length < minimum || list.length > 240)
+      throw new Error("Invalid number of yarns.");
     return list.map((t) => {
       if (
         !t ||
@@ -160,14 +184,42 @@ export function parseArtwork(json: string): Artwork {
     throw new Error(
       "Crossing matrix does not match its named weave structure.",
     );
+  const warp = threads(value.warp),
+    weft = threads(value.weft, value.version === 2 ? 0 : 2);
+  const pickStructures: Structure[] =
+    value.version === 1
+      ? weft.map(() => value.structure)
+      : value.pickStructures;
+  if (
+    !Array.isArray(pickStructures) ||
+    pickStructures.length !== weft.length ||
+    pickStructures.some((rule) => !Object.hasOwn(STRUCTURES, rule))
+  )
+    throw new Error("Every woven row needs a supported weave rule.");
+  const draftWeft =
+    value.version === 1
+      ? (weft.at(-1) ?? { color: PALETTE[2].color, thickness: 0.83 })
+      : threads([value.draftWeft], 1)[0];
+  const rowLimit =
+    value.version === 1 ? Math.max(60, weft.length) : value.rowLimit;
+  if (
+    !Number.isInteger(rowLimit) ||
+    rowLimit < 1 ||
+    rowLimit > 240 ||
+    weft.length > rowLimit
+  )
+    throw new Error("Invalid loom capacity.");
   return {
-    version: 1,
+    version: 2,
     name: value.name,
     seed: value.seed,
     structure: value.structure,
-    warp: threads(value.warp),
-    weft: threads(value.weft),
+    warp,
+    weft,
     interlacement: expected,
+    pickStructures: [...pickStructures],
+    draftWeft: { ...draftWeft },
+    rowLimit,
   };
 }
 export function serializeArtwork(art: Artwork): string {

@@ -1,12 +1,14 @@
 # THE WRONG SIDE — project rules
 
 ## Direction
+
 - Build a premium interactive textile exhibition and creative studio: experimental textile graphics × contemporary fashion editorial.
 - Aim for a coherent, original experience at Awwwards 6.5+ quality; a score is never guaranteed.
 - Treat the approved Design pack as the visual source of truth. Build six complete experiences: Entrance, Loom, Reverse, Pattern Room, Collection, Edition.
 - No generic AI layouts, SaaS dashboard conventions, numbered filler sections, repeated image/text templates, copied award sites, invented textile histories, fake instrument readouts, or decorative effects without a communicative purpose.
 
 ## Truth and rights
+
 - Distinguish real collection objects, original illustrative studies, generated concept imagery, and user-created patterns in the interface and asset metadata.
 - Never imply the hero concept image depicts a real historical textile or is a verified reverse face.
 - The Collection record is The Met 66.122.20. Use its own Open Access public-domain image before release; never label the current constructed weave illustration as museum photography.
@@ -14,6 +16,7 @@
 - Record each source, rights basis, attribution requirement, download date, and local filename in the asset register.
 
 ## Interaction and quality
+
 - Interactions must communicate textile looking or making, work with keyboard and touch, and have a non-drag path where applicable.
 - Honor reduced motion; no autoplay motion that blocks content. Preserve content and controls when animation is absent.
 - Keep editorial text as semantic HTML. Canvas is optional and may only render decorative or computational cloth artwork with an equivalent accessible DOM description and controls.
@@ -21,7 +24,10 @@
 - Before launch, verify image rights, factual copy, keyboard operation, contrast, focus, reduced-motion behavior, mobile usability, and field performance.
 
 ## Scope now
-- Current authorized stage: create the production application foundation and implement the Entrance against the approved desktop/mobile compositions. Carry the validated textile study into the shared application.
-- Verification for this stage is limited to strict TypeScript and brief desktop/mobile smoke checks. No Lighthouse, comprehensive QA, or deployment.
+
+- Current authorized stage: implement the complete Loom against its approved desktop/mobile compositions, using the real textile engine and shared project state.
+- Every inserted row retains its actual yarn and crossing rule. Color, structure, history, reset, progress and saved files must agree with the rendered construction. Front/reverse derive from one artwork.
+- Shuttle motion, insertion and settling must follow a real row action; no ambient cloth animation. Keyboard, touch and reduced motion retain the same making actions.
+- Verification is limited to essential interaction/mathematical checks and strict TypeScript. No Lighthouse, comprehensive QA, or deployment.
 - Do not deploy, buy services, or push during this stage.
 - Keep decisions and open dependencies current in `docs/BUILD_STATUS.md`.

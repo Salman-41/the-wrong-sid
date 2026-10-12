@@ -3,16 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import {
   createRepeat,
+  clothDescription,
   PALETTE,
   STRUCTURES,
   parseArtwork,
   serializeArtwork,
-  type Artwork,
   type Face,
   type Structure,
 } from "@/lib/weave";
 import { renderCloth } from "@/lib/renderer";
-import Image from "next/image";
+import { ClothView as Cloth } from "./cloth-view";
 import { useTextileProject } from "@/components/textile-project";
 
 function saveFile(blob: Blob, name: string) {
@@ -23,144 +23,6 @@ function saveFile(blob: Blob, name: string) {
   link.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-function Cloth({
-  artwork,
-  face,
-  zoom,
-}: {
-  artwork: Artwork;
-  face: Face;
-  zoom: number;
-}) {
-  const canvas = useRef<HTMLCanvasElement>(null);
-  const worker = useRef<Worker | null>(null);
-  const revision = useRef(0);
-  const fallback = useRef<(() => void) | null>(null);
-  const [error, setError] = useState(false);
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    if (typeof OffscreenCanvas === "undefined") return;
-    let instance: Worker;
-    try {
-      instance = new Worker(
-        new URL("../lib/cloth.worker.ts", import.meta.url),
-        { type: "module" },
-      );
-    } catch {
-      return;
-    }
-    worker.current = instance;
-    instance.onmessage = (
-      event: MessageEvent<{
-        bitmap?: ImageBitmap;
-        revision: number;
-        error?: boolean;
-      }>,
-    ) => {
-      if (event.data.error) {
-        instance.terminate();
-        worker.current = null;
-        fallback.current?.();
-        return;
-      }
-      const bitmap = event.data.bitmap;
-      if (!bitmap) return;
-      const element = canvas.current;
-      if (element && event.data.revision === revision.current) {
-        element.width = bitmap.width;
-        element.height = bitmap.height;
-        const context = element.getContext("2d", { alpha: false });
-        if (context) {
-          context.drawImage(bitmap, 0, 0);
-          setError(false);
-          setReady(true);
-        } else setError(true);
-      }
-      bitmap.close();
-    };
-    instance.onerror = () => {
-      instance.terminate();
-      worker.current = null;
-      fallback.current?.();
-    };
-    return () => {
-      instance.terminate();
-      worker.current = null;
-    };
-  }, []);
-  useEffect(() => {
-    const element = canvas.current;
-    if (!element) return;
-    let pending = 0;
-    const draw = () => {
-      cancelAnimationFrame(pending);
-      pending = requestAnimationFrame(() => {
-        const rect = element.getBoundingClientRect();
-        const options = {
-          width: rect.width,
-          height: rect.height,
-          dpr: window.devicePixelRatio,
-          zoom,
-          face,
-        };
-        if (worker.current) {
-          worker.current.postMessage({
-            artwork,
-            options,
-            revision: ++revision.current,
-          });
-          return;
-        }
-        try {
-          renderCloth(element, artwork, options);
-          setError(false);
-          setReady(true);
-        } catch {
-          setError(true);
-        }
-      });
-    };
-    fallback.current = draw;
-    const observer = new ResizeObserver(draw);
-    observer.observe(element);
-    draw();
-    return () => {
-      cancelAnimationFrame(pending);
-      observer.disconnect();
-    };
-  }, [artwork, face, zoom]);
-  return (
-    <figure className="cloth-view">
-      <Image
-        src={`/images/textile-study-${face}.webp`}
-        fill
-        sizes="(max-width: 650px) 100vw, 55vw"
-        alt=""
-        className="cloth-poster"
-      />
-      <canvas
-        ref={canvas}
-        className={ready ? "cloth-canvas is-ready" : "cloth-canvas"}
-        role="img"
-        aria-label={`${face === "front" ? "Front" : "Reverse"} of your ${STRUCTURES[artwork.structure].label.toLowerCase()}. ${face === "front" ? STRUCTURES[artwork.structure].description : "The cloth is mirrored left to right, and the opposite yarn is visible at each crossing. A warp-faced satin has a weft-faced reverse, and vice versa."} Vertical warp: ${artwork.warp[0].color}; horizontal weft: ${artwork.weft[0].color}.`}
-      >
-        A woven textile. Choose the structure and yarns with the controls below.
-        Front and reverse use the same interlacement.
-      </canvas>
-      <figcaption>
-        <span>{face === "front" ? "The front" : "The reverse"}</span>
-        <span>{zoom.toFixed(1)}× examination</span>
-      </figcaption>
-      {error && (
-        <p className="canvas-error" role="alert">
-          Canvas 2D is unavailable. Your artwork can still be edited and saved
-          as a file.
-        </p>
-      )}
-    </figure>
-  );
-}
-
 export default function TextileStudio({
   initialFace = "front",
 }: {
@@ -174,10 +36,13 @@ export default function TextileStudio({
   const [exporting, setExporting] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
   const warpColor = artwork.warp[0].color,
-    weftColor = artwork.weft[0].color;
+    weftColor = artwork.draftWeft.color;
   function recolor(axis: "warp" | "weft", color: string) {
     setArtwork((current) => ({
       ...current,
+      ...(axis === "weft"
+        ? { draftWeft: { ...current.draftWeft, color } }
+        : {}),
       [axis]: current[axis].map((thread, i) => ({
         ...thread,
         color: rhythm && Math.floor(i / 10) % 2 ? PALETTE[0].color : color,
@@ -211,6 +76,7 @@ export default function TextileStudio({
         zoom,
         face,
         dpr: 1,
+        bottomUp: true,
       });
       const blob = await new Promise<Blob | null>((resolve) =>
         canvas.toBlob(resolve, "image/png"),
@@ -304,8 +170,11 @@ export default function TextileStudio({
           </p>
           <div className="crossing-note">
             <span className="small-label">The crossing</span>
-            <h2>{STRUCTURES[artwork.structure].label}</h2>
-            <p>{STRUCTURES[artwork.structure].description}</p>
+            <h2>{clothDescription(artwork)}</h2>
+            <p>
+              The rows keep the structures woven at the Loom. Next row:{" "}
+              {STRUCTURES[artwork.structure].label.toLowerCase()}.
+            </p>
             <p className="orientation">
               Warp runs vertically.
               <br />
@@ -366,7 +235,7 @@ export default function TextileStudio({
         </div>
         <aside className="controls" id="controls" aria-label="Textile controls">
           <label className="small-label" htmlFor="structure">
-            Weave structure
+            Next row structure
           </label>
           <select
             id="structure"
@@ -414,6 +283,7 @@ export default function TextileStudio({
                 ...current,
                 warp: current.warp.map((t) => ({ ...t, thickness })),
                 weft: current.weft.map((t) => ({ ...t, thickness })),
+                draftWeft: { ...current.draftWeft, thickness },
               }));
             }}
           />

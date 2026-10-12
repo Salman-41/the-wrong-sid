@@ -137,7 +137,7 @@ test("serialization preserves individual yarns, matrices and seeded detail exact
 test("untrusted files reject forged structures, malformed threads and oversized input", () => {
   const art = makeArtwork();
   for (const patch of [
-    { version: 2 },
+    { version: 3 },
     { seed: Infinity },
     { structure: "__proto__" },
     { interlacement: [[true]] },

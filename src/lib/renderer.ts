@@ -1,4 +1,4 @@
-import { matrixAt, type Artwork, type Face, type Thread } from "./weave";
+import { warpOverAt, type Artwork, type Face, type Thread } from "./weave";
 
 export interface RenderOptions {
   width: number;
@@ -6,6 +6,9 @@ export interface RenderOptions {
   dpr?: number;
   zoom: number;
   face: Face;
+  fit?: "contain" | "stretch";
+  bottomUp?: boolean;
+  transparent?: boolean;
 }
 export type ClothCanvas = HTMLCanvasElement | OffscreenCanvas;
 const noise = (n: number) => {
@@ -34,13 +37,17 @@ export function renderCloth(
   );
   canvas.width = Math.round(width * dpr);
   canvas.height = Math.round(height * dpr);
-  const context = canvas.getContext("2d", { alpha: false });
+  const context = canvas.getContext("2d", { alpha: true });
   if (!context) throw new Error("Canvas 2D is unavailable.");
   const ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D =
     context;
   ctx.scale(dpr, dpr);
-  ctx.fillStyle = "#282219";
-  ctx.fillRect(0, 0, width, height);
+  if (!options.transparent) {
+    ctx.fillStyle = "#282219";
+    ctx.fillRect(0, 0, width, height);
+  }
+  if (!art.weft.length)
+    return { draws: 0, pixelWidth: canvas.width, pixelHeight: canvas.height };
   const pitch =
     Math.min(width / art.warp.length, height / art.weft.length) * zoom;
   const offsetX = (width - pitch * art.warp.length) / 2;
@@ -49,6 +56,17 @@ export function renderCloth(
   if (face === "reverse") {
     ctx.translate(width, 0);
     ctx.scale(-1, 1);
+  }
+  if (options.bottomUp) {
+    ctx.translate(0, height);
+    ctx.scale(1, -1);
+  }
+  if (options.fit === "stretch") {
+    ctx.scale(
+      width / (pitch * art.warp.length),
+      height / (pitch * art.weft.length),
+    );
+    ctx.translate(-offsetX, -offsetY);
   }
   ctx.translate(offsetX, offsetY);
   const bounds = {
@@ -253,9 +271,7 @@ export function renderCloth(
     yarn("weft", pick, -0.5, art.warp.length - 0.5, thread, false),
   );
   const topWarp = (end: number, pick: number) =>
-    face === "front"
-      ? matrixAt(art.interlacement, end, pick)
-      : !matrixAt(art.interlacement, end, pick);
+    face === "front" ? warpOverAt(art, end, pick) : !warpOverAt(art, end, pick);
   for (const axis of ["warp", "weft"] as const) {
     const threads = axis === "warp" ? art.warp : art.weft;
     const count = axis === "warp" ? art.weft.length : art.warp.length;

@@ -34,7 +34,7 @@ export function SiteHeader() {
   }, []);
   return (
     <header
-      className={`site-header ${pathname === "/" ? "site-header--entrance" : ""}`}
+      className={`site-header ${pathname === "/" ? "site-header--entrance" : pathname === "/loom" ? "site-header--loom" : ""}`}
     >
       <Link href="/" className="site-wordmark" prefetch={false}>
         THE WRONG SIDE

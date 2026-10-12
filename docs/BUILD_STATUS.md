@@ -1,34 +1,35 @@
 # Build status
 
-**State: production application foundation and Entrance implemented.** Updated 2026-10-12 (Asia/Karachi). This stage is committed locally. No push or deployment.
+**State: complete interactive Loom implemented; Entrance remains complete.** Updated 2026-10-12 (Asia/Karachi). This stage is committed locally. No push or deployment.
 
 ## Delivered this stage
-- Read the approved SVG pack, tokens/notes, project rules, art direction, validated textile prototype and previous build status. Entrance is rebuilt with semantic HTML, authored CSS and React; the SVG artboard is not used as a webpage image.
-- Next.js 16.4 App Router, React 19.3, strict TypeScript, Tailwind CSS 4.3/PostCSS and GSAP 3.15. GSAP loads only for the small directional hint after interaction; no entrance autoplay or scene animation.
-- Routes: `/` completed Entrance; `/loom` existing material study; `/reverse` the same study opening on its reverse face. `/pattern-room`, `/collection`, `/edition` are explicit preparation boundaries, not completed exhibition screens. A custom not-found page is included.
-- Shared application header, accessible primary navigation and native disclosure menu. The menu works without JavaScript; enhanced Escape/outside-click/focus behavior and active-route indication work when hydrated. Links avoid prefetching the unvisited Canvas experiences into the Entrance.
-- One `TextileProjectProvider` preserves artwork, zoom and color-rhythm settings across client navigation. Weave model/renderer mathematics remain unchanged.
-- Approved colors generate `src/styles/tokens.css` from `Design/DESIGN-TOKENS.json`. The helper is `node scripts/sync-design-tokens.mjs`. Prototype styles are scoped to prevent exhibition style collisions.
-- GFS Didot, Arimo and Cousine Latin WOFF2 files are hosted locally via `next/font/local`, with matching SIL OFL notices. Display/UI fonts preload; the caption font does not. Files total 49,900 bytes.
-- Entrance faithfully follows the paper/textile split, tall individually composed title lines, curved fabric boundary, drawn thread cue, annotations, front/reverse rail and lift controls. Mobile has its own full-bleed image crop, light typography, positions and bottom action.
-- Extracted the approved embedded concept raster into `public/images/entrance-textile.webp` (425×845, 119,926 bytes). Next Image provides explicit responsive sizes, preload and configured quality. It remains provisional concept imagery; its source resolution limits final hero fidelity.
-- “Lift the Edge” and “Lift here” are real links to `/reverse`, where the visitor can inspect the shared woven model. Physical fabric lifting remains a later stage.
-- Page titles/descriptions, social metadata and an original vector app icon. No invented production domain/canonical URL.
-- Reduced-motion hint suppression, static hero/navigation, and rendered front/reverse model posters for the material study when Canvas/JavaScript is unavailable. Static mode explains its limits and hides inactive controls.
 
-## Verification — limited as requested
-- `npm run typecheck`: passed (strict TypeScript).
-- Brief Chromium smoke at **1440×900 desktop** and **390×844 mobile**: Entrance HTTP 200, correct title/font/image, no horizontal overflow, native menu open/Escape close, meaningful lift navigation and reverse Canvas rendering. No browser page errors.
-- Shared-state smoke: changed warp to Lilac, navigated Reverse → Loom → Reverse; the artwork color stayed `#baa7cf`.
-- Mobile reduced motion leaves the lift arrow static. With JavaScript disabled, the menu and lift link work and `/reverse` shows its static model poster with inactive controls hidden.
-- Desktop/mobile screenshots inspected against the SVG previews; title and copy placement refined. Screenshots are local ignored artifacts, not production assets.
-- Only TypeScript and these brief smoke checks ran for this stage. No production build, mathematical-test rerun, Lighthouse, comprehensive QA or deployment. The previous engine stage's 10 mathematical/raster tests and build are historical verification, not claims about a new build.
+- Inspected the approved Loom desktop/mobile SVGs and previews, art direction, rules, current engine and previous status. Rebuilt the composition with HTML/CSS, original shuttle SVG, tensioned warp vectors and live Canvas material. No artboard screenshot is used as the interface.
+- Desktop: tall GFS Didot title, dominant wooden instrument, left warp palette and integrated right working rail. Mobile: independently composed title/frame, six large yarn targets, prominent sticky Add Row, compact progress/history and a touch-friendly warp disclosure.
+- Real construction: start with 48 warp ends and 28 woven rows, capacity 60. Choose next weft color and plain, defined 2/2 twill, valid five-end satin or complementary sateen; Add Row commits that yarn and rule. Existing rows retain their crossing rules, using the absolute pick phase. Warp accent changes recolor the actual ends.
+- Undo/redo covers yarn, structure, row insertion, reset and restored artwork; history is bounded to 80 changes. Reset clears woven picks and preserves the warp and next yarn. Capacity/progress derive from actual data.
+- Version 2 JSON stores individual yarns/thicknesses, every pick’s structure, next yarn/rule, seed and capacity. Save/Open cloth round-trip the construction; validated version 1 artwork migrates. No account, service or automatic remote storage. Save a file before refreshing or closing.
+- One root provider shares the artwork and history across client navigation. Reverse renders and compares this same cloth, mirroring ends and inverting crossings. Pattern Room and Edition now read the shared construction at their preparation boundaries; their full experiences remain future work.
+- GSAP loads on the first animated row insertion: shuttle pass, weft reveal and brief beater settling. Shuttle height follows construction progress. No idle animation or unrelated cloth motion. Reduced motion inserts immediately. Workspace Enter/Space, native controls and Ctrl/Cmd+Z / Shift+Z provide keyboard alternatives.
+- Magnification opens an accessible native dialog with the actual material and a 1–5× slider. Escape closes it. Canvas has equivalent descriptions and DOM controls/progress/status.
+- Reusable Canvas hook coalesces worker requests, disposes stale image bitmaps and falls back to main-thread Canvas. Rendering is event-driven, capped at DPR 2 / four million pixels. Draft yarn/rule changes do not redraw finished cloth; bottom-up rows and transparent/stretch placement integrate it with the frame. No WebGL.
+- Static renderer-derived Loom cloth and updated front/reverse posters support initial/no-JavaScript viewing. Inactive controls remain disabled before hydration. Wood/shading/crimp/movement are labeled visual approximations, not fabric mechanics.
 
-## Next steps after this stage
-1. Review the Entrance at its two approved sizes and intermediate widths; replace the provisional hero only when the finished material system is ready.
-2. Develop the physical Lift the Edge interaction with equivalent keyboard/touch controls and a reduced-motion path.
-3. Implement the complete Loom and Reverse compositions using the shared project; the current routes carry the material study, not the final page layouts.
-4. Implement Pattern Room and Edition against their separate SVG compositions. Obtain the real Met 66.122.20 public-domain image before Collection implementation and retain institutional source facts.
-5. Perform broader accessibility/device/performance and production-build verification in a later authorized stage, then inspect branch/remotes before any requested push or deployment.
+## Essential verification
 
-Run `npm ci` then `npm run dev`; open `http://127.0.0.1:3000`. The pre-existing generated `next-env.d.ts` change is preserved outside this stage's commit.
+- `npm test`: **17 focused checks passed**. Includes plain/twill/satin mathematics, reverse transforms, actual raster crossing ownership, per-pick preservation, capacity, history/reset, version 1 migration and version 2 serialization.
+- `npm run typecheck`: passed, strict TypeScript.
+- Chromium **1440×900 desktop**: row 28→29 with selected Lilac/2/2 twill; saved JSON confirms old plain rows unchanged. Undo/redo/reset, Enter insertion, Ctrl+Z/Shift+Z, magnification, Escape and exact save/restore round trip passed. Both Reverse canvases and Pattern Room/Edition read the same 29-row construction after client navigation.
+- Chromium **390×844 touch / reduced motion**: weft/warp selection, sateen insertion and save-data assertions passed; shuttle stays static, Add Row is 54px high, no horizontal overflow. No browser page errors in these checks.
+- JavaScript disabled: renderer-produced static Loom cloth loads and making controls remain inactive. Desktop/mobile/macro screenshots were visually inspected against the approved references; mobile frame begins at y≈243 as designed. Screenshots are ignored local review artifacts.
+- No production build, Lighthouse, deployment or extensive QA ran. Earlier prototype/Entrance checks remain historical; no claim of a current production build or independent Awwwards score.
+
+## Exact next steps
+
+1. Implement Reverse’s approved composition around the shared per-pick model; retain matching front/back geometry and replace the provisional concept hero only when the finished material system is ready.
+2. Implement Pattern Room’s actual repeat/scale/palette operations. Define whether repeating mixed structures preserves absolute pick phase or repeats a finite cloth tile; check repeat seams explicitly.
+3. Implement Edition’s separate print composition and output contract using the same artwork. Define format, dimensions and selected face before export.
+4. Implement Collection with the real Met 66.122.20 public-domain image and retained institutional metadata. Develop Entrance’s full physical lift interaction in its own stage.
+5. In a later authorized stage, run a production build and broader accessibility/device/performance checks, including intermediate widths, contrast, browser/Canvas fallbacks, low-end device profiling and field budgets. Inspect branch/remotes before any requested push/deployment.
+
+Run `npm ci` then `npm run dev`; open `http://127.0.0.1:3000/loom`. The pre-existing staged `next-env.d.ts` change is preserved outside this stage’s commit. Prior local stage commits: engine `d58c408`, Entrance `c065156`.

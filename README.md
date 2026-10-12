@@ -1,6 +1,6 @@
 # THE WRONG SIDE — interactive textile exhibition
 
-Production application foundation and the approved Entrance, with a shared Canvas 2D textile study. The completed Entrance lives at `/`; `/loom` and `/reverse` carry the validated material prototype. Pattern Room, Collection and Edition have preparation boundaries for their later implementation.
+The approved Entrance at `/` and complete interactive Loom at `/loom`, built with Next.js 16, React 19, strict TypeScript, Tailwind CSS 4, authored CSS, GSAP and Canvas/SVG. Reverse currently offers the shared material study. Pattern Room, Collection and Edition retain their own preparation boundaries.
 
 ## Run
 
@@ -11,34 +11,30 @@ npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:3000. **Lift the Edge** opens the reverse-view material study. In `/loom` or `/reverse`, choose plain, 2/2 twill, five-end satin or sateen; change warp/weft colors, bands and thickness; magnify and compare both faces. **Keep this cloth** downloads a versioned JSON artwork. **Open saved artwork** restores individual threads and the structure. **Download image** exports a 2000 × 2000 PNG of the selected face at the selected magnification.
+Open http://127.0.0.1:3000/loom. Choose a weft yarn and structure, then **Add a woven row**. Each row keeps its yarn and crossing rule. Warp accents, undo/redo, reset, progress and magnification all use the real project. Mobile provides touch controls and a prominent row action. Focus the workspace and press Enter/Space to weave; Ctrl/Cmd+Z undoes, Shift+Z redoes. Reduced motion inserts immediately.
+
+**Save cloth** downloads the construction as validated version 2 JSON; **Open cloth** restores it, including the next yarn. Version 1 files migrate. Artwork survives client navigation to Reverse, Pattern Room and Edition; save a file before refreshing/closing. Reverse compares both faces of this same construction and exports a 2000×2000 PNG. Pattern Room/Edition currently display the shared row count and structure, awaiting their full interfaces.
 
 ```sh
 npm test
 npm run typecheck
-npm run build
-npm start
 ```
 
-`node --import tsx scripts/render-studies.ts` produces inspection PNGs in ignored `artifacts/` using a native Canvas 2D adapter and the exact same renderer as the prototype. The adapter is a development dependency and is not shipped to the browser.
+This stage passed 17 focused mathematical/construction/raster checks, strict TypeScript and essential desktop/mobile interaction checks. No production build, Lighthouse, deployment or comprehensive QA was run. `npm run build` and `npm start` remain available for a later authorized production check.
 
 ## Model and rendering
 
-- `src/lib/weave.ts`: each artwork stores finite warp/weft arrays of `{ color, thickness }`, a repeat matrix, structure, seed, name and schema version. Thickness is a fraction of thread pitch, not a physical yarn count. Rows are picks, columns are ends; `true` means warp above weft on the front.
-- Plain: `(end + pick) mod 2 = 0`. Defined 2/2 twill: `(end − pick) mod 4 < 2`, advancing one end per pick.
-- Five-end satin: one warp-under binding at `end = 2 × pick mod 5`, with four-pick warp floats. Sateen is its complement. The step is coprime to five and is neither one nor four; bindings visit every row and column once. See [INFLIBNET, Basic Weaves](https://ebooks.inflibnet.ac.in/hsp08/chapter/basic-weaves/) for construction principles.
-- Reverse means turning around the vertical axis: view end `x` corresponds to original end `warp.length − 1 − x`, with crossing order inverted. Colors, thicknesses and the artwork seed stay attached to the original yarns. The renderer mirrors the physical geometry and complements crossings; no second artwork is generated.
-- `src/lib/renderer.ts`: continuous recessed yarn beds, contiguous raised floats, smooth shoulders, transverse cylinder shading, contact/cast shadows, seeded axial fiber detail and sparse loose fibers. The renderer culls invisible yarn runs and batches fiber strokes.
-- `src/lib/cloth.worker.ts`: Canvas 2D runs in a worker when OffscreenCanvas is available, coalesces pending requests, and transfers image bitmaps to the visible canvas. A main-thread Canvas fallback remains. Work runs only on state/size changes; backing resolution is capped at DPR 2 and four million pixels per surface. Both comparison surfaces show the same physical center.
+- `src/lib/weave.ts`: versioned individual warp/weft yarns, color/thickness, per-pick crossing rules, next yarn/structure, capacity and deterministic seed. `true` means warp above weft on the front. Thickness is a visual fraction of spacing, not a physical yarn count.
+- Plain: `(end + pick) mod 2 = 0`; 2/2 twill: `(end − pick) mod 4 < 2`. Five-end satin: one warp-under binding at `end = 2 × pick mod 5`, four-pick warp floats. Sateen is its complement. [Basic Weaves](https://ebooks.inflibnet.ac.in/hsp08/chapter/basic-weaves/) provides the structure principles.
+- `src/lib/construction.ts`: initial 48-end/28-row study, append-only picks up to 60 rows, reset and bounded immutable history. Each inserted pick retains its chosen structure and absolute pick phase.
+- Reverse turns the same geometry around the vertical axis: mirror the ends and invert every crossing. Yarn colors, thicknesses and seeds remain attached to the original threads. First inserted rows sit nearest the bottom beam.
+- `src/lib/renderer.ts`: recessed yarn beds, contiguous raised floats, rounded shoulders, directional highlights, overlap/contact shadows and axial fiber detail. `cloth.worker.ts` coalesces Canvas work; `use-cloth-canvas.ts` shares lifecycle/fallback handling. Draw only for actual material/size/view changes; cap backing resolution at DPR 2 / four million pixels. No WebGL or idle animation loop.
+- `src/components/loom.tsx`: semantic making controls and file/history actions. GSAP is loaded only for purposeful row insertion. Original wood/frame/shuttle artwork is authored in CSS/SVG, with the bobbin reflecting the actual next weft.
 
-Light, yarn width, crimp and fiber irregularity are visual approximations. This is a correct interlacement model, not a mechanical simulation of tension, drape, density, compression, or friction. Museum/concept imagery is not used in the engine.
+Light, crimp, tension, yarn shape and motion are art-directed approximations. This models interlacement; it does not simulate fabric mechanics. All live cloth is original procedural artwork, with no museum/concept image inside the engine.
 
-## Checks and limits
+## Assets and remaining work
 
-This stage passed strict TypeScript and brief desktop/mobile Chromium smoke checks, including menu/keyboard dismissal, lift navigation, shared artwork state, reduced motion and a no-JavaScript static fallback. No production build, unit-test rerun, Lighthouse or comprehensive QA was performed for this stage. The prior prototype passed ten focused mathematical/raster tests; those tests remain available through `npm test`.
+GFS Didot, Arimo and Cousine are self-hosted Latin WOFF2 fonts with SIL OFL notices. `node scripts/sync-design-tokens.mjs` synchronizes approved colors. `node --import tsx scripts/prepare-textile-fallbacks.ts` generates the initial/static cloth posters with the same model and renderer. The native Canvas adapter is a development dependency.
 
-The approved hero is a provisional 425×845 concept raster extracted from the Entrance SVG and optimized to a 120 KB WebP. The full physical lift interaction and final material replacement remain future work. Each completed experience must use its own approved composition.
-
-Design colors are generated with `node scripts/sync-design-tokens.mjs`. Tailwind 4 is integrated through PostCSS; authored CSS controls the Entrance composition. Shared artwork/settings survive client navigation via `TextileProjectProvider`. GSAP is dynamically loaded for the optional lift-link directional hint and skipped under reduced motion. Header navigation uses native `details` so it also works without JavaScript.
-
-GFS Didot, Arimo and Cousine are self-hosted as compact Latin WOFF2 fonts with their SIL OFL notices in `public/fonts/`. [BUILD_STATUS.md](docs/BUILD_STATUS.md) records the current stage and remaining work.
+The Entrance concept WebP remains provisional; physical lifting and the final material replacement are future work. See [BUILD_STATUS.md](docs/BUILD_STATUS.md) for completed work, verification and exact next steps, and [ASSET_REGISTER.md](docs/ASSET_REGISTER.md) for rights/source records.

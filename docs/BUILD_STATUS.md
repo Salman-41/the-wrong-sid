@@ -1,6 +1,14 @@
 # Build status
 
-**State: Pattern Room complete locally.** Updated 2026-10-12 (Asia/Karachi). Entrance, Loom, Reverse and Pattern Room have working routes; Collection and Edition remain in preparation. No push, deployment or service purchase occurred.
+**State: Collection research and image preparation complete locally; Collection interface not implemented.** Updated 2026-10-12 (Asia/Karachi). Entrance, Loom, Reverse and Pattern Room have working routes; Collection data is prepared and Edition remains in preparation. No push, deployment or service purchase occurred.
+
+## Collection research delivered
+
+- Curated eleven real textiles from The Met (3), Cleveland Museum of Art (4), Cooper Hewitt (2), and the National Museum of American History (2). Titles, date strings, documented culture/geography/makers, original medium text, normalized materials and techniques, accession numbers, source records, image rights, and attribution guidance are prepared in `src/lib/collection-data.ts`.
+- Downloaded and organized twelve museum-supplied image files at `public/images/collection/`, including a real Smithsonian quilt detail. These are optimized WebP derivatives of verified Met Public Domain, CMA CC0, and Smithsonian media marked CC0 sources. Original source links and dimensions are retained with the typed records. Local images were inspected together for composition and legibility.
+- `docs/COLLECTION_RESEARCH.md` records each source, object facts, rights, image link, local asset, and cautious editorial looking note. `docs/ASSET_REGISTER.md` includes file dimensions, byte sizes and SHA-256 checksums.
+- The Met starter object image is only 581 × 680 px and remains at native dimensions. The Silk Quilt's current maker attribution is explicitly flagged as under institutional review. The Pullen quilt's catalog describes writing on its reverse, but the bundled local image is not labeled or presented as that reverse.
+- No Collection interface, redesign, or visitor-artwork integration was implemented.
 
 ## Pattern Room delivered
 
@@ -22,9 +30,9 @@
 
 ## Remaining work and exact next steps
 
-1. Build Collection around the actual public-domain Met object image and retained source metadata; keep the studio weave distinct from museum photography.
+1. Build the Collection interface from `HISTORICAL_TEXTILES`: preserve the object-record source link, accession, credit and image rights with each view; expose the documented looking note; keep museum records separate from visitor `Artwork` data. Use the available responsive image files and avoid enlarging the 66.122.20 starter image beyond its native size.
 2. Build Edition's separate print composition and real export contract (face, paper/format, output dimensions and selected arrangement) from the same visitor artwork.
 3. Complete Entrance's full lift interaction and replace its provisional concept textile when the final material presentation is approved.
-4. In a later authorized release stage, run a production build and broader accessibility, intermediate-width, low-end device and performance checks. Review image provenance/rights and factual copy before public release.
+4. In a later authorized release stage, run a production build and broader accessibility, intermediate-width, low-end device and performance checks. Recheck object records, attribution notes and image permissions before public release.
 
-Run `npm ci`, then `npm run dev`; open `/pattern-room`. The project state persists during client navigation. Save a JSON file before refreshing or closing; Loom's Open cloth action restores it. This stage stops after the local commit.
+The app's `/collection` route remains a preparation placeholder. The existing visitor artwork still persists across Loom, Reverse and Pattern Room. This stage stops with research metadata and assets; no page implementation or deployment was performed.

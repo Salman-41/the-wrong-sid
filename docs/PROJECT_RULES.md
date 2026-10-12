@@ -21,6 +21,7 @@
 - Before launch, verify image rights, factual copy, keyboard operation, contrast, focus, reduced-motion behavior, mobile usability, and field performance.
 
 ## Scope now
-- Current authorized stage: implement and commit the interactive textile-engine proof of concept, including focused mathematical tests. The six complete exhibition experiences remain a later stage.
+- Current authorized stage: create the production application foundation and implement the Entrance against the approved desktop/mobile compositions. Carry the validated textile study into the shared application.
+- Verification for this stage is limited to strict TypeScript and brief desktop/mobile smoke checks. No Lighthouse, comprehensive QA, or deployment.
 - Do not deploy, buy services, or push during this stage.
 - Keep decisions and open dependencies current in `docs/BUILD_STATUS.md`.

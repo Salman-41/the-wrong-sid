@@ -1,5 +1,13 @@
 # Technical architecture (provisional)
 
+## Application foundation and Entrance — 2026-10-12
+
+App Router routes now separate Entrance (`/`) from the shared material study (`/loom`, `/reverse`) and preparation boundaries for the remaining experiences. Server components own the Entrance composition/image and page metadata; small client components own the header, optional interaction hint and shared `TextileProjectProvider`. The Canvas renderer/worker remains isolated to visited study routes. All exhibition links disable automatic prefetch so the initial Entrance does not initialize the renderer. The shared provider retains visitor artwork/zoom/rhythm across client navigation; JSON persistence remains visitor-controlled.
+
+Tailwind CSS 4/PostCSS uses generated approved color tokens alongside authored composition CSS. `next/font/local` serves GFS Didot/Arimo/Cousine WOFF2 with local OFL notices. Next Image preloads the Entrance WebP with responsive sizing; no external font/image request is needed at runtime. GSAP is dynamically imported only on a lift-link interaction, with reduced-motion suppression and unmount cleanup. Native disclosure navigation and real anchor destinations provide static fallbacks; default front/reverse renderer posters support no-JavaScript study routes.
+
+Current-stage checks are restricted to strict TypeScript and brief desktop/mobile smoke checks; production build and broader accessibility/device/performance verification remain for a later stage. No deployed domain is assumed in metadata.
+
 ## Prototype implementation (2026-10-11)
 
 The textile-engine stage now implements Next 16 / React 19, a deterministic TypeScript interlacement model and custom Canvas 2D renderer. The interactive study lives at `/`; the six exhibition routes remain planned. Dense yarn rendering justifies Canvas here. OffscreenCanvas runs in a worker when available, with a Canvas main-thread fallback. Rendering occurs on state/resize only, culls invisible floats and batches fiber strokes. Each surface is capped at DPR 2 and four million backing pixels. Front/reverse mirror and invert the same artwork; ten focused tests include actual raster crossing ownership. Native Canvas adapter inspection and the production build passed; browser runtime and device profiling remain to be checked. No GSAP motion is needed for this stage.

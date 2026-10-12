@@ -1,0 +1,33 @@
+/* Generated from Design/DESIGN-TOKENS.json. Run node scripts/sync-design-tokens.mjs. */
+@theme {
+  --color-paper: #F2EDE5;
+  --color-cream: #F9F5ED;
+  --color-bone: #DCCAB3;
+  --color-ink: #211725;
+  --color-dark: #130E17;
+  --color-plum: #201523;
+  --color-vermilion: #C54E32;
+  --color-coral: #F36D4B;
+  --color-cobalt: #143D67;
+  --color-deepblue: #102E50;
+  --color-yellow: #E3AC38;
+  --color-mustard: #D4A22F;
+  --color-cotton: #E4D4B8;
+  --color-navy: #122C45;
+  --color-lilac: #BAA7CF;
+  --color-moss: #586557;
+  --color-grey: #71675F;
+  --color-white: #FFFFFF;
+}
+@theme inline {
+  --font-editorial: var(--font-display);
+  --font-sans: var(--font-ui);
+  --font-mono: var(--font-caption);
+}
+:root {
+  --paper: var(--color-paper);
+  --ink: var(--color-ink);
+  --line: #d4c9ba;
+  --muted: #645a52;
+  --rust: var(--color-vermilion);
+}

@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  makeArtwork,
   createRepeat,
   PALETTE,
   STRUCTURES,
@@ -13,6 +12,8 @@ import {
   type Structure,
 } from "@/lib/weave";
 import { renderCloth } from "@/lib/renderer";
+import Image from "next/image";
+import { useTextileProject } from "@/components/textile-project";
 
 function saveFile(blob: Blob, name: string) {
   const url = URL.createObjectURL(blob);
@@ -36,6 +37,7 @@ function Cloth({
   const revision = useRef(0);
   const fallback = useRef<(() => void) | null>(null);
   const [error, setError] = useState(false);
+  const [ready, setReady] = useState(false);
   useEffect(() => {
     if (typeof OffscreenCanvas === "undefined") return;
     let instance: Worker;
@@ -71,6 +73,7 @@ function Cloth({
         if (context) {
           context.drawImage(bitmap, 0, 0);
           setError(false);
+          setReady(true);
         } else setError(true);
       }
       bitmap.close();
@@ -111,6 +114,7 @@ function Cloth({
         try {
           renderCloth(element, artwork, options);
           setError(false);
+          setReady(true);
         } catch {
           setError(true);
         }
@@ -127,8 +131,16 @@ function Cloth({
   }, [artwork, face, zoom]);
   return (
     <figure className="cloth-view">
+      <Image
+        src={`/images/textile-study-${face}.webp`}
+        fill
+        sizes="(max-width: 650px) 100vw, 55vw"
+        alt=""
+        className="cloth-poster"
+      />
       <canvas
         ref={canvas}
+        className={ready ? "cloth-canvas is-ready" : "cloth-canvas"}
         role="img"
         aria-label={`${face === "front" ? "Front" : "Reverse"} of your ${STRUCTURES[artwork.structure].label.toLowerCase()}. ${face === "front" ? STRUCTURES[artwork.structure].description : "The cloth is mirrored left to right, and the opposite yarn is visible at each crossing. A warp-faced satin has a weft-faced reverse, and vice versa."} Vertical warp: ${artwork.warp[0].color}; horizontal weft: ${artwork.weft[0].color}.`}
       >
@@ -149,12 +161,15 @@ function Cloth({
   );
 }
 
-export default function TextileStudio() {
-  const [artwork, setArtwork] = useState(() => makeArtwork());
-  const [face, setFace] = useState<Face>("front");
+export default function TextileStudio({
+  initialFace = "front",
+}: {
+  initialFace?: Face;
+}) {
+  const { artwork, setArtwork, zoom, setZoom, rhythm, setRhythm } =
+    useTextileProject();
+  const [face, setFace] = useState<Face>(initialFace);
   const [compare, setCompare] = useState(false);
-  const [zoom, setZoom] = useState(2.5);
-  const [rhythm, setRhythm] = useState(true);
   const [notice, setNotice] = useState("");
   const [exporting, setExporting] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -260,18 +275,15 @@ export default function TextileStudio() {
     );
   }
   return (
-    <>
-      <a className="skip-link" href="#controls">
-        Skip to yarn controls
-      </a>
-      <header className="masthead">
-        <a href="/" className="wordmark">
-          THE WRONG SIDE
-        </a>
-        <span className="masthead-note">An interactive textile study</span>
-        <span className="small-label">Made to be looked at closely</span>
-      </header>
-      <main className="studio">
+    <div className="textile-study">
+      <noscript>
+        <style>{`.textile-study .controls,.textile-study .material-toolbar,.textile-study .magnifier{display:none}`}</style>
+        <p className="static-study-note">
+          A static cloth study. Enable JavaScript to change the yarns and save
+          your artwork.
+        </p>
+      </noscript>
+      <main id="main-content" tabIndex={-1} className="studio">
         <div className="editorial">
           <p className="small-label">Thread / surface / structure</p>
           <h1>
@@ -457,6 +469,6 @@ export default function TextileStudio() {
           approximations; fabric mechanics are not simulated.
         </p>
       </footer>
-    </>
+    </div>
   );
 }

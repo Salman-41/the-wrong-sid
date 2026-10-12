@@ -1,6 +1,6 @@
-# THE WRONG SIDE — textile engine study
+# THE WRONG SIDE — interactive textile exhibition
 
-A local, interactive Canvas 2D proof of concept for the approved textile exhibition. This stage implements the weave engine and examination controls; the full six-experience exhibition remains planned in `docs/`.
+Production application foundation and the approved Entrance, with a shared Canvas 2D textile study. The completed Entrance lives at `/`; `/loom` and `/reverse` carry the validated material prototype. Pattern Room, Collection and Edition have preparation boundaries for their later implementation.
 
 ## Run
 
@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:3000. Choose plain, 2/2 twill, five-end satin or sateen; change warp/weft colors, bands and thickness; magnify and compare both faces. **Keep this cloth** downloads a versioned JSON artwork. **Open saved artwork** restores individual threads and the structure. **Download image** exports a 2000 × 2000 PNG of the selected face at the selected magnification.
+Open http://127.0.0.1:3000. **Lift the Edge** opens the reverse-view material study. In `/loom` or `/reverse`, choose plain, 2/2 twill, five-end satin or sateen; change warp/weft colors, bands and thickness; magnify and compare both faces. **Keep this cloth** downloads a versioned JSON artwork. **Open saved artwork** restores individual threads and the structure. **Download image** exports a 2000 × 2000 PNG of the selected face at the selected magnification.
 
 ```sh
 npm test
@@ -35,6 +35,10 @@ Light, yarn width, crimp and fiber irregularity are visual approximations. This 
 
 ## Checks and limits
 
-Ten focused tests verify alternation, twill progression, satin bindings/invalid steps, periodic repetition, reverse transforms, JSON round trips/input validation, rasterized crossing ownership on both faces, and the backing-resolution cap. Production build and TypeScript checks pass. Native Canvas PNGs were visually inspected and refined. Connected browser automation was unavailable in this session, so browser interaction, worker lifecycle, touch/keyboard behavior and device performance still need an actual browser smoke check. Native render timings are not browser/device performance measurements.
+This stage passed strict TypeScript and brief desktop/mobile Chromium smoke checks, including menu/keyboard dismissal, lift navigation, shared artwork state, reduced motion and a no-JavaScript static fallback. No production build, unit-test rerun, Lighthouse or comprehensive QA was performed for this stage. The prior prototype passed ten focused mathematical/raster tests; those tests remain available through `npm test`.
 
-GFS Didot is self-hosted with its SIL OFL license in `public/fonts/`. [BUILD_STATUS.md](docs/BUILD_STATUS.md) records the current stage and remaining work.
+The approved hero is a provisional 425×845 concept raster extracted from the Entrance SVG and optimized to a 120 KB WebP. The full physical lift interaction and final material replacement remain future work. Each completed experience must use its own approved composition.
+
+Design colors are generated with `node scripts/sync-design-tokens.mjs`. Tailwind 4 is integrated through PostCSS; authored CSS controls the Entrance composition. Shared artwork/settings survive client navigation via `TextileProjectProvider`. GSAP is dynamically loaded for the optional lift-link directional hint and skipped under reduced motion. Header navigation uses native `details` so it also works without JavaScript.
+
+GFS Didot, Arimo and Cousine are self-hosted as compact Latin WOFF2 fonts with their SIL OFL notices in `public/fonts/`. [BUILD_STATUS.md](docs/BUILD_STATUS.md) records the current stage and remaining work.

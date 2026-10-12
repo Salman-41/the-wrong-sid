@@ -1,4 +1,4 @@
-import TextileStudio from "@/components/textile-studio";
+import { Entrance } from "@/components/entrance";
 export default function Page() {
-  return <TextileStudio />;
+  return <Entrance />;
 }

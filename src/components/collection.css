@@ -1,0 +1,238 @@
+/* A publication of museum photographs. Images always retain their source ratio. */
+.collection-shell { padding: 0 3vw; color: var(--ink); background: var(--paper); }
+.collection-shell h1, .collection-shell h2, .collection-shell h3 { font-family: var(--font-display), Georgia, serif; font-weight: 400; }
+.collection-shell p { line-height: 1.65; }
+.collection-shell a { text-underline-offset: 4px; }
+.collection-opening { display: grid; grid-template-columns: .88fr 1.32fr 1fr; align-items: start; gap: 3vw; padding: 38px 0 88px; min-height: calc(100svh - 86px); }
+.collection-introduction { padding-top: 38px; }
+.collection-introduction h1 { margin: 0 0 23px; font-size: clamp(44px, 5.25vw, 85px); line-height: 1.03; letter-spacing: -.055em; text-transform: uppercase; }
+.collection-introduction h1 span { display: block; }
+.collection-introduction-line { margin: 0 0 42px; font-family: var(--font-display), Georgia, serif; font-size: clamp(22px, 2vw, 31px); font-style: italic; line-height: 1.2 !important; }
+.collection-introduction-copy { max-width: 25ch; font-size: 15px; }
+.collection-explore { border-top: 1px solid var(--line); margin-top: 80px; padding-top: 24px; max-width: 280px; }
+.collection-modes { display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
+.collection-modes a { display: flex; align-items: center; min-height: 42px; font-family: var(--font-display), Georgia, serif; font-size: 22px; text-decoration: none; color: var(--muted); }
+.collection-modes a[aria-current], .collection-modes a:hover { color: var(--ink); text-decoration: underline; }
+.collection-opening-figure { margin: 0; }
+.collection-opening-figure > a { display: block; max-width: 581px; }
+.collection-opening-image { display: block; width: 100%; height: auto; }
+.collection-image-credit { margin: 14px 0 0; font-size: 11px; color: var(--muted); line-height: 1.7; }
+.collection-image-credit span { display: block; }
+.collection-image-credit a { text-decoration-thickness: 1px; }
+.collection-opening-label { padding: 34px 28px; background: #eae3d959; min-height: 550px; }
+.collection-opening-label > .eyebrow { margin: 0 0 48px; }
+.collection-opening-label h2 { font-size: clamp(30px, 3.5vw, 54px); line-height: 1.07; letter-spacing: -.02em; margin: 0 0 25px; }
+.collection-object-date { font-family: var(--font-display), Georgia, serif; font-style: italic; font-size: 26px; margin: 0; }
+.collection-opening-facts { border-top: 1px solid var(--line); padding-top: 23px; margin: 32px 0 42px; }
+.collection-opening-facts > div + div { margin-top: 34px; }
+.collection-opening-facts dd { margin: 14px 0 0; line-height: 1.65; font-size: 15px; max-width: 26ch; }
+.collection-accession { font-family: var(--font-caption), monospace; }
+.collection-text-link { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 19px 0; border-block: 1px solid var(--line); text-decoration: none; font-family: var(--font-caption), monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.collection-text-link > span[aria-hidden] { font-family: var(--font-ui), sans-serif; font-size: 24px; }
+.collection-source-link { display: inline-block; padding: 13px 0; font-size: 12px; }
+.collection-works { scroll-margin-top: 24px; border-top: 1px solid var(--ink); padding-top: 48px; }
+.collection-browse-head { display: flex; align-items: end; justify-content: space-between; gap: 50px; padding-bottom: 33px; }
+.collection-browse-head h2 { font-size: clamp(42px, 5.3vw, 80px); line-height: 1.05; letter-spacing: -.035em; margin: 16px 0 0; }
+.collection-browse-head > p { width: 34ch; font-size: 15px; margin: 0 0 6px; }
+.collection-browse-controls { display: flex; align-items: center; justify-content: space-between; border-block: 1px solid var(--line); gap: 30px; padding-block: 13px; }
+.collection-modes--horizontal { flex-direction: row; gap: 36px; }
+.collection-browse-controls > p { margin: 0; white-space: nowrap; }
+.collection-facets { display: flex; flex-wrap: wrap; gap: 10px 24px; padding: 24px 0 0; }
+.collection-facets a { display: flex; align-items: center; gap: 12px; min-height: 44px; font-size: 14px; text-decoration: none; border-bottom: 1px solid transparent; }
+.collection-facets a[aria-current], .collection-facets a:hover { border-color: currentColor; }
+.collection-facets span { font-size: 10px; color: var(--muted); font-family: var(--font-caption), monospace; }
+.collection-plates { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 120px 4vw; align-items: start; padding-block: 72px 100px; }
+.collection-plate { min-width: 0; grid-column: span 6; }
+.collection-plate-image { display: block; text-decoration: none; }
+.collection-plate-image img { display: block; width: 100%; height: auto; margin-inline: auto; }
+.collection-plate-caption { margin-top: 23px; }
+.collection-plate-caption > .eyebrow { margin: 0 0 15px; }
+.collection-plate h3 { margin: 0 0 15px; font-size: clamp(28px, 3vw, 46px); line-height: 1.15; }
+.collection-plate h3 a { display: flex; justify-content: space-between; gap: 20px; text-decoration: none; }
+.collection-plate h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+.collection-arrow { font-family: var(--font-ui), sans-serif; font-size: 24px; flex-shrink: 0; }
+.collection-plate-making { font-size: 13px; margin-bottom: 18px; text-transform: capitalize; }
+.collection-plate-deck { max-width: 52ch; font-size: 15px; margin-bottom: 20px; }
+.plate--met-1988-104-1 { grid-column: span 8; }
+.plate--met-29-179-34 { grid-column: span 4; margin-top: 190px; }
+.plate--cma-1916-1334 { grid-column: 2 / span 3; }
+.plate--cma-1916-1334 .collection-plate-image { max-width: 254px; margin-inline: auto; }
+.plate--cma-1992-103 { grid-column: 7 / span 4; margin-top: 100px; }
+.plate--cma-1992-103 .collection-plate-image { max-width: 365px; margin-inline: auto; }
+.plate--cma-1922-45 { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, .85fr); align-items: center; gap: 4vw; background: var(--color-deepblue); color: var(--paper); padding: 4vw; }
+.plate--cma-1922-45 .collection-image-credit { color: var(--color-bone); }
+.plate--cma-1922-45 h3 { font-size: clamp(38px, 4.5vw, 66px); }
+.plate--cma-1916-1246 { grid-column: span 8; }
+.plate--chndm-1951-111-34 { grid-column: span 4; margin-top: 160px; }
+.plate--chndm-1937-75-1 { grid-column: 2 / span 4; }
+.plate--nmah-138338 { grid-column: 8 / span 4; margin-top: 125px; }
+.plate--nmah-1982-0392 { grid-column: 2 / span 10; }
+.plate--nmah-1982-0392 .collection-plate-caption { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 50px; }
+.plate--nmah-1982-0392 .collection-plate-caption > .eyebrow, .plate--nmah-1982-0392 h3 { grid-column: 1; }
+.plate--nmah-1982-0392 .collection-plate-deck { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; }
+.plate--nmah-1982-0392 .collection-plate-making { display: none; }
+.plate--met-66-122-20 { max-width: 481px; }
+.collection-plates--filtered { row-gap: 80px; }
+.collection-plates--filtered .collection-plate { grid-column: span 6; margin: 0; }
+.collection-plates--filtered .plate--cma-1922-45 { grid-column: 1 / -1; }
+.collection-plates--filtered .plate--nmah-1982-0392 { grid-column: span 8; }
+.collection-colophon { border-top: 1px solid var(--ink); padding: 50px 0 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px 6vw; }
+.collection-colophon h2 { font-size: clamp(48px, 6vw, 86px); margin: 0; line-height: 1.1; }
+.collection-colophon > p { max-width: 54ch; margin: 0; font-size: 15px; }
+.collection-colophon > a { grid-column: 2; }
+
+/* The object spreads shift with the photograph's format and the documented view. */
+.collection-object-navigation { display: flex; justify-content: space-between; align-items: center; gap: 30px; padding-top: 22px; }
+.collection-object-navigation a { display: flex; align-items: center; gap: 14px; min-height: 44px; font-size: 13px; text-decoration: none; }
+.collection-object-navigation > span { color: var(--muted); text-align: center; max-width: 50ch; }
+.collection-object-heading { padding-block: 48px 54px; }
+.collection-object-heading .eyebrow { margin: 0 0 22px; }
+.collection-object-heading h1 { font-size: clamp(48px, 6.5vw, 104px); max-width: 18ch; line-height: 1.03; letter-spacing: -.045em; margin: 0; text-wrap: balance; }
+.collection-object-heading-line { font-size: 16px; margin-top: 25px; max-width: 80ch; }
+.collection-object-hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 5vw; align-items: center; }
+.collection-object-artwork { margin: 0; padding: 32px; background: #e4dbce65; }
+.collection-object-artwork .collection-image-viewer__image { width: auto; max-width: 100%; max-height: 760px; margin-inline: auto; }
+.collection-object-artwork--plum { background: var(--color-plum); color: var(--paper); }
+.collection-object-artwork--cobalt { background: var(--color-deepblue); color: var(--paper); }
+.collection-object-artwork--ochre { background: #e0ceb3; }
+.collection-object-artwork--plum .collection-image-credit, .collection-object-artwork--cobalt .collection-image-credit { color: var(--color-bone); }
+.collection-object-artwork--plum .collection-image-viewer__open, .collection-object-artwork--cobalt .collection-image-viewer__open { color: var(--paper); border-color: #f2ede550; }
+.collection-object-artwork--plum .collection-image-viewer__open:hover, .collection-object-artwork--cobalt .collection-image-viewer__open:hover { background: var(--paper); color: var(--ink); }
+.collection-object-standfirst { font-family: var(--font-display), Georgia, serif; font-size: clamp(26px, 2.6vw, 39px); line-height: 1.28 !important; margin: 0 0 30px; }
+.collection-object-context > p, .collection-studio-reading > p:not(.eyebrow) { font-size: 16px; max-width: 50ch; }
+.collection-studio-reading { border-top: 1px solid var(--line); padding-top: 20px; margin-top: 32px; }
+.collection-object--modest .collection-object-artwork { background: transparent; padding-inline: 32px; }
+.collection-object--modest .collection-image-viewer__photograph { max-width: 450px !important; }
+.collection-object--panorama .collection-object-hero { grid-template-columns: 1fr; }
+.collection-object--panorama .collection-object-artwork { padding: 4vw; }
+.collection-object--panorama .collection-image-viewer__image { max-width: 1100px; width: 100%; max-height: none; }
+.collection-object--panorama .collection-object-reading { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; padding-inline: 4vw; }
+.collection-record { display: grid; grid-template-columns: .85fr 1.15fr; gap: 7vw; border-top: 1px solid var(--ink); padding-block: 60px; margin-top: 90px; }
+.collection-record-intro h2 { font-size: clamp(40px, 4.3vw, 64px); line-height: 1.1; letter-spacing: -.025em; max-width: 12ch; margin: 20px 0 30px; }
+.collection-record-intro > p:not(.eyebrow) { max-width: 42ch; font-size: 15px; }
+.collection-record-intro .collection-text-link { max-width: 410px; margin-top: 36px; }
+.collection-record-details dl { margin: 0; }
+.collection-record-details dl > div { display: grid; grid-template-columns: 130px 1fr; gap: 30px; border-bottom: 1px solid var(--line); padding: 17px 0; }
+.collection-record-details dl > div:first-child { padding-top: 0; }
+.collection-record-details dt { font-family: var(--font-caption), monospace; font-size: 10px; line-height: 1.6; text-transform: uppercase; letter-spacing: .06em; }
+.collection-record-details dd { font-size: 15px; line-height: 1.65; margin: 0; overflow-wrap: anywhere; }
+.collection-attribution-note { font-size: 13px; color: var(--muted); margin-bottom: 0; }
+.collection-source-note { margin-top: 32px; font-size: 13px; }
+.collection-source-note > p:not(.eyebrow) { max-width: 65ch; }
+.collection-source-note a { display: inline-block; padding-block: 12px; }
+.collection-follow { display: flex; flex-wrap: wrap; align-items: center; gap: 0 35px; padding: 24px 0; border-block: 1px solid var(--line); }
+.collection-follow > div { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+.collection-follow a { display: flex; align-items: center; gap: 14px; min-height: 44px; font-size: 14px; }
+.collection-related { padding-block: 90px; }
+.collection-related-heading { display: grid; grid-template-columns: 1fr 1fr; align-items: end; column-gap: 6vw; margin-bottom: 50px; }
+.collection-related-heading > .eyebrow { grid-column: 1 / -1; }
+.collection-related-heading h2 { font-size: clamp(42px, 5vw, 76px); line-height: 1.1; letter-spacing: -.04em; margin: 12px 0 0; }
+.collection-related-heading > p:not(.eyebrow) { max-width: 34ch; font-size: 15px; }
+.collection-related-plates { display: grid; grid-template-columns: .85fr 1.15fr; gap: 7vw; align-items: start; }
+.collection-related-plates .collection-plate { grid-column: auto; margin: 0; max-width: none; display: block; background: transparent; padding: 0; color: var(--ink); }
+.collection-related-plates .collection-plate-caption { display: block; }
+.collection-related-plates .collection-plate-image { max-width: none; min-height: 400px; display: grid; place-items: center; background: #e4dbce65; padding: 25px; }
+.collection-related-plates .collection-plate-image img { width: auto; max-height: 400px; max-width: 100%; }
+.collection-related-plates .collection-image-credit { color: var(--muted); }
+.collection-related-reason { font-size: 15px; max-width: 48ch; }
+.collection-turn-page { display: grid; grid-template-columns: 1fr 1fr; border-block: 1px solid var(--ink); margin-bottom: 80px; }
+.collection-turn-page a { display: flex; flex-direction: column; gap: 15px; padding: 30px; text-decoration: none; }
+.collection-turn-page a + a { border-left: 1px solid var(--line); text-align: right; }
+.collection-turn-page a > span:not(.eyebrow) { font-family: var(--font-display), Georgia, serif; font-size: clamp(24px, 2.5vw, 38px); line-height: 1.25; }
+.collection-turn-page a:hover > span:not(.eyebrow) { text-decoration: underline; }
+.collection-missing { padding-block: 80px; min-height: 70svh; }
+.collection-missing h1 { font-size: clamp(42px, 6vw, 90px); line-height: 1.1; max-width: 18ch; }
+.collection-missing .collection-text-link { max-width: 400px; }
+
+@media (min-width: 1700px) { .collection-shell { padding-inline: max(3vw, calc((100vw - 1600px) / 2)); } }
+@media (max-width: 1100px) and (min-width: 721px) {
+  .collection-opening { grid-template-columns: 1fr 1.2fr; gap: 30px; }
+  .collection-introduction h1 { font-size: 7.5vw; }
+  .collection-opening-label { grid-column: 2; min-height: auto; }
+  .collection-explore { margin-top: 60px; }
+  .collection-opening-label > .eyebrow { margin-bottom: 25px; }
+  .collection-object-hero { gap: 30px; }
+  .collection-object-artwork { padding: 24px; }
+  .collection-record-details dl > div { grid-template-columns: 110px 1fr; gap: 15px; }
+}
+@media (max-width: 720px) {
+  .collection-shell { padding-inline: 22px; }
+  .collection-opening { display: flex; flex-direction: column; gap: 0; min-height: auto; padding: 15px 0 65px; }
+  .collection-introduction { padding: 0; width: 100%; }
+  .collection-introduction h1 { font-size: clamp(40px, 13.5vw, 88px); line-height: 1.07; letter-spacing: -.025em; margin-bottom: 13px; }
+  .collection-introduction-line { font-size: 21px; margin-bottom: 25px; }
+  .collection-introduction-copy, .collection-explore { display: none; }
+  .collection-opening-figure { width: 100%; }
+  .collection-opening-figure > a { max-width: 450px; margin-inline: auto; }
+  .collection-opening-label { width: 100%; background: transparent; padding: 27px 0 0; min-height: auto; }
+  .collection-opening-label > .eyebrow { margin-bottom: 19px; }
+  .collection-opening-label h2 { font-size: 32px; margin: 0 0 16px; max-width: 16ch; line-height: 1.16; }
+  .collection-opening-label h2 br { display: none; }
+  .collection-object-date { font-size: 22px; }
+  .collection-opening-facts { border-top: 0; padding: 0; margin: 15px 0 30px; }
+  .collection-opening-facts > div + div { margin-top: 16px; }
+  .collection-opening-facts dt { display: none; }
+  .collection-opening-facts dd { margin: 0; max-width: 32ch; font-size: 14px; }
+  .collection-opening-facts .collection-accession { font-size: 11px; margin-top: 9px; }
+  .collection-image-credit { font-size: 11px; }
+  .collection-text-link { min-height: 56px; }
+  .collection-source-link { min-height: 44px; }
+  .collection-works { padding-top: 32px; }
+  .collection-browse-head { display: block; padding-bottom: 20px; }
+  .collection-browse-head h2 { font-size: 45px; max-width: 14ch; margin-top: 13px; }
+  .collection-browse-head > p { width: auto; max-width: 38ch; margin-top: 20px; font-size: 14px; }
+  .collection-browse-controls { display: block; padding-block: 12px; }
+  .collection-modes--horizontal { justify-content: space-between; gap: 12px; }
+  .collection-modes--horizontal a { font-size: 20px; min-height: 44px; }
+  .collection-browse-controls > p { margin-top: 12px; font-size: 9px; }
+  .collection-facets { gap: 4px 17px; padding-top: 17px; }
+  .collection-facets a { font-size: 13px; }
+  .collection-plates, .collection-plates--filtered { display: flex; flex-direction: column; gap: 64px; padding-block: 40px 65px; }
+  .collection-plates .collection-plate { width: 100%; margin: 0; max-width: none; }
+  .collection-plates .plate--met-29-179-34 { width: 83%; align-self: flex-end; }
+  .collection-plates .plate--cma-1916-1334 { width: 75%; }
+  .collection-plates .plate--cma-1992-103 { width: 83%; align-self: flex-end; }
+  .collection-plates .plate--cma-1916-1334 .collection-plate-image { max-width: 180px; }
+  .collection-plates .plate--cma-1992-103 .collection-plate-image { max-width: 245px; }
+  .collection-plates .plate--cma-1922-45 { display: block; width: calc(100% + 44px); margin-inline: -22px; padding: 35px 22px; }
+  .collection-plates .plate--chndm-1951-111-34 { width: 82%; align-self: flex-end; }
+  .collection-plates .plate--chndm-1937-75-1 { width: 90%; }
+  .collection-plates .plate--nmah-138338 { width: 85%; align-self: flex-end; }
+  .collection-plate h3 { font-size: 30px; }
+  .collection-plate-caption { margin-top: 19px; }
+  .collection-plate-caption > .eyebrow { font-size: 9px; line-height: 1.8; }
+  .plate--nmah-1982-0392 .collection-plate-caption { display: block; }
+  .collection-colophon { display: block; padding-block: 35px 60px; }
+  .collection-colophon h2 { font-size: 56px; }
+  .collection-colophon > p { font-size: 14px; margin-block: 24px 30px; }
+  .collection-object-navigation { padding-top: 12px; gap: 20px; }
+  .collection-object-navigation > span { display: none; }
+  .collection-object-heading { padding-block: 27px 27px; }
+  .collection-object-heading h1 { font-size: clamp(42px, 12vw, 74px); line-height: 1.09; letter-spacing: -.035em; }
+  .collection-object-heading-line { font-size: 13px; line-height: 1.6; margin-top: 20px; }
+  .collection-object-hero, .collection-object--panorama .collection-object-hero { display: flex; flex-direction: column; align-items: stretch; gap: 32px; }
+  .collection-object-artwork, .collection-object--modest .collection-object-artwork, .collection-object--panorama .collection-object-artwork { padding: 22px 14px; margin-inline: -8px; }
+  .collection-object-artwork .collection-image-viewer__image { max-height: 560px; }
+  .collection-object--panorama .collection-object-artwork .collection-image-viewer__image { max-height: none; }
+  .collection-object--panorama .collection-object-reading { display: block; padding: 0; }
+  .collection-object-standfirst { font-size: 29px; margin-bottom: 22px; }
+  .collection-object-context > p, .collection-studio-reading > p:not(.eyebrow) { font-size: 15px; }
+  .collection-record { display: block; margin-top: 55px; padding-block: 36px; }
+  .collection-record-intro h2 { font-size: 44px; margin-block: 15px 24px; }
+  .collection-record-intro .collection-text-link { margin-block: 24px 36px; }
+  .collection-record-details dl > div { grid-template-columns: 90px 1fr; gap: 18px; padding-block: 15px; }
+  .collection-record-details dd { font-size: 14px; }
+  .collection-record-details dt { font-size: 9px; }
+  .collection-related { padding-block: 54px; }
+  .collection-related-heading { display: block; margin-bottom: 30px; }
+  .collection-related-heading h2 { font-size: 45px; margin-top: 12px; }
+  .collection-related-heading > p:not(.eyebrow) { font-size: 14px; margin-top: 20px; }
+  .collection-related-plates { display: block; }
+  .collection-related-plates .collection-plate + .collection-plate { margin-top: 48px; }
+  .collection-related-plates .collection-plate-image { min-height: 300px; padding: 20px; }
+  .collection-related-plates .collection-plate-image img { max-height: 350px; }
+  .collection-turn-page { margin-bottom: 50px; }
+  .collection-turn-page a { padding: 24px 12px; gap: 13px; }
+  .collection-turn-page a .eyebrow { font-size: 9px; letter-spacing: .03em; }
+  .collection-turn-page a > span:not(.eyebrow) { font-size: 24px; }
+}

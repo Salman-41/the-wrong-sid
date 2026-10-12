@@ -45,7 +45,7 @@ export function SiteHeader() {
             key={item.href}
             href={item.href}
             prefetch={false}
-            aria-current={pathname === item.href ? "page" : undefined}
+            aria-current={pathname === item.href || pathname.startsWith(item.href + "/") ? "page" : undefined}
             onClick={() => closeMenu()}
           >
             {item.label}
@@ -85,7 +85,7 @@ export function SiteHeader() {
               key={item.href}
               href={item.href}
               prefetch={false}
-              aria-current={pathname === item.href ? "page" : undefined}
+              aria-current={pathname === item.href || pathname.startsWith(item.href + "/") ? "page" : undefined}
               onClick={() => closeMenu()}
             >
               <span>{item.name}</span>

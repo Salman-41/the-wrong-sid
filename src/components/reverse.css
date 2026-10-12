@@ -1,0 +1,127 @@
+.site-header.site-header--reverse { position: absolute; top: 0; left: 0; right: 0; color: var(--color-paper); background: linear-gradient(#130e17ee,#130e1780); }
+.site-header--reverse::after { background: #f2ede530; }
+.site-header--reverse .experience-navigation { color: var(--ink); }
+.reverse-page { min-height: 100svh; color: var(--color-paper); background: #130e17; }
+.reverse-gallery { display: grid; grid-template-columns: 21% minmax(0,1fr) 22%; min-height: 900px; height: max(900px,100svh); }
+.reverse-editorial { position: relative; z-index: 2; padding: 170px 0 28px 42px; background: #130e17; }
+.reverse-editorial h1 { margin: 0; font: 400 clamp(70px,6.04vw,98px)/1.01 var(--font-display),serif; }
+.reverse-editorial h1 span { display: block; transform-origin: left center; }
+.reverse-editorial h1 span:nth-child(2) { transform: scaleX(.82); }
+.reverse-dek { font: italic 29px/1.25 var(--font-display),serif; margin: 48px 0 40px 12px; }
+.reverse-introduction { margin-left: 12px; font-size: 14px; line-height: 1.6; color: #d7ced7; }
+.reverse-lift-action { display: flex; align-items: center; gap: 15px; min-height: 52px; border: 0; padding: 0; color: var(--color-paper); background: none; margin: 70px 0 0 10px; font: 9px/1.4 var(--font-caption),monospace; text-transform: uppercase; letter-spacing: .13em; }
+.reverse-lift-action > span { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid #f2ede58c; border-radius: 50%; font: 24px var(--font-ui),sans-serif; }
+.reverse-room-note { margin: 35px 0 0 12px; color: #a799a9; font-size: 10px; }
+.reverse-stage { position: relative; min-width: 0; overflow: hidden; background: radial-gradient(ellipse at 70% 37%,#3c293c,#231925 48%,#130e17 88%); }
+.reverse-surface { position: absolute; inset: 58px -10px 0 -10px; }
+.reverse-texture { position: absolute; left: -10000px; top: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; }
+.reverse-moving-cloth { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+.reverse-surface.is-ready .reverse-moving-cloth { opacity: 1; }
+.reverse-surface-poster { object-fit: fill; padding: 4.5% 3%; opacity: .92; }
+.reverse-surface.is-ready .reverse-surface-poster { visibility: hidden; }
+.reverse-continuity { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; opacity: 0; }
+.reverse-surface.is-ready .reverse-continuity { opacity: 1; }
+.reverse-pick-surface { position: absolute; inset: 0; cursor: crosshair; }
+.reverse-pick-surface:focus-visible { outline: 1px solid #f2ede5; outline-offset: -22px; }
+.reverse-stage-caption { position: absolute; z-index: 3; bottom: 18px; left: 5%; right: 5%; display: flex; justify-content: space-between; gap: 15px; font: 9px var(--font-caption),monospace; text-transform: uppercase; letter-spacing: .15em; text-shadow: 0 1px 5px #130e17; pointer-events: none; }
+.reverse-edge-cue { position: absolute; z-index: 3; top: 54%; right: 20px; display: flex; gap: 9px; align-items: center; color: var(--color-paper); background: #130e17be; border: 1px solid #f2ede550; border-radius: 30px; padding: 6px 15px 6px 8px; min-height: 48px; box-shadow: 0 5px 20px #130e1740; }
+.reverse-edge-cue > span:first-child { font-size: 21px; }
+.reverse-edge-cue > span:last-child { font: 9px var(--font-caption),monospace; text-transform: uppercase; letter-spacing: .1em; }
+.reverse-edge-cue:disabled { opacity: .4; }
+.reverse-mobile-title,.reverse-face-switch.reverse-mobile-faces { display: none; }
+.reverse-construction { position: relative; z-index: 4; background: linear-gradient(120deg,#211725ee,#1b131feb); padding: 140px 32px 18px; }
+.reverse-construction .eyebrow { font-size: 9px; letter-spacing: .16em; color: #d9c8b8; }
+.reverse-under-over { margin: 0 0 26px; }
+.reverse-crossing-study { display: block; width: min(100%,176px); height: auto; margin: 0 0 28px 9px; }
+.reverse-crossing-copy h2 { margin: 15px 0 8px; font: 400 26px var(--font-display),serif; }
+.reverse-yarn-description { font-size: 13px; line-height: 1.7; margin-top: 10px; max-width: 230px; }
+.reverse-rule-note { margin: 20px 0 0; font-size: 11px; line-height: 1.7; color: #d0c0cf; }
+.reverse-desktop-face-controls { border-top: 1px solid #f2ede529; padding-top: 22px; margin-top: 22px; }
+.reverse-face-switch { display: flex; width: 100%; min-height: 54px; padding: 4px; border-radius: 30px; background: #f2ede5; color: #211725; }
+.reverse-face-switch button { width: 50%; min-height: 46px; border: 0; border-radius: 30px; color: inherit; background: transparent; font-size: 13px; }
+.reverse-face-switch button[aria-pressed=true] { background: #c54e32; color: #f9f5ed; }
+.reverse-inspect { display: flex; width: 100%; min-height: 48px; align-items: center; justify-content: space-between; border: 0; border-bottom: 1px solid #f2ede538; color: #f2ede5; background: none; padding: 0; margin-top: 19px; font-size: 12px; text-align: left; }
+.reverse-inspect span { font-size: 25px; }
+.reverse-selection-hint { font-size: 10px; line-height: 1.8; color: #b6a8ba; margin: 15px 0; }
+.reverse-explanation { margin-top: 22px; border-top: 1px solid #f2ede52a; padding-top: 8px; font-size: 10px; line-height: 1.7; }
+.reverse-explanation summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; }
+.reverse-explanation p { color: #d2c5d5; }
+.reverse-back-to-loom { display: inline-flex; align-items: center; min-height: 44px; font-size: 11px; color: #d9c8b8; text-decoration: none; margin-top: 6px; }
+.reverse-render-error { position: absolute; z-index: 8; bottom: 100px; left: 5%; right: 5%; background: #211725; padding: 14px; font-size: 12px; line-height: 1.5; }
+.reverse-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 40px; text-align: center; }
+.reverse-empty > p:not(.eyebrow) { font: 34px/1.2 var(--font-display),serif; }
+.reverse-empty a { font-size: 13px; min-height: 44px; padding-top: 14px; }
+.reverse-static-explanation { padding: 40px; background: #211725; font-size: 14px; line-height: 1.7; }
+.reverse-static-explanation h2 { font: 36px var(--font-display),serif; }
+.reverse-static-explanation > div { display: flex; gap: 25px; }
+.reverse-static-explanation figure { flex: 1; margin: 15px 0; }
+.reverse-static-explanation img { width: 100%; height: auto; max-width: 600px; }
+.reverse-magnifier { color: #f2ede5; background: #211725; border: 1px solid #f2ede542; width: min(640px,calc(100vw - 24px)); max-height: calc(100svh - 24px); margin: auto; padding: 20px; overflow-y: auto; }
+.reverse-magnifier::backdrop { background: #0d0811dd; }
+.reverse-magnifier header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+.reverse-magnifier header .eyebrow { font-size: 9px; margin: 0 0 8px; color: #d9c8b8; }
+.reverse-magnifier h2 { margin: 0; font: 32px var(--font-display),serif; }
+.reverse-magnifier header button { min-width: 44px; height: 44px; border: 0; color: inherit; background: none; font-size: 30px; }
+.reverse-lens-surface { position: relative; width: 100%; aspect-ratio: 1; background: #130e17; }
+.reverse-lens-surface canvas { width: 100%; height: 100%; display: block; opacity: 0; }
+.reverse-lens-surface canvas.is-ready { opacity: 1; }
+.reverse-lens-surface > p { position: absolute; inset: 0; display: grid; place-items: center; padding: 30px; font-size: 13px; }
+.reverse-lens-toolbar { display: flex; align-items: center; justify-content: space-between; margin-top: 9px; gap: 15px; }
+.reverse-crossing-arrows,.reverse-lens-faces { display: flex; }
+.reverse-crossing-arrows button { min-width: 44px; height: 44px; border: 0; color: #f2ede5; background: none; font-size: 22px; }
+.reverse-lens-faces button { border: 0; min-height: 44px; padding: 0 12px; color: #d0bdc7; background: none; font-size: 12px; }
+.reverse-lens-faces button[aria-pressed=true] { color: #f2ede5; text-decoration: underline; text-underline-offset: 6px; }
+.reverse-zoom { display: flex; align-items: center; gap: 15px; min-height: 44px; font-size: 12px; }
+.reverse-zoom input { flex: 1; min-width: 40px; height: 44px; accent-color: #c54e32; }
+.reverse-zoom output { font-size: 11px; }
+.reverse-lens-note { color: #d0bdc7; font-size: 11px; line-height: 1.6; margin: 6px 0 0; }
+@media (min-width: 768px) and (max-width: 1100px) {
+ .reverse-gallery { grid-template-columns: 22% minmax(0,1fr) 25%; }
+ .reverse-editorial { padding-left: 24px; }
+ .reverse-editorial h1 { font-size: 6.7vw; }
+ .reverse-dek { font-size: 23px; margin-left: 0; }
+ .reverse-introduction { margin-left: 0; font-size: 12px; }
+ .reverse-construction { padding-left: 22px; padding-right: 22px; }
+ .reverse-lift-action { margin-left: 0; gap: 10px; font-size: 8px; }
+}
+@media (max-width: 767px) {
+ .site-header.site-header--reverse { min-height: 64px; padding: 10px 24px 10px 30px; background: #130e17; }
+ .site-header--reverse::after { display: none; }
+ .reverse-gallery { display: flex; flex-direction: column; height: auto; min-height: 100svh; }
+ .reverse-editorial { padding: 0; background: none; }
+ .reverse-editorial h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+ .reverse-dek,.reverse-introduction,.reverse-lift-action,.reverse-room-note { display: none; }
+ .reverse-stage { min-height: 620px; height: min(740px,80svh); }
+ .reverse-surface { inset: 60px -20px 0; }
+ .reverse-mobile-title { display: block; position: absolute; z-index: 3; left: 24px; right: 12px; top: 123px; pointer-events: none; text-shadow: 0 2px 16px #130e17,0 1px 5px #130e17; }
+ .reverse-mobile-title h2 { font: 400 17.4359vw/1.06 var(--font-display),serif; margin: 0; }
+ .reverse-mobile-title h2 span { display: inline-block; transform: scaleX(.94); transform-origin: left center; }
+ .reverse-mobile-title p { font: italic 21px var(--font-display),serif; margin-top: 25px; }
+ .reverse-stage-caption { left: 24px; right: 24px; bottom: 99px; font-size: 8px; letter-spacing: .1em; }
+ .reverse-stage-caption span:last-child { display: none; }
+ .reverse-edge-cue { top: auto; right: 24px; bottom: 129px; min-height: 50px; padding: 8px 18px; }
+ .reverse-edge-cue > span:last-child { font-size: 10px; }
+ .reverse-face-switch.reverse-mobile-faces { display: flex; position: absolute; left: 20px; right: 20px; bottom: 28px; z-index: 4; width: auto; color: #f2ede5; background: #211725ed; min-height: 54px; }
+ .reverse-mobile-faces button[aria-pressed=true] { color: #211725; background: #e4d4b8; }
+ .reverse-construction { display: grid; grid-template-columns: 156px 1fr; column-gap: 23px; padding: 28px 24px 20px; }
+ .reverse-under-over { grid-column: 1/-1; margin: 0 0 18px; }
+ .reverse-crossing-study { width: 156px; margin: 5px 0 10px -9px; }
+ .reverse-crossing-copy .eyebrow { display: none; }
+ .reverse-crossing-copy h2 { font-size: 23px; margin-top: 7px; }
+ .reverse-yarn-description { font-size: 12px; margin-top: 9px; }
+ .reverse-rule-note { font-size: 10px; margin-top: 13px; }
+ .reverse-desktop-face-controls { display: none; }
+ .reverse-inspect,.reverse-selection-hint,.reverse-explanation,.reverse-back-to-loom { grid-column: 1/-1; }
+ .reverse-inspect { margin-top: 9px; font-size: 12px; }
+ .reverse-selection-hint { margin-bottom: 0; }
+ .reverse-explanation { margin-top: 15px; }
+ .reverse-static-explanation { padding: 25px; }
+ .reverse-static-explanation > div { gap: 12px; }
+ .reverse-magnifier { padding: 14px; }
+ .reverse-magnifier h2 { font-size: 26px; }
+ .reverse-lens-toolbar { gap: 4px; }
+ .reverse-lens-faces button { padding: 0 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .reverse-page * { scroll-behavior: auto; }
+}

@@ -1,7 +1,7 @@
 export const experiences = [
   { href: "/", name: "Entrance", status: "available" },
   { href: "/loom", name: "Loom", status: "available" },
-  { href: "/reverse", name: "Reverse", status: "study" },
+  { href: "/reverse", name: "Reverse", status: "available" },
   { href: "/pattern-room", name: "Pattern Room", status: "planned" },
   { href: "/collection", name: "Collection", status: "planned" },
   { href: "/edition", name: "Edition", status: "planned" },

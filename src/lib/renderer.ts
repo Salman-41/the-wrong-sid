@@ -9,6 +9,8 @@ export interface RenderOptions {
   fit?: "contain" | "stretch";
   bottomUp?: boolean;
   transparent?: boolean;
+  /** Original yarn coordinates; reverse mirrors around this same physical crossing. */
+  focus?: { end: number; pick: number };
 }
 export type ClothCanvas = HTMLCanvasElement | OffscreenCanvas;
 const noise = (n: number) => {
@@ -50,8 +52,8 @@ export function renderCloth(
     return { draws: 0, pixelWidth: canvas.width, pixelHeight: canvas.height };
   const pitch =
     Math.min(width / art.warp.length, height / art.weft.length) * zoom;
-  const offsetX = (width - pitch * art.warp.length) / 2;
-  const offsetY = (height - pitch * art.weft.length) / 2;
+  const offsetX = options.focus ? width / 2 - (options.focus.end + .5) * pitch : (width - pitch * art.warp.length) / 2;
+  const offsetY = options.focus ? height / 2 - (options.focus.pick + .5) * pitch : (height - pitch * art.weft.length) / 2;
   // Mirror the SAME physical geometry. Only the exposed yarn ordering changes.
   if (face === "reverse") {
     ctx.translate(width, 0);
@@ -75,7 +77,7 @@ export function renderCloth(
     y0: -offsetY,
     y1: height - offsetY,
   };
-  const quality = pitch < 14 ? 4 : pitch < 25 ? 9 : 18;
+  const quality = pitch < 14 ? 4 : pitch < 25 ? 9 : pitch < 55 ? 18 : Math.min(72, Math.ceil(pitch * .52));
   let draws = 0;
 
   function yarn(
@@ -118,7 +120,7 @@ export function renderCloth(
         1,
         Math.max(0, Math.min(t - lo, hi - t) / (pitch * 0.42)),
       );
-      const tip = raised ? 0.78 + 0.22 * Math.sin((edge * Math.PI) / 2) : 1;
+      const tip = raised ? 0.84 + 0.16 * Math.sin((edge * Math.PI) / 2) : 1;
       points.push({
         t,
         c: center + crimp,
@@ -207,7 +209,7 @@ export function renderCloth(
         else fibers.lineTo(x, y);
       });
     }
-    ctx.lineWidth = Math.max(0.28, breadth * 0.012);
+    ctx.lineWidth = Math.max(0.22, Math.min(0.65, breadth * 0.006));
     ctx.strokeStyle = "rgba(255,244,220,.28)";
     ctx.stroke(lightFibers);
     ctx.strokeStyle = "rgba(14,10,7,.21)";

@@ -2,6 +2,7 @@
 @import "../styles/tokens.css";
 @import "../components/textile-studio.css";
 @import "../components/loom.css";
+@import "../components/reverse.css";
 
 @layer base {
   * {

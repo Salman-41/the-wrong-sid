@@ -34,7 +34,7 @@ export function SiteHeader() {
   }, []);
   return (
     <header
-      className={`site-header ${pathname === "/" ? "site-header--entrance" : pathname === "/loom" ? "site-header--loom" : ""}`}
+      className={`site-header ${pathname === "/" ? "site-header--entrance" : pathname === "/loom" ? "site-header--loom" : pathname === "/reverse" ? "site-header--reverse" : ""}`}
     >
       <Link href="/" className="site-wordmark" prefetch={false}>
         THE WRONG SIDE
@@ -90,11 +90,7 @@ export function SiteHeader() {
             >
               <span>{item.name}</span>
               {item.status !== "available" && (
-                <small>
-                  {item.status === "study"
-                    ? "Material study"
-                    : "In preparation"}
-                </small>
+                <small>In preparation</small>
               )}
             </Link>
           ))}

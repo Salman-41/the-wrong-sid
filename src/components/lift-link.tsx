@@ -56,7 +56,7 @@ export function LiftLink({
       </span>
       <span className="sr-only">
         {" "}
-        — inspect the reverse in the textile study
+        — reveal the other face of your woven cloth
       </span>
     </Link>
   );

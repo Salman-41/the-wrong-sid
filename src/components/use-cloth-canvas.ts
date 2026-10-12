@@ -92,6 +92,7 @@ export function useClothCanvas(
           fit: options.fit,
           bottomUp: options.bottomUp,
           transparent: options.transparent,
+          focus: options.focus,
         };
         pendingRows.current = artwork.weft.length;
         if (worker.current) {
@@ -133,6 +134,8 @@ export function useClothCanvas(
     options.fit,
     options.bottomUp,
     options.transparent,
+    options.focus?.end,
+    options.focus?.pick,
   ]);
   return { ready, error };
 }

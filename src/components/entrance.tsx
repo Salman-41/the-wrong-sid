@@ -75,8 +75,8 @@ export function Entrance() {
       </p>
       <span className="sr-only">
         The hero image is a provisional concept study. Lift the Edge opens a
-        woven model to inspect; the physical fabric-lifting interaction is in
-        preparation.
+        woven model where you can lift its edge, turn it over and inspect the
+        same yarns on both faces.
       </span>
     </main>
   );

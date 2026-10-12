@@ -1,14 +1,9 @@
 import type { Metadata } from "next";
-import { ExperienceInPreparation } from "@/components/experience-in-preparation";
-import { ProjectContinuity } from "@/components/project-continuity";
+import { PatternRoom } from "@/components/pattern-room";
 export const metadata: Metadata = {
   title: "Pattern Room",
-  robots: { index: false, follow: true },
+  description: "Cut, repeat and rearrange the woven cloth you made. Change real yarns and crossings, then explore graphic compositions.",
 };
 export default function PatternRoomPage() {
-  return (
-    <ExperienceInPreparation name="Pattern Room">
-      <ProjectContinuity destination="pattern" />
-    </ExperienceInPreparation>
-  );
+  return <PatternRoom />;
 }

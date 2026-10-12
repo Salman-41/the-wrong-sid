@@ -1,35 +1,30 @@
 # Build status
 
-**State: complete interactive Loom implemented; Entrance remains complete.** Updated 2026-10-12 (Asia/Karachi). This stage is committed locally. No push or deployment.
+**State: Pattern Room complete locally.** Updated 2026-10-12 (Asia/Karachi). Entrance, Loom, Reverse and Pattern Room have working routes; Collection and Edition remain in preparation. No push, deployment or service purchase occurred.
 
-## Delivered this stage
+## Pattern Room delivered
 
-- Inspected the approved Loom desktop/mobile SVGs and previews, art direction, rules, current engine and previous status. Rebuilt the composition with HTML/CSS, original shuttle SVG, tensioned warp vectors and live Canvas material. No artboard screenshot is used as the interface.
-- Desktop: tall GFS Didot title, dominant wooden instrument, left warp palette and integrated right working rail. Mobile: independently composed title/frame, six large yarn targets, prominent sticky Add Row, compact progress/history and a touch-friendly warp disclosure.
-- Real construction: start with 48 warp ends and 28 woven rows, capacity 60. Choose next weft color and plain, defined 2/2 twill, valid five-end satin or complementary sateen; Add Row commits that yarn and rule. Existing rows retain their crossing rules, using the absolute pick phase. Warp accent changes recolor the actual ends.
-- Undo/redo covers yarn, structure, row insertion, reset and restored artwork; history is bounded to 80 changes. Reset clears woven picks and preserves the warp and next yarn. Capacity/progress derive from actual data.
-- Version 2 JSON stores individual yarns/thicknesses, every pick’s structure, next yarn/rule, seed and capacity. Save/Open cloth round-trip the construction; validated version 1 artwork migrates. No account, service or automatic remote storage. Save a file before refreshing or closing.
-- One root provider shares the artwork and history across client navigation. Reverse renders and compares this same cloth, mirroring ends and inverting crossings. Pattern Room and Edition now read the shared construction at their preparation boundaries; their full experiences remain future work.
-- GSAP loads on the first animated row insertion: shuttle pass, weft reveal and brief beater settling. Shuttle height follows construction progress. No idle animation or unrelated cloth motion. Reduced motion inserts immediately. Workspace Enter/Space, native controls and Ctrl/Cmd+Z / Shift+Z provide keyboard alternatives.
-- Magnification opens an accessible native dialog with the actual material and a 1–5× slider. Escape closes it. Canvas has equivalent descriptions and DOM controls/progress/status.
-- Reusable Canvas hook coalesces worker requests, disposes stale image bitmaps and falls back to main-thread Canvas. Rendering is event-driven, capped at DPR 2 / four million pixels. Draft yarn/rule changes do not redraw finished cloth; bottom-up rows and transparent/stretch placement integrate it with the frame. No WebGL.
-- Static renderer-derived Loom cloth and updated front/reverse posters support initial/no-JavaScript viewing. Inactive controls remain disabled before hydration. Wood/shading/crimp/movement are labeled visual approximations, not fabric mechanics.
+- Inspected both approved Pattern Room SVGs and previews, project rules, art direction and textile engine. The route now uses live HTML/CSS controls and an original Canvas artwork. Desktop keeps the full-bleed cobalt/vermilion/ochre study, oversized Didot title and one paper tray. Mobile has its own tall cutting, 58px header, on-screen Save action and touch controls that open over the lower image.
+- The version 2 artwork file now stores a validated graphic arrangement: Cutwork, Ribbon or Bias; a 1–4 by 1–4 finite repeat; and 0.75–1.75 scale. Older version 2 files load with default placement. No new service or automatic storage is involved.
+- **Construction edits:** Reweave applies a supported plain, 2/2 twill, five-end satin or sateen rule to every existing pick and to the next-pick matrix. Recolor changes matching real warp or weft yarns, including a matching draft weft. **Graphic edits:** composition, repeat and scale only arrange finite cloth cuttings; the crossings and yarn records stay unchanged. UI copy, history and tests distinguish the two.
+- Canvas textures come from stable 8-end × 4-pick windows of the visitor's actual cloth, rendered through the shared rounded-yarn renderer. Recoloring follows the same physical windows. Original desktop/mobile Cutwork, Ribbon and Bias masks arrange those textured pieces. They are art-directed cuts with lighting and edge depth, not a claim of seamless physical weaving at graphic repeat seams.
+- Worker/main-thread rendering coalesces changes and drops stale frames. A bounded cache keeps two material versions for comparison and a few composition tiles; repeat/scale reuse existing yarn textures. DPR is capped at 1.75 and final surfaces at three million pixels. No continuous animation or WebGL.
+- Previous/current uses the exact snapshot before the last edit, with an adjustable visual split. Undo/redo use the root project history. Save downloads the same artwork JSON that Loom can restore. The cloth and arrangement stay intact through client navigation to Reverse and Loom. Initial renderer-derived desktop/mobile WebP posters cover first paint and no-JavaScript viewing; edited artwork is never represented by that initial poster.
+- Native buttons, grouped yarn controls, labeled sliders, visible selected states and status messages provide keyboard and touch access. The main mobile action is 54px high; the open edit panel keeps the title and upper cloth visible. Reduced motion has no material effect to disable.
 
-## Essential verification
+## Focused verification
 
-- `npm test`: **17 focused checks passed**. Includes plain/twill/satin mathematics, reverse transforms, actual raster crossing ownership, per-pick preservation, capacity, history/reset, version 1 migration and version 2 serialization.
-- `npm run typecheck`: passed, strict TypeScript.
-- Chromium **1440×900 desktop**: row 28→29 with selected Lilac/2/2 twill; saved JSON confirms old plain rows unchanged. Undo/redo/reset, Enter insertion, Ctrl+Z/Shift+Z, magnification, Escape and exact save/restore round trip passed. Both Reverse canvases and Pattern Room/Edition read the same 29-row construction after client navigation.
-- Chromium **390×844 touch / reduced motion**: weft/warp selection, sateen insertion and save-data assertions passed; shuttle stays static, Add Row is 54px high, no horizontal overflow. No browser page errors in these checks.
-- JavaScript disabled: renderer-produced static Loom cloth loads and making controls remain inactive. Desktop/mobile/macro screenshots were visually inspected against the approved references; mobile frame begins at y≈243 as designed. Screenshots are ignored local review artifacts.
-- No production build, Lighthouse, deployment or extensive QA ran. Earlier prototype/Entrance checks remain historical; no claim of a current production build or independent Awwwards score.
+- `npm run typecheck`: passed under strict TypeScript.
+- `node --import tsx --test tests/pattern-room.test.ts tests/pattern-renderer.test.ts`: passed. Six focused checks cover all-pick crossing reconstruction and reverse relation, real recoloring, graphic-only edits/undo/serialization, old-file validation, renderer cache invalidation, anchored recolor and warp-only rendering.
+- Local Chromium 1440×900: Cutwork/Ribbon changes, 2×2 repeat, global 2/2 twill, weft recolor, previous/current split and Save worked. Downloaded JSON had 28 twill picks; the exact JSON remained the same after navigating through Reverse to Loom and saving there. No horizontal overflow or page errors.
+- Local Chromium 390×844 touch/reduced-motion: mobile canvas, structure and yarn panels, sateen reweave, warp recolor, 3×3 repeat, keyboard scale and Save worked. Downloaded JSON matched those choices; no horizontal overflow or page errors. The initial view and both edit panels were visually inspected against the supplied artboards.
+- No production build, Lighthouse, deployment or comprehensive QA ran in this stage. Earlier Reverse code and material checks were committed separately; this stage does not claim a full release audit for that route.
 
-## Exact next steps
+## Remaining work and exact next steps
 
-1. Implement Reverse’s approved composition around the shared per-pick model; retain matching front/back geometry and replace the provisional concept hero only when the finished material system is ready.
-2. Implement Pattern Room’s actual repeat/scale/palette operations. Define whether repeating mixed structures preserves absolute pick phase or repeats a finite cloth tile; check repeat seams explicitly.
-3. Implement Edition’s separate print composition and output contract using the same artwork. Define format, dimensions and selected face before export.
-4. Implement Collection with the real Met 66.122.20 public-domain image and retained institutional metadata. Develop Entrance’s full physical lift interaction in its own stage.
-5. In a later authorized stage, run a production build and broader accessibility/device/performance checks, including intermediate widths, contrast, browser/Canvas fallbacks, low-end device profiling and field budgets. Inspect branch/remotes before any requested push/deployment.
+1. Build Collection around the actual public-domain Met object image and retained source metadata; keep the studio weave distinct from museum photography.
+2. Build Edition's separate print composition and real export contract (face, paper/format, output dimensions and selected arrangement) from the same visitor artwork.
+3. Complete Entrance's full lift interaction and replace its provisional concept textile when the final material presentation is approved.
+4. In a later authorized release stage, run a production build and broader accessibility, intermediate-width, low-end device and performance checks. Review image provenance/rights and factual copy before public release.
 
-Run `npm ci` then `npm run dev`; open `http://127.0.0.1:3000/loom`. The pre-existing staged `next-env.d.ts` change is preserved outside this stage’s commit. Prior local stage commits: engine `d58c408`, Entrance `c065156`.
+Run `npm ci`, then `npm run dev`; open `/pattern-room`. The project state persists during client navigation. Save a JSON file before refreshing or closing; Loom's Open cloth action restores it. This stage stops after the local commit.

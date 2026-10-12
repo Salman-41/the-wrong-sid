@@ -25,9 +25,9 @@
 
 ## Scope now
 
-- Current authorized stage: implement the complete Loom against its approved desktop/mobile compositions, using the real textile engine and shared project state.
-- Every inserted row retains its actual yarn and crossing rule. Color, structure, history, reset, progress and saved files must agree with the rendered construction. Front/reverse derive from one artwork.
-- Shuttle motion, insertion and settling must follow a real row action; no ambient cloth animation. Keyboard, touch and reduced motion retain the same making actions.
-- Verification is limited to essential interaction/mathematical checks and strict TypeScript. No Lighthouse, comprehensive QA, or deployment.
-- Do not deploy, buy services, or push during this stage.
+- Current authorized stage: implement Pattern Room against its approved desktop and mobile compositions, using the Loom and Reverse artwork as one shared source.
+- Reweaving must change each actual woven pick’s crossing rule. Recoloring must change real warp or weft yarns. Composition, repeat and scale are graphic arrangements of finite woven material and must leave the crossing data unchanged.
+- Previous/current comparison uses an actual history snapshot; undo restores the prior artwork. Save and restore preserve both construction and arrangement in the visitor file.
+- The full-bleed graphic must be cut from renderer-derived yarn surfaces. Keep the mobile composition and control placement independently authored, with native keyboard and touch controls, reduced motion and a static explanation.
+- Verification is limited to focused state/rendering/interaction checks and strict TypeScript. Do not run Lighthouse, comprehensive QA, a production build or deployment. Do not buy services or push during this stage.
 - Keep decisions and open dependencies current in `docs/BUILD_STATUS.md`.

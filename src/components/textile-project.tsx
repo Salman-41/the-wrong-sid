@@ -22,6 +22,8 @@ import {
 
 interface TextileProject {
   artwork: Artwork;
+  /** The exact snapshot immediately before the latest edit, when available. */
+  previousArtwork: Artwork | null;
   setArtwork: Dispatch<SetStateAction<Artwork>>;
   canUndo: boolean;
   canRedo: boolean;
@@ -68,6 +70,7 @@ export function TextileProjectProvider({ children }: { children: ReactNode }) {
   const project = useMemo(
     () => ({
       artwork: history.artwork,
+      previousArtwork: history.past.at(-1) ?? null,
       setArtwork,
       undo,
       redo,

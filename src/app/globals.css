@@ -3,6 +3,7 @@
 @import "../components/textile-studio.css";
 @import "../components/loom.css";
 @import "../components/reverse.css";
+@import "../components/pattern-room.css";
 
 @layer base {
   * {

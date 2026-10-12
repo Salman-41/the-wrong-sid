@@ -1,5 +1,13 @@
 # Technical architecture
 
+## Pattern Room — 2026-10-12
+
+The root `TextileProjectProvider` remains the only artwork authority and now exposes the exact snapshot before the latest edit for comparison. The version 2 visitor file accepts a validated, backward-compatible `arrangement` (`cutwork`/`ribbon`/`bias`, repeat 1–4, scale 0.75–1.75); older version 2 files receive default placement. Loom, Reverse and Pattern Room still read the same warp, weft and per-pick crossing rules.
+
+`reweaveArtwork` reconstructs every existing pick with one supported rule and updates the next-pick matrix. `recolorThreadGroup` changes matching real warp or weft yarns. `arrangeArtwork` changes only finite graphic placement. Pattern Room labels these actions separately and its comparison renders the actual prior artwork, with the same root undo/redo history. A saved JSON file contains construction and placement together.
+
+The Pattern Room Canvas cuts textures from the current cloth renderer at stable physical crossing windows, then masks them into three original graphic compositions. The resulting color fields follow actual yarn edits. A bounded cache separates costly yarn-source renders from composition tiles and cheap repeat/scale blits; the page draws on edits and resize, with a worker where supported and a main-thread fallback. Desktop and mobile use separate cut shapes. A responsive renderer-derived poster shows the initial cloth before hydration or without JavaScript. CSS/HTML own type, controls and explanations; Canvas owns material only. The cuts are graphic placements of finite cloth, not a continuous physical weave simulation.
+
 ## Interactive Loom — 2026-10-12
 
 `/loom` owns a distinct working-table composition: HTML controls/type, SVG tensioned ends and original shuttle, CSS wood frame and Canvas cloth. Mobile has its own title/frame proportions, six yarn targets, prominent row action and native warp disclosure. Existing application routes/fonts/tokens remain shared.
@@ -10,7 +18,7 @@ Artwork schema 2 adds `pickStructures`, `draftWeft` and `rowLimit`. Every row co
 
 Row insertion updates data first, then animates the acknowledged frame with dynamically loaded GSAP: shuttle pass, incoming weft, reveal and brief beater settling. Animation has a bounded completion escape and unmount cleanup; reduced motion bypasses it. Native buttons, workspace Enter/Space, undo shortcuts, live row/status outputs and a native examination dialog carry interaction semantics. Renderer-produced posters provide initial/static material.
 
-Reverse reads the actual per-pick artwork; Pattern Room and Edition read it at their preparation boundaries. Their final compositions and transformation/export contracts remain separate work. Essential verification passed 17 mathematical/construction/raster tests, strict TypeScript and desktop/mobile interaction checks; no production build or broad device/performance audit ran.
+Reverse reads the actual per-pick artwork. This section records the Loom stage; later Reverse and Pattern Room implementations are described above and in `docs/BUILD_STATUS.md`. The Loom stage passed 17 mathematical/construction/raster tests, strict TypeScript and desktop/mobile interaction checks; no broad device/performance audit ran.
 
 The following sections retain previous implementation/research decisions and stage history.
 

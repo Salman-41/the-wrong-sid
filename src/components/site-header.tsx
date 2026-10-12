@@ -34,7 +34,7 @@ export function SiteHeader() {
   }, []);
   return (
     <header
-      className={`site-header ${pathname === "/" ? "site-header--entrance" : pathname === "/loom" ? "site-header--loom" : pathname === "/reverse" ? "site-header--reverse" : ""}`}
+      className={`site-header ${pathname === "/" ? "site-header--entrance" : pathname === "/loom" ? "site-header--loom" : pathname === "/reverse" ? "site-header--reverse" : pathname === "/pattern-room" ? "site-header--pattern" : ""}`}
     >
       <Link href="/" className="site-wordmark" prefetch={false}>
         THE WRONG SIDE

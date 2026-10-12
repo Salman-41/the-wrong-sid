@@ -1,3 +1,9 @@
+import {
+  DEFAULT_ARRANGEMENT,
+  parsePatternArrangement,
+  type PatternArrangement,
+} from "./pattern-arrangement";
+
 /** Rows are weft picks; columns are warp ends. true = warp above weft on front. */
 export type Matrix = boolean[][];
 export type Face = "front" | "reverse";
@@ -18,6 +24,8 @@ export interface Artwork {
   pickStructures: Structure[];
   draftWeft: Thread;
   rowLimit: number;
+  /** Finite cloth presentation; edits here never change yarns or crossings. */
+  arrangement: PatternArrangement;
 }
 export const STRUCTURES: Record<
   Structure,
@@ -136,6 +144,7 @@ export function makeArtwork(structure: Structure = "plain"): Artwork {
     pickStructures: Array.from({ length: 60 }, () => structure),
     draftWeft: { color: PALETTE[2].color, thickness: 0.83 },
     rowLimit: 60,
+    arrangement: { ...DEFAULT_ARRANGEMENT },
     warp: Array.from({ length: 60 }, (_, i) => ({
       color: PALETTE[[1, 0][Math.floor(i / 10) % 2]].color,
       thickness: 0.79,
@@ -220,6 +229,7 @@ export function parseArtwork(json: string): Artwork {
     pickStructures: [...pickStructures],
     draftWeft: { ...draftWeft },
     rowLimit,
+    arrangement: parsePatternArrangement(value.arrangement),
   };
 }
 export function serializeArtwork(art: Artwork): string {

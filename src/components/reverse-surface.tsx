@@ -6,6 +6,13 @@ import { useClothCanvas } from './use-cloth-canvas';
 import { clampCrossing, hitCrossing, pointOnMesh, type CrossingPoint, type RevealMesh } from '@/lib/reveal';
 import { contourPath, paintReveal } from '@/lib/reveal-renderer';
 import type { Artwork, Face } from '@/lib/weave';
+import { makeLoomArtwork } from '@/lib/construction';
+
+const initialMaterial=makeLoomArtwork();
+function hasInitialMaterial(art:Artwork){
+  return art.seed===initialMaterial.seed && art.pickStructures.every(rule=>rule==='plain') && (['warp','weft'] as const).every(axis=>
+    art[axis].length===initialMaterial[axis].length && art[axis].every((thread,i)=>thread.color===initialMaterial[axis][i].color&&thread.thickness===initialMaterial[axis][i].thickness));
+}
 
 export interface ReverseSurfaceHandle { paint: (progress: number) => Face; }
 export function ReverseSurface({artwork, selection, onSelect, onReady, onKeyboard, edgeCue, ref}: {
@@ -17,6 +24,7 @@ export function ReverseSurface({artwork, selection, onSelect, onReady, onKeyboar
   const overlay=useRef<SVGSVGElement>(null), edge=useRef<SVGPathElement>(null), marker=useRef<SVGCircleElement>(null);
   const fringe=useRef<Map<string,SVGPathElement>>(new Map());
   const mesh=useRef<RevealMesh|null>(null), progress=useRef(0);
+  const economy=useRef(false);
   const [paintCount,setPaintCount]=useState(0),[surfaceError,setSurfaceError]=useState(false);
   const painted=useCallback(()=>setPaintCount(current=>current+1),[]);
   const frontRender=useClothCanvas(front,artwork,{face:'front',zoom:1,fit:'stretch',transparent:true,bottomUp:true,onPaint:painted});
@@ -27,7 +35,9 @@ export function ReverseSurface({artwork, selection, onSelect, onReady, onKeyboar
     if(!canvas.current||!front.current||!reverse.current) return next>.5?'reverse':'front';
     const bounds=canvas.current.getBoundingClientRect();if(bounds.width<1||bounds.height<1)return 'front';
     try {
-      const shape=paintReveal(canvas.current,front.current,reverse.current,next,bounds.width,bounds.height);mesh.current=shape;
+      const started=performance.now();
+      const shape=paintReveal(canvas.current,front.current,reverse.current,next,bounds.width,bounds.height,economy.current||navigator.hardwareConcurrency<=4);mesh.current=shape;
+      if(performance.now()-started>32)economy.current=true;
       canvas.current.dataset.progress=next.toFixed(4);canvas.current.dataset.rows=String(artwork.weft.length);
       if(overlay.current)overlay.current.setAttribute('viewBox',`0 0 ${bounds.width} ${bounds.height}`);
       if(edge.current) {edge.current.setAttribute('d',contourPath(shape.points.map(line=>line[shape.columns])));edge.current.style.opacity=String(Math.sin(Math.PI*next)*.8);}
@@ -67,7 +77,7 @@ export function ReverseSurface({artwork, selection, onSelect, onReady, onKeyboar
   const colors=[...new Set(artwork.warp.map(thread=>thread.color))];
   return <div className={`reverse-surface ${ready?'is-ready':''}`}>
     {artwork.weft.length>0 ? <>
-      <Image src='/images/reverse-surface-front.webp' fill sizes='(max-width: 767px) 100vw, 60vw' loading='eager' alt='' className='reverse-surface-poster' />
+      {hasInitialMaterial(artwork)&&<Image src='/images/reverse-surface-front.webp' fill sizes='(max-width: 767px) 100vw, 60vw' loading='eager' alt='' className='reverse-surface-poster' />}
       <canvas ref={front} className='reverse-texture' aria-hidden='true'/><canvas ref={reverse} className='reverse-texture' aria-hidden='true'/>
       <canvas ref={canvas} className='reverse-moving-cloth' role='img' aria-label={`Your textile, ${artwork.weft.length} woven rows. Its front and reverse use the same yarns and crossing rules.`}/>
       <svg ref={overlay} className='reverse-continuity' aria-hidden='true'><path ref={edge} fill='none' stroke='#fff0d4' strokeWidth='2' opacity='0'/>{colors.map(color=><path key={color} ref={node=>{if(node)fringe.current.set(color,node);else fringe.current.delete(color);}} fill='none' stroke={color} strokeWidth='.85' strokeLinecap='round' />)}<circle ref={marker} r='12' fill='none' stroke='#fff4de' strokeWidth='1'/></svg>
@@ -75,6 +85,6 @@ export function ReverseSurface({artwork, selection, onSelect, onReady, onKeyboar
         if(!ready||!mesh.current)return;const bounds=event.currentTarget.getBoundingClientRect();const hit=hitCrossing(mesh.current,event.clientX-bounds.left,event.clientY-bounds.top,artwork);if(hit)onSelect(hit);
       }} onKeyDown={event=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter',' '].includes(event.key)){event.preventDefault();onKeyboard(event.key);}}}/>
     </> : <div className='reverse-empty'><p className='eyebrow'>The warp is waiting</p><p>Weave a row.<br/>Then turn it over.</p><Link href='/loom' prefetch={false}>Return to the Loom ↗</Link></div>}
-    {(frontRender.error||backRender.error||surfaceError)&&<p className='reverse-render-error' role='alert'>Live material rendering is unavailable. The image is a static example of the initial cloth; the explanation remains available below.</p>}
+    {(frontRender.error||backRender.error||surfaceError)&&<p className='reverse-render-error' role='alert'>Live material rendering is unavailable. Your cloth data remain intact; return to the Loom to save them. The explanation remains available below.</p>}
   </div>;
 }

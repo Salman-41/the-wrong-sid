@@ -36,13 +36,13 @@ function paintTriangle(ctx: CanvasRenderingContext2D, tri: RevealTriangle, textu
     ctx.fillStyle=`rgba(12,6,16,${(1-tri.light)*.58})`;ctx.fill();
   }
 }
-export function paintReveal(canvas: HTMLCanvasElement, front: Texture, reverse: Texture, progress: number, width: number, height: number): RevealMesh {
+export function paintReveal(canvas: HTMLCanvasElement, front: Texture, reverse: Texture, progress: number, width: number, height: number, economy = false): RevealMesh {
   const mobile=width<600,dpr=Math.min(window.devicePixelRatio, mobile?1.5:1.75,Math.sqrt(2_500_000/(width*height)));
   const pixelWidth=Math.round(width*dpr),pixelHeight=Math.round(height*dpr);
   if(canvas.width!==pixelWidth||canvas.height!==pixelHeight){canvas.width=pixelWidth;canvas.height=pixelHeight;}
   const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Canvas 2D is unavailable.');
   ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,width,height);
-  const mesh=createRevealMesh(width,height,progress,mobile?24:40,mobile?4:7);
+  const mesh=createRevealMesh(width,height,progress,mobile?24:economy?28:40,mobile?4:economy?5:7);
   const lift=Math.sin(Math.PI*progress);
   ctx.save();ctx.translate(8+lift*23,14+lift*25);outline(ctx,mesh);ctx.fillStyle=`rgba(0,0,0,${.35-lift*.13})`;ctx.shadowColor='rgba(0,0,0,.6)';ctx.shadowBlur=12+lift*22;ctx.fill();ctx.restore();
   let foldShadowPainted=false;

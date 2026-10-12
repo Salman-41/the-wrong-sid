@@ -24,7 +24,7 @@
 .reverse-pick-surface { position: absolute; inset: 0; cursor: crosshair; }
 .reverse-pick-surface:focus-visible { outline: 1px solid #f2ede5; outline-offset: -22px; }
 .reverse-stage-caption { position: absolute; z-index: 3; bottom: 18px; left: 5%; right: 5%; display: flex; justify-content: space-between; gap: 15px; font: 9px var(--font-caption),monospace; text-transform: uppercase; letter-spacing: .15em; text-shadow: 0 1px 5px #130e17; pointer-events: none; }
-.reverse-edge-cue { position: absolute; z-index: 3; top: 54%; right: 20px; display: flex; gap: 9px; align-items: center; color: var(--color-paper); background: #130e17be; border: 1px solid #f2ede550; border-radius: 30px; padding: 6px 15px 6px 8px; min-height: 48px; box-shadow: 0 5px 20px #130e1740; }
+.reverse-edge-cue { position: absolute; z-index: 3; top: 54%; right: 20px; display: flex; gap: 9px; align-items: center; width: max-content; white-space: nowrap; color: var(--color-paper); background: #130e17be; border: 1px solid #f2ede550; border-radius: 30px; padding: 6px 15px 6px 8px; min-height: 48px; box-shadow: 0 5px 20px #130e1740; }
 .reverse-edge-cue > span:first-child { font-size: 21px; }
 .reverse-edge-cue > span:last-child { font: 9px var(--font-caption),monospace; text-transform: uppercase; letter-spacing: .1em; }
 .reverse-edge-cue:disabled { opacity: .4; }

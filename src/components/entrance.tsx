@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { LiftLink } from "@/components/lift-link";
+import { EntranceReveal } from "@/components/entrance-reveal";
 
 export function Entrance() {
   return (
-    <main id="main-content" tabIndex={-1} className="entrance">
+    <EntranceReveal>
       <svg
         width="0"
         height="0"
@@ -58,8 +58,6 @@ export function Entrance() {
           strokeWidth=".9"
         />
       </svg>
-      <LiftLink />
-      <LiftLink variant="material" />
       <div className="entrance-faces" aria-hidden="true">
         <span className="entrance-faces__front">Front</span>
         <span className="entrance-faces__line" />
@@ -73,11 +71,11 @@ export function Entrance() {
         <br />
         looking closer.
       </p>
+      <p className="entrance-image-note">Provisional concept image</p>
       <span className="sr-only">
-        The hero image is a provisional concept study. Lift the Edge opens a
-        woven model where you can lift its edge, turn it over and inspect the
-        same yarns on both faces.
+        Lift the Edge opens an on-page study of your woven model. The concept
+        image is a separate illustration, not a photograph of that model.
       </span>
-    </main>
+    </EntranceReveal>
   );
 }

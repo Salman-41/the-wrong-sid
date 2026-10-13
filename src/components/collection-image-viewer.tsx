@@ -59,6 +59,7 @@ export function CollectionImageViewer({
     const element = dialog.current;
     const surface = viewport.current;
     if (!element || !surface) return;
+    const trigger = opener.current;
     const body = document.body;
     const scrollY = window.scrollY;
     const previous = {
@@ -88,7 +89,7 @@ export function CollectionImageViewer({
       element.close();
       Object.assign(body.style, previous);
       window.scrollTo({ top: scrollY, behavior: "instant" });
-      opener.current?.focus({ preventScroll: true });
+      trigger?.focus({ preventScroll: true });
     };
   }, [open]);
 

@@ -19,6 +19,7 @@ import { insertPick, setNextStructure, resetCloth } from "@/lib/construction";
 import { useTextileProject } from "./textile-project";
 import { LoomInstrument } from "./loom-instrument";
 import { ClothView } from "./cloth-view";
+import { useClientReady } from "./use-client-ready";
 
 type Timeline = ReturnType<typeof import("gsap").gsap.timeline>;
 function downloadArtwork(data: string) {
@@ -49,8 +50,8 @@ const loomPalette = [
 export function Loom() {
   const { artwork, setArtwork, canUndo, canRedo, undo, redo, zoom, setZoom } =
     useTextileProject();
-  const [hydrated, setHydrated] = useState(false),
-    [busy, setBusy] = useState(false),
+  const hydrated = useClientReady();
+  const [busy, setBusy] = useState(false),
     [notice, setNotice] = useState("");
   const [inspectOpen, setInspectOpen] = useState(false);
   const shuttle = useRef<HTMLDivElement>(null),
@@ -76,7 +77,6 @@ export function Loom() {
     if (beater.current) beater.current.style.opacity = "0";
   }, []);
   useEffect(() => {
-    setHydrated(true);
     return () => {
       timeline.current?.kill();
       if (timeout.current) clearTimeout(timeout.current);
@@ -262,7 +262,10 @@ export function Loom() {
         </div>
         <LoomInstrument
           artwork={artwork}
-          refs={{ shuttle, insertion, beater, reveal }}
+          shuttle={shuttle}
+          insertion={insertion}
+          beater={beater}
+          reveal={reveal}
           onPaint={onPaint}
           onWeave={addRow}
           busy={busy || !hydrated}

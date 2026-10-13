@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useEffect, useEffectEvent, useRef, useState, type RefObject } from "react";
 import { renderCloth, type RenderOptions } from "@/lib/renderer";
 import type { Artwork } from "@/lib/weave";
 
@@ -12,6 +12,7 @@ export function useClothCanvas(
   artwork: Artwork,
   options: Options,
 ) {
+  const readArtwork = useEffectEvent(() => artwork);
   const worker = useRef<Worker | null>(null),
     revision = useRef(0);
   const pendingRows = useRef(artwork.weft.length),
@@ -81,6 +82,7 @@ export function useClothCanvas(
     const draw = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
+        const artwork = readArtwork();
         const rect = element.getBoundingClientRect();
         if (rect.width < 1 || rect.height < 1) return;
         const renderOptions = {
@@ -92,7 +94,7 @@ export function useClothCanvas(
           fit: options.fit,
           bottomUp: options.bottomUp,
           transparent: options.transparent,
-          focus: options.focus,
+          focus: options.focus?.end === undefined || options.focus?.pick === undefined ? undefined : { end: options.focus.end, pick: options.focus.pick },
         };
         pendingRows.current = artwork.weft.length;
         if (worker.current) {
@@ -121,6 +123,7 @@ export function useClothCanvas(
     return () => {
       observer.disconnect();
       cancelAnimationFrame(frame);
+      fallback.current = null;
     };
     // Draft yarn/rule edits do not redraw completed cloth. Only actual material or view changes do.
   }, [

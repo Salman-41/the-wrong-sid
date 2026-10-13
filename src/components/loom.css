@@ -998,3 +998,7 @@
   .loom-examine, .loom-file-actions { align-self: start; margin-top: 0; }
   .loom-structure p { min-height: 0; }
 }
+
+@media (max-width: 360px) {
+  .loom-weft-colors > div, .loom-mobile-warp fieldset > div { gap: 2px; }
+}

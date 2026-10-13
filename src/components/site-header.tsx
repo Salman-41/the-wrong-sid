@@ -36,7 +36,7 @@ export function SiteHeader() {
     <header
       className={`site-header ${pathname === "/" ? "site-header--entrance" : pathname === "/loom" ? "site-header--loom" : pathname === "/reverse" ? "site-header--reverse" : pathname === "/pattern-room" ? "site-header--pattern" : ""}`}
     >
-      <Link href="/" className="site-wordmark" prefetch={false} aria-label="The Wrong Side — Entrance">
+      <Link href="/" className="site-wordmark" prefetch={false} aria-label="THE WRONG SIDE. — Entrance">
         <span className="wordmark-the" aria-hidden="true">THE</span>
         <span className="wordmark-name" aria-hidden="true">WRONG SIDE<span className="wordmark-stop">.</span></span>
       </Link>

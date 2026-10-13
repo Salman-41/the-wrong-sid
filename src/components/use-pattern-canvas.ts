@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useEffect, useEffectEvent, useRef, useState, type RefObject } from "react";
 import { PatternRenderCache, renderPatternRoom, type PatternRenderOptions } from "@/lib/pattern-renderer";
 import type { Artwork } from "@/lib/weave";
 
@@ -12,6 +12,7 @@ export function usePatternCanvas(
   artwork: Artwork,
   options: Options,
 ) {
+  const readArtwork = useEffectEvent(() => artwork);
   const worker = useRef<Worker | null>(null);
   const cache = useRef<PatternRenderCache | null>(null);
   const revision = useRef(0);
@@ -71,6 +72,7 @@ export function usePatternCanvas(
     const draw = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
+        const artwork = readArtwork();
         const rect = element.getBoundingClientRect();
         if (rect.width < 1 || rect.height < 1) return;
         const renderOptions: PatternRenderOptions = {
@@ -105,6 +107,7 @@ export function usePatternCanvas(
     return () => {
       observer.disconnect();
       cancelAnimationFrame(frame);
+      fallback.current = null;
     };
     // Editing graphic placement does not rerender the original yarn source.
   }, [canvas, artwork.warp, artwork.weft, artwork.pickStructures, artwork.seed, options.composition, options.repeat, options.scale]);

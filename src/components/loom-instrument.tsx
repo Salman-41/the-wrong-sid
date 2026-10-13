@@ -13,17 +13,19 @@ export interface InstrumentRefs {
 }
 export function LoomInstrument({
   artwork,
-  refs,
+  shuttle,
+  insertion,
+  beater,
+  reveal,
   onPaint,
   onWeave,
   busy,
 }: {
   artwork: Artwork;
-  refs: InstrumentRefs;
   onPaint: (rows: number) => void;
   onWeave: () => void;
   busy: boolean;
-}) {
+} & InstrumentRefs) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const { ready, error } = useClothCanvas(canvas, artwork, {
     face: "front",
@@ -113,25 +115,25 @@ export function LoomInstrument({
               aria-label={`Front of your cloth, ${artwork.weft.length} inserted rows. The first row is nearest the bottom beam.`}
             />
             <div
-              ref={refs.reveal}
+              ref={reveal}
               className="loom-row-reveal"
               style={{ height: `${100 / Math.max(1, artwork.weft.length)}%` }}
             />
           </div>
           <div
-            ref={refs.insertion}
+            ref={insertion}
             className="loom-weft-insertion"
             style={{ bottom: `${progress * 100}%` }}
           />
           <div
-            ref={refs.beater}
+            ref={beater}
             className="loom-beater"
             style={{ bottom: `${progress * 100}%` }}
           />
         </div>
         <div className="loom-beam loom-beam--top" />
         <div className="loom-beam loom-beam--bottom" />
-        <div ref={refs.shuttle} className="loom-shuttle">
+        <div ref={shuttle} className="loom-shuttle">
           <LoomShuttle color={artwork.draftWeft.color} />
         </div>
       </div>

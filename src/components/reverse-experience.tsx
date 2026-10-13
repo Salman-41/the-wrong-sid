@@ -27,7 +27,7 @@ export function ReverseExperience() {
   const surface=useRef<ReverseSurfaceHandle>(null),timeline=useRef<Timeline|null>(null),pose=useRef({progress:0}),request=useRef(0),mounted=useRef(true),dialog=useRef<HTMLDialogElement>(null);
   const edgeCue=useRef<HTMLButtonElement>(null);
   const lastPhase=useRef<RevealPhase>('surface'),lastFace=useRef<Face>('front');
-  useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;request.current++;timeline.current?.kill();};},[]);
+  useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;timeline.current?.kill();};},[]);
   const updatePose=useCallback(()=>{
     const p=pose.current.progress,currentPhase=revealPhase(p),currentFace=surface.current?.paint(p)??'front';
     if(lastPhase.current!==currentPhase){lastPhase.current=currentPhase;setPhase(currentPhase);}

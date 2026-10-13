@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useTextileProject } from "./textile-project";
 import { usePatternCanvas } from "./use-pattern-canvas";
+import { useClientReady } from "./use-client-ready";
 import {
   arrangeArtwork,
   getArrangement,
@@ -64,12 +65,12 @@ function PatternArtworkCanvas({
   return (
     <div className={`pattern-art-layer ${className}`}>
       {initialPoster && (
-        <picture className="pattern-art-poster" aria-hidden="true">
+        <picture className="pattern-art-poster">
           <source
             media="(max-width: 767px)"
             srcSet="/images/pattern-room-mobile.webp"
           />
-          <img src="/images/pattern-room-desktop.webp" alt="" />
+          <img src="/images/pattern-room-desktop.webp" alt="" width={2160} height={1221} fetchPriority="high" />
         </picture>
       )}
       <canvas
@@ -114,18 +115,12 @@ export function PatternRoom() {
   const [controlsExpanded, setControlsExpanded] = useState(false);
   const [axis, setAxis] = useState<YarnAxis>("weft");
   const [sourceColor, setSourceColor] = useState(PALETTE[2].color);
-  const [scale, setScale] = useState(arrangement.scale);
-  const scaleRef = useRef(arrangement.scale);
+  const [draftScale, setDraftScale] = useState<{ base: number; value: number } | null>(null);
+  const scale = draftScale && draftScale.base === arrangement.scale ? draftScale.value : arrangement.scale;
   const [compare, setCompare] = useState(false);
   const [comparison, setComparison] = useState(50);
   const [notice, setNotice] = useState("");
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => setHydrated(true), []);
-  useEffect(() => {
-    scaleRef.current = arrangement.scale;
-    setScale(arrangement.scale);
-  }, [arrangement.scale]);
+  const hydrated = useClientReady();
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (
@@ -182,13 +177,13 @@ export function PatternRoom() {
     setNotice(`${next} by ${next} graphic repeat. The woven crossings stay the same.`);
   }
   function changeScale(next: number) {
-    scaleRef.current = next;
-    setScale(next);
+    setDraftScale({ base: arrangement.scale, value: next });
   }
   function commitScale() {
-    const next = scaleRef.current;
+    const next = scale;
     if (next === arrangement.scale) return;
     setArtwork((current) => arrangeArtwork(current, { scale: next }));
+    setDraftScale(null);
     setNotice(`Graphic scale set to ${next.toFixed(2)} times. Yarn crossings stay the same.`);
   }
   function changeStructure(next: Structure) {
@@ -203,9 +198,8 @@ export function PatternRoom() {
     setNotice(`${yarnName(selectedSource)} ${axis} yarns changed to ${yarnName(next)}. The rendered cloth uses these real yarn colors.`);
   }
   function undoChange() {
-    if (scaleRef.current !== arrangement.scale) {
-      scaleRef.current = arrangement.scale;
-      setScale(arrangement.scale);
+    if (scale !== arrangement.scale) {
+      setDraftScale(null);
       setNotice("Scale preview discarded.");
       return;
     }
@@ -213,16 +207,15 @@ export function PatternRoom() {
     setNotice("Previous artwork restored.");
   }
   function redoChange() {
-    if (scaleRef.current !== arrangement.scale) {
-      scaleRef.current = arrangement.scale;
-      setScale(arrangement.scale);
+    if (scale !== arrangement.scale) {
+      setDraftScale(null);
     }
     redo();
     setNotice("Artwork change restored.");
   }
   function save() {
     commitScale();
-    const toSave = arrangeArtwork(artwork, { scale: scaleRef.current });
+    const toSave = arrangeArtwork(artwork, { scale });
     downloadPattern(toSave);
     setNotice("Pattern, yarns and crossing rules saved together as an artwork file.");
   }

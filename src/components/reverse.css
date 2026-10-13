@@ -39,7 +39,7 @@
 .reverse-desktop-face-controls { border-top: 1px solid #f2ede529; padding-top: 22px; margin-top: 22px; }
 .reverse-face-switch { display: flex; width: 100%; min-height: 54px; padding: 4px; border-radius: 30px; background: #f2ede5; color: #211725; }
 .reverse-face-switch button { width: 50%; min-height: 46px; border: 0; border-radius: 30px; color: inherit; background: transparent; font-size: 13px; }
-.reverse-face-switch button[aria-pressed=true] { background: #c54e32; color: #f9f5ed; }
+.reverse-face-switch button[aria-pressed=true] { background: #ad3f28; color: #f9f5ed; }
 .reverse-inspect { display: flex; width: 100%; min-height: 48px; align-items: center; justify-content: space-between; border: 0; border-bottom: 1px solid #f2ede538; color: #f2ede5; background: none; padding: 0; margin-top: 19px; font-size: 12px; text-align: left; }
 .reverse-inspect span { font-size: 25px; }
 .reverse-selection-hint { font-size: 10px; line-height: 1.8; color: #b6a8ba; margin: 15px 0; }

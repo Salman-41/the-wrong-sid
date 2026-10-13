@@ -4,9 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { useTextileProject } from "./textile-project";
-import { renderEdition, EditionRenderCache } from "@/lib/edition-renderer";
-import { loadEditionFonts } from "@/lib/edition-fonts";
-import { parseArtwork, serializeArtwork, clothDescription, type Artwork } from "@/lib/weave";
+import { useEditionCanvas } from "./use-edition-canvas";
+import { parseArtwork, serializeArtwork, clothDescription } from "@/lib/weave";
 import { EDITION_BACKGROUNDS, EDITION_FORMATS, EDITION_LAYOUTS, parseEditionSettings, type EditionSettings } from "@/lib/edition-settings";
 import "./edition.css";
 
@@ -20,9 +19,8 @@ export function Edition() {
   const { artwork, setArtwork } = useTextileProject();
   const s = artwork.edition, format = EDITION_FORMATS[s.format];
   const canvas = useRef<HTMLCanvasElement>(null), surface = useRef<HTMLDivElement>(null), input = useRef<HTMLInputElement>(null);
-  const renderCache = useRef<EditionRenderCache | null>(null);
-  const [width, setWidth] = useState(720), [ready, setReady] = useState(false);
-  const [paintedArtwork, setPaintedArtwork] = useState<Artwork | null>(null);
+  const [width, setWidth] = useState(720);
+  const { ready, paintedArtwork, error: renderError } = useEditionCanvas(canvas, artwork, width);
   const [busy, setBusy] = useState(false), [exportFormat, setExportFormat] = useState<"png" | "svg">("png");
   const [message, setMessage] = useState(""), [error, setError] = useState("");
   useEffect(() => {
@@ -31,19 +29,6 @@ export function Edition() {
     const measure = () => setWidth(Math.max(240, Math.min(960, Math.round(element.clientWidth * Math.min(window.devicePixelRatio || 1, 1.5)))));
     const observer = new ResizeObserver(measure); observer.observe(element); measure(); return () => observer.disconnect();
   }, []);
-  useEffect(() => {
-    let cancelled = false;
-    const timer = setTimeout(() => {
-      loadEditionFonts().then(() => {
-        if (cancelled || !canvas.current) return;
-        renderCache.current ??= new EditionRenderCache();
-        renderEdition(canvas.current, artwork, width, undefined, renderCache.current);
-        setReady(true);
-        setPaintedArtwork(artwork);
-      }).catch(() => { if (!cancelled) { setReady(false); setError("The print preview could not load. Refresh to try again."); } });
-    }, 75);
-    return () => { cancelled = true; clearTimeout(timer); };
-  }, [artwork, width]);
   function edit(patch: Partial<EditionSettings>) {
     setError(""); setMessage("");
     setArtwork((current) => ({ ...current, edition: parseEditionSettings({ ...current.edition, ...patch }) }));
@@ -82,7 +67,7 @@ export function Edition() {
       </header>
       <figure className="edition-preview">
         <div className="edition-print"><div ref={surface} className="edition-print-surface" style={{ aspectRatio: format.width + " / " + format.height }}>
-          {!ready && s.layout === "graphic-edition" && s.format === "portrait" ? <Image src="/images/edition-initial.webp" alt="Initial studio cloth, composed as a graphic edition." width={720} height={960} preload unoptimized className="edition-static-preview" /> : null}
+          {!ready && s.layout === "graphic-edition" && s.format === "portrait" ? <Image src="/images/edition-initial.webp" alt="Initial studio cloth, composed as a graphic edition." width={720} height={960} preload sizes="(max-width: 720px) 294px, (max-width: 1100px) 50vw, 38vw" className="edition-static-preview" /> : null}
           <canvas ref={canvas} className={ready ? "edition-canvas is-ready" : "edition-canvas"} role="img" aria-label={EDITION_LAYOUTS[s.layout].label + ", " + s.face + " face of your " + clothDescription(artwork) + ", with " + artwork.weft.length + " woven rows. Title: " + (s.title || "preset title") + "."} />
           {!artwork.weft.length ? <div className="edition-empty"><p>A print begins with a cloth.</p><Link href="/loom" prefetch={false}>Weave your first row →</Link></div> : null}
         </div></div>
@@ -114,7 +99,7 @@ export function Edition() {
         <label className="edition-export-format"><span className="sr-only">Export file format</span><select value={exportFormat} disabled={busy} aria-label="Export file format" onChange={(e) => setExportFormat(e.target.value as "png" | "svg")}><option value="png">High-resolution PNG</option><option value="svg">SVG with embedded yarns</option></select></label>
         <button className="edition-export-button" type="button" disabled={busy || !ready || paintedArtwork !== artwork || !artwork.weft.length} onClick={exportArtwork}>{busy ? "Preparing edition…" : "Export your edition"}<span aria-hidden="true">→</span></button>
         {exportFormat === "svg" ? <p className="edition-export-note">Vector type and diagrams. Yarn textures are embedded images.</p> : null}
-        <p className="edition-status" role="status" aria-live="polite">{message}</p>{error ? <p className="edition-error" role="alert">{error}</p> : null}
+        <p className="edition-status" role="status" aria-live="polite">{message}</p>{error || renderError ? <p className="edition-error" role="alert">{error || "The print preview could not load. Your project can still be saved."}</p> : null}
       </div>
     </main>
   );

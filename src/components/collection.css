@@ -238,3 +238,7 @@
   .collection-turn-page a .eyebrow { font-size: 9px; letter-spacing: .03em; }
   .collection-turn-page a > span:not(.eyebrow) { font-size: 24px; }
 }
+
+@media (max-width: 360px) {
+  .collection-modes--horizontal { flex-wrap: wrap; justify-content: flex-start; gap: 0 18px; }
+}

@@ -24,7 +24,7 @@ export function Entrance() {
           <Image
             src="/images/entrance-textile.webp"
             fill
-            sizes="(max-width: 767px) 154vw, 65vw"
+            sizes="(max-width: 767px) 154vw, (max-width: 1000px) and (orientation: portrait) 120vw, 65vw"
             preload
             quality={85}
             className="entrance-textile"

@@ -21,9 +21,8 @@ export function HomepageFeatures() {
         <p className="home-making-mobile-deck">Build your own cloth, one crossing at a time.</p>
         <figure className="home-making-art">
           <picture>
-            <source media="(max-width: 700px)" srcSet="/images/home-loom-mobile.webp" width="620" height="700" />
+            <source media="(max-width: 1100px)" srcSet="/images/home-loom-mobile.webp" width="620" height="700" />
             {/* These small, pre-sized renderer posters need no runtime image transformation. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/images/home-loom-desktop.webp" width="960" height="860" loading="lazy" decoding="async" alt="A studio twill study on a loom: long cotton, indigo, vermilion and ochre warp threads meet interlaced rows of cloth." />
           </picture>
           <figcaption className="eyebrow">A studio study in 2/2 twill</figcaption>
@@ -57,7 +56,7 @@ export function HomepageFeatures() {
           </figcaption>
         </figure>
         <div className="home-collection-copy">
-          <p className="home-collection-lede">A small fragment.<br />A longer story.</p>
+          <p className="home-collection-lede">A small fragment.<br /> A longer story.</p>
           <p>Red and blue stitches cross a linen ground. Just 11 × 11.5 cm, this surviving cloth holds both pattern and the traces of wear.</p>
           <Action href="/collection">Explore the Collection</Action>
         </div>

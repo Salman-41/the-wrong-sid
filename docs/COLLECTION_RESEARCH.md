@@ -93,7 +93,7 @@ All twelve files in `public/images/collection/` are locally stored WebP derivati
 - **Dimensions and accession:** H x W 80 x 64.1 cm (31 1/2 x 25 1/4 in.); 1937-75-1.
 - **Institution and credit line:** Cooper Hewitt, Smithsonian Design Museum; Gift of Mrs. Montgomery Hare.
 - **Image rights and credit:** The selected image media and metadata are CC0. Smithsonian says attribution is not required; a basic institution, object, and source credit is helpful. Suggested credit: “Cooper Hewitt, Smithsonian Design Museum, 1937-75-1, CC0.”
-- **Object record:** [Cooper Hewitt, object 56597](https://collection.cooperhewitt.org/view/objects/asitem/id/56597).
+- **Object record:** [Smithsonian record for Cooper Hewitt 1937-75-1](https://www.si.edu/object/darning-sampler%3Achndm_1937-75-1).
 - **Download used:** [Smithsonian high-resolution JPEG](https://ids.si.edu/ids/download?id=CHSDM-CAB7E961C30E2-000001.jpg), 6,905 x 8,463 px → [`cooper-hewitt-1937-75-1-darning-sampler.webp`](../public/images/collection/cooper-hewitt-1937-75-1-darning-sampler.webp).
 - **Looking note:** Fifteen darning crosses and two corner mends gather around a center inscription reading GD 1711.
 
@@ -104,7 +104,7 @@ All twelve files in `public/images/collection/` are locally stored WebP derivati
 - **Dimensions and accession:** H x W 11 x 11.5 cm (4 5/16 x 4 1/2 in.); 1951-111-34.
 - **Institution and credit line:** Cooper Hewitt, Smithsonian Design Museum; Gift of Frances Morris.
 - **Image rights and credit:** Selected media and metadata are CC0. Attribution is not required; a basic credit and source link are helpful. Suggested credit: “Cooper Hewitt, Smithsonian Design Museum, 1951-111-34, CC0.”
-- **Object record:** [Cooper Hewitt, object 103491](https://collection.cooperhewitt.org/view/objects/asitem/id/103491).
+- **Object record:** [Smithsonian record for Cooper Hewitt 1951-111-34](https://www.si.edu/object/textile%3Achndm_1951-111-34).
 - **Download used:** [Smithsonian high-resolution JPEG](https://ids.si.edu/ids/download?id=CHSDM-FED70F4EB4222-000001.jpg), 2,827 x 2,914 px → [`cooper-hewitt-1951-111-34-textile.webp`](../public/images/collection/cooper-hewitt-1951-111-34-textile.webp).
 - **Looking note:** The record describes a band of angular S-shapes on linen, worked in red and blue cross stitch; the textile measures about eleven centimeters across.
 

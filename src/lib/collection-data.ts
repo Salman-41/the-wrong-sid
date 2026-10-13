@@ -157,7 +157,7 @@ export const HISTORICAL_TEXTILES = [
     materials: ["cotton", "silk"],
     techniques: [
       "warp ikat woven bands",
-      "embroidered silk-floss or metal-thread panels",
+      "embroidered panels",
     ],
     dimensions: "L. 52 x W. 52 in. (132.1 x 132.1 cm)",
     accessionNumber: "1988.104.1",
@@ -388,8 +388,8 @@ export const HISTORICAL_TEXTILES = [
     accessionNumber: "1937-75-1",
     creditLine: "Gift of Mrs. Montgomery Hare",
     institution: "Cooper Hewitt, Smithsonian Design Museum",
-    objectUrl: "https://collection.cooperhewitt.org/view/objects/asitem/id/56597",
-    recordSourceUrl: "https://collection.cooperhewitt.org/view/objects/asitem/id/56597",
+    objectUrl: "https://www.si.edu/object/darning-sampler%3Achndm_1937-75-1",
+    recordSourceUrl: "https://www.si.edu/object/darning-sampler%3Achndm_1937-75-1",
     rights: {
       status: "CC0",
       checkedAt: COLLECTION_RETRIEVED_AT,
@@ -429,8 +429,8 @@ export const HISTORICAL_TEXTILES = [
     accessionNumber: "1951-111-34",
     creditLine: "Gift of Frances Morris",
     institution: "Cooper Hewitt, Smithsonian Design Museum",
-    objectUrl: "https://collection.cooperhewitt.org/view/objects/asitem/id/103491",
-    recordSourceUrl: "https://collection.cooperhewitt.org/view/objects/asitem/id/103491",
+    objectUrl: "https://www.si.edu/object/textile%3Achndm_1951-111-34",
+    recordSourceUrl: "https://www.si.edu/object/textile%3Achndm_1951-111-34",
     rights: {
       status: "CC0",
       checkedAt: COLLECTION_RETRIEVED_AT,

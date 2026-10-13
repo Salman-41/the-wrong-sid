@@ -86,7 +86,7 @@
   .home-making-title { font-size: 7.2vw; }
   .home-making-art { align-self: stretch; }
   .home-making-art picture { height: calc(100% - 36px); }
-  .home-making-art img { height: 100%; object-fit: cover; object-position: 46% center; }
+  .home-making-art img { height: 100%; object-fit: contain; object-position: center top; }
   .home-making-copy .home-making-lede { font-size: 16px; }
   .home-making-copy p { font-size: 13px; }
   .home-making-copy .home-action { margin: 8px 0 16px; }
@@ -104,7 +104,7 @@
   .home-section-rule > p:last-child { display: none; }
   .home-making { padding: 26px 6% 25px; }
   .home-making-layout { display: flex; flex-direction: column; padding-top: 22px; }
-  .home-making-title { margin: 0; font-size: clamp(43px, 11.9vw, 78px); line-height: 1.07; letter-spacing: -.055em; }
+  .home-making-title { margin: 0; font-size: clamp(38px, 11.9vw, 78px); line-height: 1.07; letter-spacing: -.055em; }
   .home-making-title > span > span { display: inline; }
   .home-making-mobile-deck { display: block; font-size: 12px; line-height: 1.6; margin: 14px 0 23px; }
   .home-making-art { width: 100%; }
@@ -132,7 +132,7 @@
   .home-footer { padding: 25px 6% 12px; }
   .home-footer-statement { margin: 26px 0 24px; font-size: clamp(45px, 13.8vw, 88px); line-height: .98; letter-spacing: -.05em; }
   .home-footer-statement span { display: block; }
-  .home-footer nav { gap: 0 22px; }
+  .home-footer nav { display: grid; grid-template-columns: repeat(3, max-content); gap: 0 20px; }
   .home-footer nav a { font-size: 9px; }
   .entrance-image-note { right: auto; left: 7%; bottom: 17px; font-size: 8px; }
   .entrance--revealed { min-height: 100svh; }

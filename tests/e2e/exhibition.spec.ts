@@ -25,6 +25,9 @@ test("make, reweave, reverse, arrange, collect and export the same visitor texti
   test.setTimeout(120_000);
   const errors: string[] = []; page.on("pageerror", e => errors.push(e.message));
   await page.goto("/"); await page.getByRole("link", { name: "Lift the edge", exact: false }).first().click();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.locator('.entrance-cloth-study canvas')).toHaveAttribute('data-rows', '28');
+  await page.getByRole('link', { name: 'Explore the Reverse' }).click();
   await expect(page).toHaveURL(/\/reverse$/); await go(page, "Loom");
   await page.locator(".loom-material.is-ready").waitFor();
   await page.getByRole("button", { name: "Reset", exact: true }).click();

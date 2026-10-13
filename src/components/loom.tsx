@@ -426,6 +426,7 @@ export function Loom() {
               type="file"
               accept=".json,application/json"
               className="sr-only"
+              tabIndex={-1}
               aria-label="Restore artwork file"
               onChange={(event) => void restore(event.target.files?.[0])}
             />

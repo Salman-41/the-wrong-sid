@@ -173,7 +173,7 @@
   .collection-object-date { font-size: 22px; }
   .collection-opening-facts { border-top: 0; padding: 0; margin: 15px 0 30px; }
   .collection-opening-facts > div + div { margin-top: 16px; }
-  .collection-opening-facts dt { display: none; }
+  .collection-opening-facts dt { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
   .collection-opening-facts dd { margin: 0; max-width: 32ch; font-size: 14px; }
   .collection-opening-facts .collection-accession { font-size: 11px; margin-top: 9px; }
   .collection-image-credit { font-size: 11px; }

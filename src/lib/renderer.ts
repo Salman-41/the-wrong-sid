@@ -9,6 +9,8 @@ export interface RenderOptions {
   fit?: "contain" | "stretch";
   bottomUp?: boolean;
   transparent?: boolean;
+  /** Explicit export-only budget; live surfaces retain the four-million-pixel default. */
+  pixelBudget?: number;
   /** Original yarn coordinates; reverse mirrors around this same physical crossing. */
   focus?: { end: number; pick: number };
 }
@@ -35,7 +37,7 @@ export function renderCloth(
   const dpr = Math.min(
     options.dpr ?? 1,
     2,
-    Math.sqrt(4_000_000 / (width * height)),
+    Math.sqrt(Math.min(12_000_000, Math.max(1, options.pixelBudget ?? 4_000_000)) / (width * height)),
   );
   canvas.width = Math.round(width * dpr);
   canvas.height = Math.round(height * dpr);

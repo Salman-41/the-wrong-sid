@@ -11,7 +11,7 @@
 
 - Distinguish real collection objects, original illustrative studies, generated concept imagery, and user-created patterns in the interface and asset metadata.
 - Never imply the hero concept image depicts a real historical textile or is a verified reverse face.
-- The Collection record is The Met 66.122.20. Use its own Open Access public-domain image before release; never label the current constructed weave illustration as museum photography.
+- Historical Collection records use verified institution-supplied photographs, starting with The Met 66.122.20. Never label a constructed weave illustration as museum photography.
 - Describe weaving accurately; mark diagrams as simplified studies where they omit yarn geometry, tension, density, or loom mechanics.
 - Record each source, rights basis, attribution requirement, download date, and local filename in the asset register.
 
@@ -25,8 +25,9 @@
 
 ## Scope now
 
-- Current authorized stage: research and curate factual museum textile records with reusable images. This stage prepares the Collection data and assets only; do not implement or redesign the Collection interface yet.
+- Current authorized stage: implement Edition's three editorial layouts, accurate preview, high-resolution PNG and genuinely supported SVG, project save/reload and return to editing. Use the same visitor artwork as Loom, Reverse and Pattern Room.
+- Export the artwork composition alone. Declare embedded raster yarn surfaces honestly when offering hybrid SVG; do not claim fully vector or physically exact fabric output.
 - Keep historical objects and museum photographs separate from visitor-created `Artwork` / `TextileProject` state. Preserve exact institutional titles, date strings, source medium wording, accession numbers, rights status, and documented attribution. Use null when the museum does not supply a value.
 - Verify reuse rights at the selected image/media level. Record the object source, image download URL, retrieval date, local filename, image dimensions, and attribution guidance. Preserve institutional context and identify any uncertain or reviewed attribution.
 - Never fabricate a historical reverse, motif meaning, maker, geography, technique, or date. A local image is the documented source view unless the record explicitly identifies otherwise.
-- Keep decisions and open dependencies current in `docs/BUILD_STATUS.md`. Do not build the page, deploy, buy services, or push during this research stage.
+- Run only focused export/artwork checks, TypeScript and brief desktop/mobile interactions. Update `docs/BUILD_STATUS.md`, commit locally and stop. Do not deploy, buy services, push or begin another experience.

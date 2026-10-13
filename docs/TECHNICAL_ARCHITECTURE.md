@@ -1,5 +1,15 @@
 # Technical architecture
 
+## Edition — 2026-10-13
+
+Validated `edition` settings extend version 2 artwork JSON with layout, fixed pixel format, paper, face, crop/scale and optional text. Missing settings receive defaults. The root project remains the construction authority; print edits preserve yarns and pick rules.
+
+`edition-renderer.ts` builds one normalized scene for browser Canvas, high-resolution PNG and hybrid SVG. Crops sample real finite cloth; Material Study derives its simplified diagram from the same physical window, mirroring/complementing the reverse. Graphic Edition arranges finite cuttings according to the saved graphic composition. It does not reweave them.
+
+Preview coalesces updates, waits for local fonts and caches bounded material surfaces. `POST /api/edition/export` validates the project and format, renders with `@napi-rs/canvas` in Node, and returns a no-store attachment with exact dimensions. No project is stored. Input is bounded to 150 KB before artwork validation (100 KB); output presets are 2400×3200, 2800×2800 and 3200×2400. The renderer permits an explicit export pixel budget while preserving the live default. Temporary export canvases are released after encoding/blitting.
+
+SVG embeds detailed yarn PNGs and preserves vector clipping, rules and diagrams. Licensed font glyphs are outlined individually for portable display; embedded images remain intact. Exports render independently of website controls. Native Canvas is a runtime dependency externalized in Next configuration. Production packaging and load profiling remain a release gate.
+
 ## Pattern Room — 2026-10-12
 
 The root `TextileProjectProvider` remains the only artwork authority and now exposes the exact snapshot before the latest edit for comparison. The version 2 visitor file accepts a validated, backward-compatible `arrangement` (`cutwork`/`ribbon`/`bias`, repeat 1–4, scale 0.75–1.75); older version 2 files receive default placement. Loom, Reverse and Pattern Room still read the same warp, weft and per-pick crossing rules.
@@ -39,7 +49,7 @@ The textile-engine stage now implements Next 16 / React 19, a deterministic Type
 - **Next.js 16 App Router + React 19.2 + TypeScript.** Current official release information indicates compatibility, with Next 16 requiring Node.js 20.9+ and TypeScript 5.1+. Use current stable patch releases at project start, lock dependencies, and follow the v16 async API migration notes. No compatibility blocker found.
 - **GSAP 3.x** for a small set of authored, interaction-led transitions. Use scoped contexts/`useGSAP`, clean up on unmount, and `matchMedia` for responsive and reduced-motion behavior. Keep content and state transitions functional without animation. Check current GSAP license for chosen use and plugins before adoption.
 - **SVG and semantic HTML as default rendering.** The pack is vector editorial art; HTML carries text/controls and SVG serves precise diagrams/patterns. Use Canvas 2D only if profiling shows a genuine need for dense dynamic marks or a larger configurable textile surface. No Three.js/WebGL requirement is evident.
-- **Server-first routes, small client islands.** Keep collection copy and stable page structure server rendered; isolate Loom, Reverse, Pattern Room, Edition and Entrance controls/animations as client components. Store artwork as structured pattern data where practical, render vector output deterministically, and allow export without a server dependency.
+- **Server-first routes, small client islands.** Keep collection copy and stable page structure server rendered; isolate Loom, Reverse, Pattern Room, Edition and Entrance controls/animations as client components. Store artwork as structured data and render deterministically; high-resolution Edition export uses the application's own stateless Node route.
 
 ## Experience boundaries
 

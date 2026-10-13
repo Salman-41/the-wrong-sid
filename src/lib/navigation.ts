@@ -4,7 +4,7 @@ export const experiences = [
   { href: "/reverse", name: "Reverse", status: "available" },
   { href: "/pattern-room", name: "Pattern Room", status: "available" },
   { href: "/collection", name: "Collection", status: "available" },
-  { href: "/edition", name: "Edition", status: "planned" },
+  { href: "/edition", name: "Edition", status: "available" },
 ] as const;
 
 export const primaryNavigation = [

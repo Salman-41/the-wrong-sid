@@ -3,6 +3,7 @@ import {
   parsePatternArrangement,
   type PatternArrangement,
 } from "./pattern-arrangement";
+import { DEFAULT_EDITION, parseEditionSettings, type EditionSettings } from "./edition-settings";
 
 /** Rows are weft picks; columns are warp ends. true = warp above weft on front. */
 export type Matrix = boolean[][];
@@ -26,6 +27,8 @@ export interface Artwork {
   rowLimit: number;
   /** Finite cloth presentation; edits here never change yarns or crossings. */
   arrangement: PatternArrangement;
+  /** A print composition; it never changes the yarns or their crossings. */
+  edition: EditionSettings;
 }
 export const STRUCTURES: Record<
   Structure,
@@ -145,6 +148,7 @@ export function makeArtwork(structure: Structure = "plain"): Artwork {
     draftWeft: { color: PALETTE[2].color, thickness: 0.83 },
     rowLimit: 60,
     arrangement: { ...DEFAULT_ARRANGEMENT },
+    edition: { ...DEFAULT_EDITION },
     warp: Array.from({ length: 60 }, (_, i) => ({
       color: PALETTE[[1, 0][Math.floor(i / 10) % 2]].color,
       thickness: 0.79,
@@ -230,6 +234,7 @@ export function parseArtwork(json: string): Artwork {
     draftWeft: { ...draftWeft },
     rowLimit,
     arrangement: parsePatternArrangement(value.arrangement),
+    edition: parseEditionSettings(value.edition),
   };
 }
 export function serializeArtwork(art: Artwork): string {

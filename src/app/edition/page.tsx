@@ -1,14 +1,9 @@
 import type { Metadata } from "next";
-import { ExperienceInPreparation } from "@/components/experience-in-preparation";
-import { ProjectContinuity } from "@/components/project-continuity";
+import { Edition } from "@/components/edition";
 export const metadata: Metadata = {
   title: "Edition",
-  robots: { index: false, follow: true },
+  description: "Compose your own woven textile as a full-bleed print, a material study, or a graphic edition. Export the finished artwork in high resolution.",
 };
 export default function EditionPage() {
-  return (
-    <ExperienceInPreparation name="Edition">
-      <ProjectContinuity destination="edition" />
-    </ExperienceInPreparation>
-  );
+  return <Edition />;
 }

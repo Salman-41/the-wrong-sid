@@ -1,6 +1,31 @@
 # Build status
 
-**State: Collection research and image preparation complete locally; Collection interface not implemented.** Updated 2026-10-12 (Asia/Karachi). Entrance, Loom, Reverse and Pattern Room have working routes; Collection data is prepared and Edition remains in preparation. No push, deployment or service purchase occurred.
+**State: Edition implemented and validated locally.** Updated 2026-10-13 (Asia/Karachi). All six experiences have working routes. Entrance still uses its authorized provisional concept textile. No push, deployment or service purchase occurred.
+
+## Edition delivered
+
+- Read both approved Edition artboards, the shared project model and yarn renderer. The page is a paper-and-print workspace: oversized Didot introduction, framed artwork, composition choices and a restrained settings rail. Mobile has its own preset strip, 44px background controls and persistent export action. HTML owns the controls; no artboard screenshot is used as the interface.
+- **Full bleed:** actual cloth fills the sheet, with a quiet signature. **Material study:** a macro window, refined annotations and a simplified diagram of the same physical crossings. **Graphic edition:** curved cloth cuttings, expressive type and finite repeat slips derived from the Pattern Room arrangement. Each preset has a distinct scene.
+- Choose portrait (2400×3200), square (2800×2800) or landscape (3200×2400), ivory/plum/vermilion paper, front/reverse, bounded scale/crop and optional title/credit. Reverse mirrors and complements the same yarn crossings. Composition edits never change construction.
+- Backward-compatible version 2 artwork files include validated `edition` settings. Save/Open carries the textile, Pattern Room placement and print together. Older files receive defaults; client navigation retains the root project. Return to editing opens Pattern Room. No automatic storage.
+- PNG is rendered anew at the stated dimensions from actual data and the editorial scene. SVG is a truthful hybrid: outlined type, cut boundaries, rules and crossing diagrams are vectors; procedural yarn surfaces are embedded PNGs. Both exclude website controls, external resources and museum photographs.
+- Preview/export share the scene and local licensed fonts. Preview is capped at 960px width/DPR 1.5, coalesces changes and caches at most four material surfaces/three million pixels. Type/paper changes reuse yarns. Export runs in the application's Node route with the existing native Canvas dependency, bounded input and fixed sizes; no purchased service. The live renderer's four-million-pixel default remains unchanged.
+- A renderer-derived WebP covers first paint/no-JavaScript viewing and is described as the initial studio cloth. Native radios, selects, labeled ranges, crop presets and status messages support keyboard/touch. No motion is required.
+
+## Collection interface checkpoint
+
+- The Collection implementation is already committed in `65b0e55`. Eleven verified textiles appear as an editorial publication with individually composed plates, source credits and technique/material/place browsing.
+- Object-specific routes preserve authentic proportions, documented facts, attribution caveats, source links and related-work explanations. High-resolution works have an accessible examination viewer; the small Met starter stays at native resolution. Museum data remains separate from visitor artwork.
+- This stage confirmed the publication opening image and Met bedding detail route load and decode in Chromium. Earlier focused metadata/image checks ran during implementation; this is not a comprehensive Collection audit.
+
+## Edition verification
+
+- `npm run typecheck`: passed under strict TypeScript.
+- `node --import tsx --test tests/edition.test.ts tests/weave.test.ts`: passed. Focused checks cover settings/legacy serialization, bounded crop, mirrored/complemented reverse windows, distinct scenes, all three actual portrait PNGs, yarn recoloring, cache reuse/invalidation and self-contained SVG. Existing weave mathematics still pass.
+- Actual high-resolution PNGs for all three layouts were visually inspected, alongside the browser-rendered SVG. These are finished artwork surfaces, not screenshots of the page.
+- Chromium 1440×900: layout/format/face/crop/title/credit changes, 3200×2400 PNG/SVG downloads, Save/Open after refresh and return-to-editing navigation worked. SVG rendered material, vector diagram and outlined type. No horizontal overflow or page errors.
+- Chromium 390×844 touch/reduced-motion: presets, square format, plum paper, title/crop refinements and a real 2800×2800 PNG download worked. Initial print and expanded controls were visually inspected; no horizontal overflow or page errors.
+- No production build, Lighthouse, deployment or extensive QA. A Node runtime with native Canvas and bundled fonts is required for export; production packaging remains a later check. Yarn geometry is a visual approximation, not exact fabric mechanics.
 
 ## Collection research delivered
 
@@ -8,7 +33,7 @@
 - Downloaded and organized twelve museum-supplied image files at `public/images/collection/`, including a real Smithsonian quilt detail. These are optimized WebP derivatives of verified Met Public Domain, CMA CC0, and Smithsonian media marked CC0 sources. Original source links and dimensions are retained with the typed records. Local images were inspected together for composition and legibility.
 - `docs/COLLECTION_RESEARCH.md` records each source, object facts, rights, image link, local asset, and cautious editorial looking note. `docs/ASSET_REGISTER.md` includes file dimensions, byte sizes and SHA-256 checksums.
 - The Met starter object image is only 581 × 680 px and remains at native dimensions. The Silk Quilt's current maker attribution is explicitly flagged as under institutional review. The Pullen quilt's catalog describes writing on its reverse, but the bundled local image is not labeled or presented as that reverse.
-- No Collection interface, redesign, or visitor-artwork integration was implemented.
+- Research initially prepared metadata/images only; the separate Collection checkpoint above records the later interface implementation.
 
 ## Pattern Room delivered
 
@@ -20,7 +45,7 @@
 - Previous/current uses the exact snapshot before the last edit, with an adjustable visual split. Undo/redo use the root project history. Save downloads the same artwork JSON that Loom can restore. The cloth and arrangement stay intact through client navigation to Reverse and Loom. Initial renderer-derived desktop/mobile WebP posters cover first paint and no-JavaScript viewing; edited artwork is never represented by that initial poster.
 - Native buttons, grouped yarn controls, labeled sliders, visible selected states and status messages provide keyboard and touch access. The main mobile action is 54px high; the open edit panel keeps the title and upper cloth visible. Reduced motion has no material effect to disable.
 
-## Focused verification
+## Pattern Room verification
 
 - `npm run typecheck`: passed under strict TypeScript.
 - `node --import tsx --test tests/pattern-room.test.ts tests/pattern-renderer.test.ts`: passed. Six focused checks cover all-pick crossing reconstruction and reverse relation, real recoloring, graphic-only edits/undo/serialization, old-file validation, renderer cache invalidation, anchored recolor and warp-only rendering.
@@ -30,9 +55,8 @@
 
 ## Remaining work and exact next steps
 
-1. Build the Collection interface from `HISTORICAL_TEXTILES`: preserve the object-record source link, accession, credit and image rights with each view; expose the documented looking note; keep museum records separate from visitor `Artwork` data. Use the available responsive image files and avoid enlarging the 66.122.20 starter image beyond its native size.
-2. Build Edition's separate print composition and real export contract (face, paper/format, output dimensions and selected arrangement) from the same visitor artwork.
-3. Complete Entrance's full lift interaction and replace its provisional concept textile when the final material presentation is approved.
-4. In a later authorized release stage, run a production build and broader accessibility, intermediate-width, low-end device and performance checks. Recheck object records, attribution notes and image permissions before public release.
+1. Complete Entrance's full lift interaction and replace its provisional concept textile when the final material presentation is approved.
+2. In a later authorized release stage, run a production build, verify native Canvas/font packaging and export errors in the intended host, then perform broader accessibility, intermediate-width, low-end device and performance checks.
+3. Recheck museum records, attribution caveats and image permissions before release. Recover or replace the provisional Entrance image's provenance.
 
-The app's `/collection` route remains a preparation placeholder. The existing visitor artwork still persists across Loom, Reverse and Pattern Room. This stage stops with research metadata and assets; no page implementation or deployment was performed.
+This stage stops with Edition implemented, focused checks complete and a local commit. No deployment or push is authorized in this stage.

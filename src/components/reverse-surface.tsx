@@ -7,6 +7,7 @@ import { clampCrossing, hitCrossing, pointOnMesh, type CrossingPoint, type Revea
 import { contourPath, paintReveal } from '@/lib/reveal-renderer';
 import type { Artwork, Face } from '@/lib/weave';
 import { makeLoomArtwork } from '@/lib/construction';
+import { clothWindow } from '@/lib/renderer';
 
 const initialMaterial=makeLoomArtwork();
 function hasInitialMaterial(art:Artwork){
@@ -27,8 +28,8 @@ export function ReverseSurface({artwork, selection, onSelect, onReady, onKeyboar
   const economy=useRef(false);
   const [paintCount,setPaintCount]=useState(0),[surfaceError,setSurfaceError]=useState(false);
   const painted=useCallback(()=>setPaintCount(current=>current+1),[]);
-  const frontRender=useClothCanvas(front,artwork,{face:'front',zoom:1,fit:'stretch',transparent:true,bottomUp:true,onPaint:painted});
-  const backRender=useClothCanvas(reverse,artwork,{face:'reverse',zoom:1,fit:'stretch',transparent:true,bottomUp:true,onPaint:painted});
+  const frontRender=useClothCanvas(front,artwork,{face:'front',zoom:1,fit:'cover',transparent:true,bottomUp:true,onPaint:painted});
+  const backRender=useClothCanvas(reverse,artwork,{face:'reverse',zoom:1,fit:'cover',transparent:true,bottomUp:true,onPaint:painted});
   const ready=frontRender.ready&&backRender.ready&&!surfaceError&&artwork.weft.length>0;
   const paint=useCallback((next:number):Face=>{
     progress.current=next;
@@ -47,15 +48,17 @@ export function ReverseSurface({artwork, selection, onSelect, onReady, onKeyboar
         const top=Math.max(100,Math.min(stage.height-125,liftPoint.screenY+bounds.top-stage.top));
         Object.assign(edgeCue.current.style,{left:`${left}px`,top:`${top}px`,right:'auto',bottom:'auto',transform:'translate(-100%,-50%)'});
       }
-      const selected=clampCrossing(artwork,selection),u=(selected.end+.5)/artwork.warp.length,v=1-(selected.pick+.5)/Math.max(1,artwork.weft.length);
-      const point=pointOnMesh(shape,u,v), hit=hitCrossing(shape,point.screenX,point.screenY,artwork);
-      if(marker.current){marker.current.setAttribute('cx',String(point.screenX));marker.current.setAttribute('cy',String(point.screenY));marker.current.style.opacity=hit&&Math.abs(hit.end-selected.end)<2&&Math.abs(hit.pick-selected.pick)<2?'1':'0';}
+      const window=clothWindow(artwork,bounds.width,bounds.height);
+      const selected=clampCrossing(artwork,selection),u=(selected.end+.5-window.end)/window.ends,v=1-(selected.pick+.5-window.pick)/Math.max(1,window.picks);
+      const point=pointOnMesh(shape,u,v), hit=hitCrossing(shape,point.screenX,point.screenY,artwork,window);
+      if(marker.current){marker.current.setAttribute('cx',String(point.screenX));marker.current.setAttribute('cy',String(point.screenY));marker.current.style.opacity=u>=0&&u<=1&&v>=0&&v<=1&&hit&&Math.abs(hit.end-selected.end)<2&&Math.abs(hit.pick-selected.pick)<2?'1':'0';}
       const paths=new Map<string,string>();
       const add=(color:string,path:string)=>paths.set(color,(paths.get(color)??'')+path);
       const yarnStep=Math.max(1,Math.ceil(artwork.warp.length/72));
       artwork.warp.forEach((thread,i)=>{
         if(i%yarnStep)return;
-        const u=(i+.5)/artwork.warp.length,loose=4+((artwork.seed+i*17)%7);
+        const u=(i+.5-window.end)/window.ends,loose=4+((artwork.seed+i*17)%7);
+        if(u<0||u>1)return;
         for(const v of [0,1]) {
           const at=pointOnMesh(shape,u,v),inner=pointOnMesh(shape,u,v===0?.02:.98);
           const dx=at.screenX-inner.screenX,dy=at.screenY-inner.screenY,l=Math.hypot(dx,dy)||1;
@@ -79,10 +82,10 @@ export function ReverseSurface({artwork, selection, onSelect, onReady, onKeyboar
     {artwork.weft.length>0 ? <>
       {hasInitialMaterial(artwork)&&<Image src='/images/reverse-surface-front.webp' fill sizes='(max-width: 767px) 100vw, 60vw' loading='eager' alt='' className='reverse-surface-poster' />}
       <canvas ref={front} className='reverse-texture' aria-hidden='true'/><canvas ref={reverse} className='reverse-texture' aria-hidden='true'/>
-      <canvas ref={canvas} className='reverse-moving-cloth' role='img' aria-label={`Your textile, ${artwork.weft.length} woven rows. Its front and reverse use the same yarns and crossing rules.`}/>
+      <canvas ref={canvas} className='reverse-moving-cloth' role='img' aria-label={`A close crop of your textile, constructed from ${artwork.weft.length} woven rows. Its front and reverse use the same yarns and crossing rules.`}/>
       <svg ref={overlay} className='reverse-continuity' aria-hidden='true'><path ref={edge} fill='none' stroke='#fff0d4' strokeWidth='2' opacity='0'/>{colors.map(color=><path key={color} ref={node=>{if(node)fringe.current.set(color,node);else fringe.current.delete(color);}} fill='none' stroke={color} strokeWidth='.85' strokeLinecap='round' />)}<circle ref={marker} r='12' fill='none' stroke='#fff4de' strokeWidth='1'/></svg>
       <div className='reverse-pick-surface' role='group' tabIndex={0} aria-label='Textile inspection. Tap a crossing to select it. Arrow keys choose a crossing. Enter or Space lifts or turns the cloth.' onPointerUp={event=>{
-        if(!ready||!mesh.current)return;const bounds=event.currentTarget.getBoundingClientRect();const hit=hitCrossing(mesh.current,event.clientX-bounds.left,event.clientY-bounds.top,artwork);if(hit)onSelect(hit);
+        if(!ready||!mesh.current)return;const bounds=event.currentTarget.getBoundingClientRect();const hit=hitCrossing(mesh.current,event.clientX-bounds.left,event.clientY-bounds.top,artwork,clothWindow(artwork,bounds.width,bounds.height));if(hit)onSelect(hit);
       }} onKeyDown={event=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter',' '].includes(event.key)){event.preventDefault();onKeyboard(event.key);}}}/>
     </> : <div className='reverse-empty'><p className='eyebrow'>The warp is waiting</p><p>Weave a row.<br/>Then turn it over.</p><Link href='/loom' prefetch={false}>Return to the Loom ↗</Link></div>}
     {(frontRender.error||backRender.error||surfaceError)&&<p className='reverse-render-error' role='alert'>Live material rendering is unavailable. Your cloth data remain intact; return to the Loom to save them. The explanation remains available below.</p>}

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createCanvas, Path2D } from '@napi-rs/canvas';
 import { createRevealMesh, pointOnMesh, hitCrossing, textureU, visibleCrossing, LIFT_POSITION } from '../src/lib/reveal';
 import { paintReveal } from '../src/lib/reveal-renderer';
-import { renderCloth } from '../src/lib/renderer';
+import { renderCloth, clothWindow } from '../src/lib/renderer';
 import { makeLoomArtwork } from '../src/lib/construction';
 import { crossingAt, serializeArtwork } from '../src/lib/weave';
 Object.assign(globalThis,{Path2D,window:{devicePixelRatio:1}});
@@ -66,5 +66,30 @@ test('the focused magnifier centers the same physical crossing before and after 
   const canvas=createCanvas(300,300);renderCloth(canvas as unknown as HTMLCanvasElement,art,{width:300,height:300,face,zoom:8,bottomUp:true,focus});
   const pixel=canvas.getContext('2d').getImageData(150,150,1,1).data,viewEnd=face==='front'?focus.end:47-focus.end;
   assert.equal(pixel[0]>pixel[2],crossingAt(art,viewEnd,focus.pick,face));
+ }
+});
+
+test('a cover crop preserves square yarn pitch and selects the same original crossing on either face',()=>{
+ const art=makeLoomArtwork();
+ art.warp=art.warp.map(thread=>({...thread,color:'#DD2222'}));
+ art.weft=art.weft.map(thread=>({...thread,color:'#2222DD'}));
+ for(const [width,height] of [[420,740],[950,540]]) {
+  const window=clothWindow(art,width,height);
+  near(width/window.ends,height/window.picks);
+  assert(window.end>=0&&window.pick>=0);
+  const point={end:24,pick:14},u=(point.end+.5-window.end)/window.ends,v=1-(point.pick+.5-window.pick)/window.picks;
+  const textures=(['front','reverse'] as const).map(face=>{
+   const canvas=createCanvas(width,height);
+   renderCloth(canvas as unknown as HTMLCanvasElement,art,{width,height,zoom:1,face,bottomUp:true,fit:'cover',transparent:true});
+   return canvas;
+  });
+  for(const progress of [0,1]) {
+   const canvas=createCanvas(width,height);
+   const mesh=paintReveal(canvas as unknown as HTMLCanvasElement,textures[0] as unknown as HTMLCanvasElement,textures[1] as unknown as HTMLCanvasElement,progress,width,height);
+   const p=pointOnMesh(mesh,u,v);
+   assert.deepEqual(hitCrossing(mesh,p.screenX,p.screenY,art,window),point);
+   const pixel=canvas.getContext('2d').getImageData(Math.round(p.screenX),Math.round(p.screenY),1,1).data;
+   assert.equal(pixel[0]>pixel[2],visibleCrossing(art,point,progress===0?'front':'reverse').warpAbove);
+  }
  }
 });

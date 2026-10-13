@@ -14,7 +14,7 @@
 .pattern-stage {
   position: relative;
   isolation: isolate;
-  height: max(725px, calc(100svh - 86px));
+  height: max(660px, calc(100svh - 76px));
   overflow: hidden;
   color: var(--color-cream);
   background: #143d67;
@@ -220,7 +220,7 @@
   margin: -194px 2.78% 38px;
   min-height: 156px;
   padding: 19px 24px 18px;
-  border-radius: 13px;
+  border-radius: 2px;
   background: #f8f3ec;
   box-shadow: 0 10px 34px #21172521;
 }
@@ -605,6 +605,21 @@
     right: 6%;
     font-size: 20px;
   }
+  .pattern-caption {
+    display: block;
+    margin: 0 20px;
+    padding: 17px 0 28px;
+  }
+  .pattern-caption p + p {
+    margin-top: 9px;
+  }
+  .pattern-caption a {
+    display: inline-block;
+    margin-top: 13px;
+  }
+}
+
+@media (max-width: 1000px) {
   .pattern-controls {
     display: block;
     min-height: 200px;
@@ -690,7 +705,7 @@
     min-height: 35px;
   }
   .pattern-repeat button {
-    min-width: 30px;
+    min-width: 44px;
     min-height: 44px;
     font-size: 13px;
   }
@@ -713,7 +728,9 @@
     flex-wrap: wrap;
     gap: 3px 8px;
   }
-  .pattern-spool {
+  .pattern-spool,
+  .pattern-yarn-destinations .pattern-spool,
+  .pattern-yarn-source .pattern-spool {
     width: 44px;
     height: 44px;
   }
@@ -752,16 +769,17 @@
     height: 38px;
     flex-basis: 38px;
   }
-  .pattern-caption {
-    display: block;
-    margin: 0 20px;
-    padding: 17px 0 28px;
-  }
-  .pattern-caption p + p {
-    margin-top: 9px;
-  }
-  .pattern-caption a {
-    display: inline-block;
-    margin-top: 13px;
-  }
+}
+/* Touch editing tray on portrait tablets. Keep the artwork large and controls legible. */
+@media (min-width: 768px) and (max-width: 1000px) {
+  .pattern-stage { height: min(810px, calc(100svh - 286px)); min-height: 640px; }
+  .pattern-editorial { top: 8%; left: 5%; }
+  .pattern-editorial h1 { font-size: 13vw; }
+  .pattern-controls { margin: 0 24px; padding-inline: 28px; min-height: 190px; }
+  .pattern-mobile-tabs { max-width: 470px; }
+  .pattern-control-sections { padding-inline: 28px; }
+  .pattern-history { right: 28px; }
+  .pattern-actions { position: static; margin: 0; }
+  .pattern-save { position: absolute; right: 28px; bottom: 22px; width: 220px; }
+  .pattern-cue, .pattern-thread-line { display: none; }
 }

@@ -6,7 +6,7 @@ export interface RenderOptions {
   dpr?: number;
   zoom: number;
   face: Face;
-  fit?: "contain" | "stretch";
+  fit?: "contain" | "stretch" | "cover";
   bottomUp?: boolean;
   transparent?: boolean;
   /** Explicit export-only budget; live surfaces retain the four-million-pixel default. */
@@ -15,6 +15,13 @@ export interface RenderOptions {
   focus?: { end: number; pick: number };
 }
 export type ClothCanvas = HTMLCanvasElement | OffscreenCanvas;
+
+/** Physical yarn window for an undistorted, centered close crop. */
+export function clothWindow(art: Artwork, width: number, height: number) {
+  const pitch = Math.max(width / art.warp.length, height / Math.max(1, art.weft.length));
+  const ends = width / pitch, picks = height / pitch;
+  return { end: (art.warp.length - ends) / 2, pick: (art.weft.length - picks) / 2, ends, picks };
+}
 const noise = (n: number) => {
   const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
   return x - Math.floor(x);
@@ -52,8 +59,7 @@ export function renderCloth(
   }
   if (!art.weft.length)
     return { draws: 0, pixelWidth: canvas.width, pixelHeight: canvas.height };
-  const pitch =
-    Math.min(width / art.warp.length, height / art.weft.length) * zoom;
+  const pitch = (options.fit === "cover" ? Math.max : Math.min)(width / art.warp.length, height / art.weft.length) * zoom;
   const offsetX = options.focus ? width / 2 - (options.focus.end + .5) * pitch : (width - pitch * art.warp.length) / 2;
   const offsetY = options.focus ? height / 2 - (options.focus.pick + .5) * pitch : (height - pitch * art.weft.length) / 2;
   // Mirror the SAME physical geometry. Only the exposed yarn ordering changes.
@@ -79,7 +85,7 @@ export function renderCloth(
     y0: -offsetY,
     y1: height - offsetY,
   };
-  const quality = pitch < 14 ? 4 : pitch < 25 ? 9 : pitch < 55 ? 18 : Math.min(72, Math.ceil(pitch * .52));
+  const quality = pitch < 14 ? 5 : pitch < 25 ? 12 : pitch < 55 ? 26 : Math.min(72, Math.ceil(pitch * .7));
   let draws = 0;
 
   function yarn(
@@ -94,7 +100,8 @@ export function renderCloth(
     const center = (index + 0.5) * pitch;
     const lo = (start + 0.5) * pitch,
       hi = (end + 0.5) * pitch;
-    const breadth = pitch * thread.thickness;
+    const key = art.seed + index * 31 + (vertical ? 1009 : 2003);
+    const breadth = pitch * thread.thickness * (.96 + noise(key) * .08);
     const across0 = vertical ? bounds.x0 : bounds.y0,
       across1 = vertical ? bounds.x1 : bounds.y1;
     const along0 = vertical ? bounds.y0 : bounds.x0,
@@ -107,17 +114,16 @@ export function renderCloth(
     )
       return;
     draws++;
-    const key = art.seed + index * 31 + (vertical ? 1009 : 2003);
     const a = Math.max(lo, along0 - pitch),
       b = Math.min(hi, along1 + pitch);
     const steps = Math.max(4, Math.ceil((b - a) / (pitch / 5)));
     const points: { t: number; c: number; r: number }[] = [];
     for (let s = 0; s <= steps; s++) {
       const t = a + ((b - a) * s) / steps;
-      const crimp = Math.sin((t / pitch) * Math.PI * 2 + key) * breadth * 0.026;
+      const crimp = (Math.sin((t / pitch) * 2.1 + key) * .043 + Math.sin((t / pitch) * 7.3 + key) * .014) * breadth;
       const irregularity =
-        Math.sin((t / pitch) * 2.7 + key) * 0.025 +
-        Math.sin((t / pitch) * 9.1 + key) * 0.013;
+        Math.sin((t / pitch) * 2.7 + key) * 0.043 +
+        Math.sin((t / pitch) * 9.1 + key) * 0.018;
       const edge = Math.min(
         1,
         Math.max(0, Math.min(t - lo, hi - t) / (pitch * 0.42)),
@@ -168,8 +174,8 @@ export function renderCloth(
     if (raised) {
       // A narrow cast shadow defines the actual overlap; avoids costly per-yarn blur filters.
       ctx.save();
-      ctx.translate(breadth * 0.09, breadth * 0.12);
-      ctx.fillStyle = "rgba(12,8,4,.42)";
+      ctx.translate(breadth * 0.045, breadth * 0.06);
+      ctx.fillStyle = "rgba(12,8,4,.3)";
       ctx.fill(outline);
       ctx.restore();
     }
@@ -186,11 +192,13 @@ export function renderCloth(
           0,
           center + breadth / 2,
         );
-    gradient.addColorStop(0, tint(thread.color, -0.32));
-    gradient.addColorStop(0.23, tint(thread.color, raised ? 0.08 : -0.18));
-    gradient.addColorStop(0.43, tint(thread.color, raised ? 0.16 : -0.04));
-    gradient.addColorStop(0.66, tint(thread.color, raised ? 0.015 : -0.25));
-    gradient.addColorStop(1, tint(thread.color, -0.37));
+    // Broad, diffuse light reads as spun fibre; a narrow white ridge reads as plastic.
+    const variation = (noise(key * 3) - .5) * .035;
+    gradient.addColorStop(0, tint(thread.color, -0.24 + variation));
+    gradient.addColorStop(0.2, tint(thread.color, raised ? 0.01 + variation : -0.15));
+    gradient.addColorStop(0.44, tint(thread.color, raised ? 0.085 + variation : -0.05));
+    gradient.addColorStop(0.72, tint(thread.color, raised ? -0.025 + variation : -0.18));
+    gradient.addColorStop(1, tint(thread.color, -0.27 + variation));
     ctx.fillStyle = gradient;
     ctx.fill(outline);
     ctx.save();
@@ -203,8 +211,8 @@ export function renderCloth(
       const fibers = f % 3 === 0 ? lightFibers : darkFibers;
       points.forEach((p, i) => {
         const drift =
-          Math.sin(p.t / (pitch * 0.55) + phase) * breadth * 0.034 +
-          Math.sin((p.t / pitch) * 8 + phase) * breadth * 0.012;
+          Math.sin(p.t / (pitch * 0.7) + phase) * breadth * 0.054 +
+          Math.sin((p.t / pitch) * 11 + phase) * breadth * 0.019;
         const c = p.c + ((f + 0.5) / quality - 0.5) * breadth * 0.86 + drift;
         const [x, y] = xy(p.t, c);
         if (!i) fibers.moveTo(x, y);
@@ -212,7 +220,7 @@ export function renderCloth(
       });
     }
     ctx.lineWidth = Math.max(0.22, Math.min(0.65, breadth * 0.006));
-    ctx.strokeStyle = "rgba(255,244,220,.28)";
+    ctx.strokeStyle = "rgba(255,244,220,.32)";
     ctx.stroke(lightFibers);
     ctx.strokeStyle = "rgba(14,10,7,.21)";
     ctx.stroke(darkFibers);
@@ -238,10 +246,10 @@ export function renderCloth(
         ? ctx.createLinearGradient(0, lo, 0, hi)
         : ctx.createLinearGradient(lo, 0, hi, 0);
       const shoulder = Math.min(0.24, (pitch * 0.34) / (hi - lo));
-      g.addColorStop(0, "rgba(12,8,3,.38)");
+      g.addColorStop(0, "rgba(12,8,3,.24)");
       g.addColorStop(shoulder, "rgba(12,8,3,0)");
       g.addColorStop(1 - shoulder, "rgba(12,8,3,0)");
-      g.addColorStop(1, "rgba(12,8,3,.38)");
+      g.addColorStop(1, "rgba(12,8,3,.24)");
       ctx.fillStyle = g;
       ctx.fill(outline);
     }

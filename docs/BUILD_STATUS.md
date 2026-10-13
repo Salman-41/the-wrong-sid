@@ -1,6 +1,15 @@
 # Build status
 
-**State: Edition implemented and validated locally.** Updated 2026-10-13 (Asia/Karachi). All six experiences have working routes. Entrance still uses its authorized provisional concept textile. No push, deployment or service purchase occurred.
+**State: sitewide creative refinement complete and checked locally.** Updated 2026-10-13 (Asia/Karachi). All six experiences remain functional. No push, deployment or service purchase occurred.
+
+## Creative review delivered
+
+- Reviewed all twelve approved SVGs, project rules and references; inspected the actual six-route application at desktop **1600×1000**, laptop **1366×768**, tablet **834×1112** and mobile **390×844** before and after improvements. [Creative review and rendered evidence](CREATIVE_REVIEW.md) record findings, decisions and limits.
+- Refined the shared procedural material with diffuse yarn lighting, deterministic variation, narrower overlap shadows and clearer fibers. Reverse uses an undistorted macro crop with correctly transformed selection/fringe coordinates. Both faces still derive from the same crossings; added mathematical and pixel-ownership coverage for tall/wide crops.
+- Composed a Didot wordmark and made Pattern Room directly accessible in desktop navigation. Reworked portrait-tablet Entrance, compact laptop Loom/Edition, tablet Reverse construction panel and Pattern Room touch controls. Museum opening labels now have an open editorial composition and preserve the exact object title.
+- Pattern Room samples original yarn surfaces directly, avoiding a blurry intermediate bitmap, and scales composed artwork proportionally. Its graphic repeats may be cropped by the viewport; actual construction is unchanged. The bounded material/tile caches remain. Graphic Edition has stronger stacked type in both preview and export. All procedural posters were regenerated.
+- Strict TypeScript and focused weave, reveal, Pattern renderer and Edition checks passed. Browser checks confirmed: one new twill row, normal-motion lift/turn/lens, Pattern Ribbon/compare, unchanged shared yarn/pick data through Edition, and a real **2400×3200 PNG** download. Tablet/mobile reweaving, menu/Escape, reduced-motion reverse and museum native-image examination passed. No horizontal overflow or page errors in the reviewed initial routes.
+- Preserved licensed local fonts, museum sources/proportions, user artwork schema/history, save/reload/export features, accessible native controls and existing Canvas budgets. No added dependencies, unrelated motion or framework rewrite. This is a focused creative review, not production certification or an Awwwards score.
 
 ## Edition delivered
 
@@ -59,4 +68,4 @@
 2. In a later authorized release stage, run a production build, verify native Canvas/font packaging and export errors in the intended host, then perform broader accessibility, intermediate-width, low-end device and performance checks.
 3. Recheck museum records, attribution caveats and image permissions before release. Recover or replace the provisional Entrance image's provenance.
 
-This stage stops with Edition implemented, focused checks complete and a local commit. No deployment or push is authorized in this stage.
+This stage stops with the sitewide creative improvements complete, focused checks passed and a local commit. No deployment or push is authorized in this stage.

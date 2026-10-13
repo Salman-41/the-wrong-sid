@@ -3,13 +3,13 @@
 .collection-shell h1, .collection-shell h2, .collection-shell h3 { font-family: var(--font-display), Georgia, serif; font-weight: 400; }
 .collection-shell p { line-height: 1.65; }
 .collection-shell a { text-underline-offset: 4px; }
-.collection-opening { display: grid; grid-template-columns: .88fr 1.32fr 1fr; align-items: start; gap: 3vw; padding: 38px 0 88px; min-height: calc(100svh - 86px); }
+.collection-opening { display: grid; grid-template-columns: .88fr 1.32fr 1fr; align-items: start; gap: 3vw; padding: 38px 0 64px; min-height: calc(100svh - 76px); }
 .collection-introduction { padding-top: 38px; }
 .collection-introduction h1 { margin: 0 0 23px; font-size: clamp(44px, 5.25vw, 85px); line-height: 1.03; letter-spacing: -.055em; text-transform: uppercase; }
 .collection-introduction h1 span { display: block; }
 .collection-introduction-line { margin: 0 0 42px; font-family: var(--font-display), Georgia, serif; font-size: clamp(22px, 2vw, 31px); font-style: italic; line-height: 1.2 !important; }
 .collection-introduction-copy { max-width: 25ch; font-size: 15px; }
-.collection-explore { border-top: 1px solid var(--line); margin-top: 80px; padding-top: 24px; max-width: 280px; }
+.collection-explore { border-top: 1px solid var(--line); margin-top: 48px; padding-top: 24px; max-width: 280px; }
 .collection-modes { display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
 .collection-modes a { display: flex; align-items: center; min-height: 42px; font-family: var(--font-display), Georgia, serif; font-size: 22px; text-decoration: none; color: var(--muted); }
 .collection-modes a[aria-current], .collection-modes a:hover { color: var(--ink); text-decoration: underline; }
@@ -19,8 +19,8 @@
 .collection-image-credit { margin: 14px 0 0; font-size: 11px; color: var(--muted); line-height: 1.7; }
 .collection-image-credit span { display: block; }
 .collection-image-credit a { text-decoration-thickness: 1px; }
-.collection-opening-label { padding: 34px 28px; background: #eae3d959; min-height: 550px; }
-.collection-opening-label > .eyebrow { margin: 0 0 48px; }
+.collection-opening-label { padding: 30px 0 0; border-top: 1px solid var(--ink); }
+.collection-opening-label > .eyebrow { margin: 0 0 32px; }
 .collection-opening-label h2 { font-size: clamp(30px, 3.5vw, 54px); line-height: 1.07; letter-spacing: -.02em; margin: 0 0 25px; }
 .collection-object-date { font-family: var(--font-display), Georgia, serif; font-style: italic; font-size: 26px; margin: 0; }
 .collection-opening-facts { border-top: 1px solid var(--line); padding-top: 23px; margin: 32px 0 42px; }
@@ -146,10 +146,12 @@
 
 @media (min-width: 1700px) { .collection-shell { padding-inline: max(3vw, calc((100vw - 1600px) / 2)); } }
 @media (max-width: 1100px) and (min-width: 721px) {
-  .collection-opening { grid-template-columns: 1fr 1.2fr; gap: 30px; }
+  .collection-opening { grid-template-columns: 1fr 1.2fr; grid-template-areas: "intro image" "label image"; gap: 32px; }
+  .collection-introduction { grid-area: intro; padding-top: 12px; }
+  .collection-opening-figure { grid-area: image; position: sticky; top: 28px; }
   .collection-introduction h1 { font-size: 7.5vw; }
-  .collection-opening-label { grid-column: 2; min-height: auto; }
-  .collection-explore { margin-top: 60px; }
+  .collection-opening-label { grid-area: label; padding-top: 24px; }
+  .collection-explore { margin-top: 26px; }
   .collection-opening-label > .eyebrow { margin-bottom: 25px; }
   .collection-object-hero { gap: 30px; }
   .collection-object-artwork { padding: 24px; }

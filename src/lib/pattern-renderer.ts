@@ -134,11 +134,11 @@ export class PatternRenderCache {
       material.tiles.set(key, existing);
       return { canvas: existing, colors: material.colors };
     }
-    const size = base[format], resolution = 1.5;
+    const size = base[format], resolution = format === "mobile" ? 2 : 1.5;
     const canvas = this.factory(Math.round(size.width * resolution), Math.round(size.height * resolution));
     const ctx = contextFor(canvas);
     ctx.scale(resolution, resolution);
-    paintComposition(ctx, material.swatches, format, composition, this.factory);
+    paintComposition(ctx, material.swatches, format, composition);
     material.tiles.set(key, canvas);
     if (material.tiles.size > 4) material.tiles.delete(material.tiles.keys().next().value!);
     this.tileRenders++;
@@ -146,19 +146,13 @@ export class PatternRenderCache {
   }
 }
 
-function sourcePattern(ctx: Context, source: PatternCanvas, format: "mobile" | "desktop", factory: PatternCanvasFactory) {
-  // The full-page pitch is 10.75px desktop / 9.25px mobile; close inspection
-  // still resolves the existing renderer's rounded floats and axial fibers.
+function sourcePattern(ctx: Context, source: PatternCanvas, format: "mobile" | "desktop") {
+  // Sample the original fibre surface directly. A tiny intermediate bitmap
+  // discarded the filaments before the full-page material could be enlarged.
   const ratio = format === "mobile" ? 0.23125 : 0.26875;
-  const brush = factory(Math.max(1, Math.round(source.width * ratio)), Math.max(1, Math.round(source.height * ratio)));
-  const brushCtx = contextFor(brush);
-  brushCtx.imageSmoothingEnabled = true;
-  brushCtx.imageSmoothingQuality = "high";
-  brushCtx.drawImage(source, 0, 0, brush.width, brush.height);
-  brushCtx.fillStyle = "rgba(244,232,209,.08)";
-  brushCtx.fillRect(0, 0, brush.width, brush.height);
-  const pattern = ctx.createPattern(brush, "repeat");
+  const pattern = ctx.createPattern(source, "repeat");
   if (!pattern) throw new Error("Canvas texture pattern is unavailable.");
+  pattern.setTransform({ a: ratio, b: 0, c: 0, d: ratio, e: 0, f: 0 });
   return pattern;
 }
 function piece(ctx: Context, trace: Trace, pattern: CanvasPattern, depth = 1, light = 0) {
@@ -201,11 +195,10 @@ function paintComposition(
   swatches: Record<Role, PatternCanvas>,
   format: "mobile" | "desktop",
   composition: PatternComposition,
-  factory: PatternCanvasFactory,
 ) {
   const width = base[format].width, height = base[format].height;
   const brushes = {} as Record<Role, CanvasPattern>;
-  for (const role of roles) brushes[role] = sourcePattern(ctx, swatches[role], format, factory);
+  for (const role of roles) brushes[role] = sourcePattern(ctx, swatches[role], format);
   ctx.fillStyle = brushes.cobalt;
   ctx.fillRect(0, 0, width, height);
   // A leftward falloff is the shadow of overlapping cloth, not an independent color field.
@@ -301,12 +294,14 @@ export function renderPatternRoom(
     paintUnwoven(ctx, art, width, height);
     return { pixelWidth: canvas.width, pixelHeight: canvas.height, materialRenders: cache.materialRenders, tileRenders: cache.tileRenders, colors: null };
   }
-  const format = width < 680 ? "mobile" : "desktop";
+  const format = width / height < 1.1 ? "mobile" : "desktop";
   const { canvas: tile, colors } = cache.tile(art, options.composition, format);
   const repeat = Math.max(1, Math.min(4, Math.round(options.repeat)));
   const scale = Math.max(0.75, Math.min(1.75, options.scale));
-  const tileWidth = (width / repeat) * scale;
-  const tileHeight = (height / repeat) * scale;
+  // Crop the composed sheet to the viewport; never stretch its yarn geometry.
+  const fit = Math.max(width / tile.width, height / tile.height) * scale / repeat;
+  const tileWidth = tile.width * fit;
+  const tileHeight = tile.height * fit;
   const startX = (width - tileWidth * repeat) / 2;
   const startY = (height - tileHeight * repeat) / 2;
   ctx.fillStyle = "#211725";

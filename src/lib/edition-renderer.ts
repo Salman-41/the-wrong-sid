@@ -79,7 +79,14 @@ export function createEditionScene(art: Artwork): EditionScene {
     // The Pattern Room repeat becomes a finite sequence of cut cloth slips.
     for (let i = 1; i < art.arrangement.repeat; i++) cloth({ x: 24 + i * 70, y: landscape ? h - 90 : h * .59, w: 110, h: 65 }, 2.1 * s.scale, i / 4, s.cropY);
     const x = landscape ? 520 : 44, y = landscape ? 255 : h * .77;
-    text(s.title.trim() || "THE WRONG SIDE.", x, y, landscape ? 244 : w - 88, landscape ? 68 : 99, "EditionDisplay", 2);
+    if (!s.title.trim() && !landscape) {
+      text("THE", x + 3, h * .704, 120, 13, "EditionCaption", 1);
+      const size = s.format === "portrait" ? 138 : 104;
+      text("WRONG", x - 4, h * .818, w - 80, size, "EditionDisplay", 1);
+      text("SIDE.", x - 4, h * .818 + size * .94, w - 80, size, "EditionDisplay", 1);
+    } else {
+      text(s.title.trim() || "THE WRONG SIDE.", x, y, landscape ? 244 : w - 88, landscape ? 68 : 112, "EditionDisplay", 2);
+    }
     text(credit, x, landscape ? h - 56 : h - 46, landscape ? 245 : w - 88, 11, "EditionCaption", 1);
   }
   return { width: w, height: h, settings: s, nodes };

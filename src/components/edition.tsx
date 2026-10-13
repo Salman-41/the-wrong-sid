@@ -74,7 +74,7 @@ export function Edition() {
     finally { setBusy(false); }
   }
   return (
-    <main id="main-content" tabIndex={-1} className="edition-page">
+    <main id="main-content" tabIndex={-1} className="edition-page" data-format={s.format}>
       <header className="edition-introduction">
         <h1>EDITION.</h1><p className="edition-subtitle">From thread to print.</p>
         <p className="edition-introduction-copy">One cloth. Several ways to remember it. Make a considered composition.</p>

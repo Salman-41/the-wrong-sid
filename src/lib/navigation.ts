@@ -10,6 +10,7 @@ export const experiences = [
 export const primaryNavigation = [
   { href: "/loom", label: "Make" },
   { href: "/reverse", label: "Inspect" },
+  { href: "/pattern-room", label: "Pattern Room" },
   { href: "/collection", label: "Collection" },
   { href: "/edition", label: "Edition" },
 ] as const;

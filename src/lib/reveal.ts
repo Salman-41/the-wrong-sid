@@ -5,6 +5,7 @@ export interface SurfacePoint extends Point3 { screenX: number; screenY: number 
 export interface RevealTriangle { points: [SurfacePoint, SurfacePoint, SurfacePoint]; face: Face; depth: number; light: number }
 export interface RevealMesh { points: SurfacePoint[][]; triangles: RevealTriangle[]; columns: number; rows: number }
 export interface CrossingPoint { end: number; pick: number }
+export interface ClothWindow { end: number; pick: number; ends: number; picks: number }
 export type RevealPhase = 'surface' | 'edge' | 'construction' | 'reverse';
 export const LIFT_POSITION = .38;
 const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
@@ -76,7 +77,7 @@ export function visibleCrossing(art: Artwork, point: CrossingPoint, face: Face) 
   const current=clampCrossing(art,point), viewEnd=face==='front'?current.end:art.warp.length-1-current.end;
   return { ...current, viewEnd, warp:art.warp[current.end],weft:art.weft[current.pick],warpAbove:art.weft.length>0&&crossingAt(art,viewEnd,current.pick,face) };
 }
-export function hitCrossing(mesh: RevealMesh, x: number, y: number, art: Artwork): CrossingPoint | null {
+export function hitCrossing(mesh: RevealMesh, x: number, y: number, art: Artwork, window: ClothWindow = { end: 0, pick: 0, ends: art.warp.length, picks: art.weft.length }): CrossingPoint | null {
   // Painter order reversed selects the visible triangle when the folded faces overlap.
   for(let i=mesh.triangles.length-1;i>=0;i--) {
     const [a,b,c]=mesh.triangles[i].points;
@@ -84,7 +85,7 @@ export function hitCrossing(mesh: RevealMesh, x: number, y: number, art: Artwork
     if(Math.abs(d)<.001) continue;
     const wa=((b.screenY-c.screenY)*(x-c.screenX)+(c.screenX-b.screenX)*(y-c.screenY))/d;
     const wb=((c.screenY-a.screenY)*(x-c.screenX)+(a.screenX-c.screenX)*(y-c.screenY))/d, wc=1-wa-wb;
-    if(wa>=0&&wb>=0&&wc>=0) return clampCrossing(art,{end:(wa*a.u+wb*b.u+wc*c.u)*art.warp.length-.5,pick:(1-(wa*a.v+wb*b.v+wc*c.v))*art.weft.length-.5});
+    if(wa>=0&&wb>=0&&wc>=0) return clampCrossing(art,{end:window.end+(wa*a.u+wb*b.u+wc*c.u)*window.ends-.5,pick:window.pick+(1-(wa*a.v+wb*b.v+wc*c.v))*window.picks-.5});
   }
   return null;
 }

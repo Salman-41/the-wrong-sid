@@ -38,7 +38,7 @@ for (const face of ["front", "reverse"] as const) {
   const surface = createCanvas(760, 920);
   renderCloth(surface as unknown as HTMLCanvasElement, makeLoomArtwork(), {
     width: 760, height: 920, dpr: 1, face, zoom: 1,
-    fit: "stretch", bottomUp: true, transparent: true,
+    fit: "cover", bottomUp: true, transparent: true,
   });
   writeFileSync(`public/images/reverse-surface-${face === "front" ? "front" : "back"}.webp`, surface.toBuffer("image/webp", 86));
 }

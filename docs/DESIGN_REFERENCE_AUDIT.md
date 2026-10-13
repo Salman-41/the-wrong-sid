@@ -30,3 +30,7 @@ Tokens specify GFS Didot display, Arimo UI, Cousine technical and a warm paper/i
 - [CMO Paris](https://www.awwwards.com/sites/cmo-paris) — Awwwards Honorable Mention (9 Apr 2024); record emphasizes workshop/thread-building storytelling, animation, scrolling and product/about views. Study the relationship between making and narrative, not its design.
 
 Awards references establish relevant craft examples, not a score forecast. The 6.5+ target can only be assessed after implementation and independent usability/performance review.
+
+## Implemented site review — 2026-10-13
+
+Revisited all twelve SVGs, the token file and both contact sheets alongside actual six-route browser renders at four viewport sizes. Major changes address yarn lighting, distorted material fitting, laptop action placement, tablet composition and wordmark/navigation. The original compositions remain the visual basis; none of the SVG pages is shipped as a screenshot. [CREATIVE_REVIEW.md](CREATIVE_REVIEW.md) contains the findings, reference comparison limits and rendered evidence.

@@ -25,9 +25,9 @@
 
 ## Scope now
 
-- Current authorized stage: implement Edition's three editorial layouts, accurate preview, high-resolution PNG and genuinely supported SVG, project save/reload and return to editing. Use the same visitor artwork as Loom, Reverse and Pattern Room.
+- Current authorized stage: review and improve the complete rendered exhibition against the approved art direction at desktop, laptop, tablet and mobile sizes. Preserve working interactions, shared artwork, textile mathematics, museum provenance, accessibility and performance.
 - Export the artwork composition alone. Declare embedded raster yarn surfaces honestly when offering hybrid SVG; do not claim fully vector or physically exact fabric output.
 - Keep historical objects and museum photographs separate from visitor-created `Artwork` / `TextileProject` state. Preserve exact institutional titles, date strings, source medium wording, accession numbers, rights status, and documented attribution. Use null when the museum does not supply a value.
 - Verify reuse rights at the selected image/media level. Record the object source, image download URL, retrieval date, local filename, image dimensions, and attribution guidance. Preserve institutional context and identify any uncertain or reviewed attribution.
 - Never fabricate a historical reverse, motif meaning, maker, geography, technique, or date. A local image is the documented source view unless the record explicitly identifies otherwise.
-- Run only focused export/artwork checks, TypeScript and brief desktop/mobile interactions. Update `docs/BUILD_STATUS.md`, commit locally and stop. Do not deploy, buy services, push or begin another experience.
+- Run only targeted visual/functional checks and TypeScript. Record the review in `docs/BUILD_STATUS.md`, commit locally and stop. Do not deploy, buy services, push or begin a release audit.

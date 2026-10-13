@@ -50,7 +50,7 @@ export function CollectionPublication({ selection }: { selection: CollectionSele
   return <main id="main-content" tabIndex={-1} className="collection-publication collection-shell">
     <section className="collection-opening" aria-labelledby="collection-title">
       <div className="collection-introduction">
-        <h1 id="collection-title"><span>The</span>Collection.</h1>
+        <h1 id="collection-title"><span>The</span>{" "}Collection.</h1>
         <p className="collection-introduction-line">The fabric has a history.</p>
         <p className="collection-introduction-copy">Places, materials, makers.<br />Eleven textiles, held in four museum collections. A publication for looking closely.</p>
         <div className="collection-explore"><p className="eyebrow">Explore</p><BrowseModes selection={selection} /></div>
@@ -62,7 +62,7 @@ export function CollectionPublication({ selection }: { selection: CollectionSele
         <figcaption><MuseumCredit record={opening} /></figcaption>
       </figure>
       <div className="collection-opening-label">
-        <p className="eyebrow">The Met / Japan</p><h2>Piece of Cloth<br />for Bedding</h2>
+        <p className="eyebrow">The Met / Japan</p><h2>{opening.title}</h2>
         <p className="collection-object-date">19th century</p>
         <dl className="collection-opening-facts">
           <div><dt className="eyebrow">Material &amp; making</dt><dd>Plain-weave cotton with weft kasuri (ikat) patterning.</dd></div>

@@ -21,7 +21,7 @@
   align-items: start;
 }
 .loom-editorial {
-  padding: 45px 0 0 20px;
+  padding: 28px 0 0 20px;
 }
 .loom-editorial h1 {
   font-family: var(--font-display), serif;
@@ -59,7 +59,7 @@
 .loom-warp-colors {
   border: 0;
   border-top: 1px solid var(--line);
-  margin: 78px 0 0 6px;
+  margin: 45px 0 0 6px;
   padding: 22px 0 0;
   max-width: 248px;
 }
@@ -114,7 +114,7 @@
   position: relative;
   aspect-ratio: 0.96;
   max-height: calc(100svh - 163px);
-  min-height: 580px;
+  min-height: 520px;
   width: 100%;
   isolation: isolate;
 }
@@ -149,11 +149,11 @@
     ),
     linear-gradient(
       180deg,
-      #c49163 0%,
-      #ce9e70 15%,
-      #b47d51 35%,
-      #825837 78%,
-      #593a27 100%
+      #b38a61 0%,
+      #ba926c 15%,
+      #aa7e54 35%,
+      #946b48 78%,
+      #725035 100%
     );
   box-shadow: 1px 6px 9px #54392720;
 }
@@ -171,7 +171,7 @@
       #f7d4a815 5px 6px,
       transparent 6px 13px
     ),
-    linear-gradient(90deg, #553720, #c28e5e 32%, #c99b6f 57%, #6b462d);
+    linear-gradient(90deg, #694b33, #a47b53 18%, #ad845b 72%, #755137);
 }
 .loom-upright--left {
   left: 1.7%;
@@ -204,7 +204,7 @@
       #f7d4a810 6px 7px,
       transparent 7px 11px
     ),
-    linear-gradient(180deg, #d0a17a, #a1734f 42%, #64432d);
+    linear-gradient(180deg, #b68c65, #a47b53 42%, #775436);
 }
 .loom-cloth {
   position: absolute;
@@ -296,7 +296,7 @@
 .loom-controls {
   display: flex;
   flex-direction: column;
-  padding-top: 32px;
+  padding-top: 16px;
 }
 .loom-controls fieldset {
   padding: 0;
@@ -961,4 +961,40 @@
   .loom-row-reveal {
     will-change: auto;
   }
+}
+
+/* Compact working rails keep the action beside the cloth on a laptop. */
+@media (min-width: 901px) and (max-height: 850px) {
+  .loom-worktable { grid-template-columns: minmax(180px,.78fr) minmax(350px,1.82fr) minmax(215px,.64fr); gap: 28px; }
+  .loom-editorial { padding-top: 16px; }
+  .loom-editorial h1 { font-size: clamp(85px,7.7vw,116px); }
+  .loom-introduction { font-size: 13px; line-height: 1.65; }
+  .loom-warp-colors { margin-top: 24px; padding-top: 16px; }
+  .loom-warp-colors button { min-height: 35px; }
+  .loom-frame { min-height: 480px; height: calc(100svh - 163px); max-height: 620px; aspect-ratio: auto; }
+  .loom-controls { padding-top: 8px; }
+  .loom-controls legend { margin-bottom: 6px; }
+  .loom-structure p { min-height: 0; margin-top: 8px; }
+  .loom-controls .loom-weft-colors { margin-top: 12px; padding-top: 10px; }
+  .loom-weft-colors > div { grid-template-columns: repeat(6,1fr); gap: 0; }
+  .loom-yarn-swatch { width: 34px; height: 44px; }
+  .loom-yarn-swatch::before { inset: 10px 5px; }
+  .loom-yarn-swatch[aria-pressed="true"]::after { inset: 5px 0; }
+  .loom-progress { margin-top: 12px; padding-top: 12px; }
+  .loom-row-count output { font-size: 39px; }
+  .loom-row-actions { margin-top: 14px; }
+  .loom-examine { margin-top: 6px; }
+  .loom-file-actions { margin-top: 4px; }
+  .loom-notice { min-height: 0; }
+  .loom-footnote { margin-top: 10px; padding-top: 8px; }
+}
+@media (min-width: 768px) and (max-width: 900px) {
+  .loom-frame { min-height: 0; height: 520px; aspect-ratio: auto; }
+  .loom-editorial { padding-top: 20px; }
+  .loom-warp-colors { margin-top: 28px; }
+  .loom-controls { grid-column: 1 / -1; grid-template-columns: 1.15fr 1fr 1fr; gap: 16px 28px; padding-top: 5px; }
+  .loom-row-actions { grid-column: 3; grid-row: 1; }
+  .loom-progress { grid-column: 3; grid-row: 2; padding-top: 0; border: 0; }
+  .loom-examine, .loom-file-actions { align-self: start; margin-top: 0; }
+  .loom-structure p { min-height: 0; }
 }

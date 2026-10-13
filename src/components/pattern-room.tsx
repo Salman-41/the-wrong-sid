@@ -278,7 +278,7 @@ export function PatternRoom() {
       <section className="pattern-controls" aria-label="Transform your fabric" data-active-tab={activeTab} data-expanded={controlsExpanded}>
         <div className="pattern-controls-heading">
           <p className="eyebrow">Transform this fabric</p>
-          <p>Actual yarns and crossings. New graphic arrangements.</p>
+          <p>One cloth. New arrangements.</p>
         </div>
         <div className="pattern-mobile-tabs" role="group" aria-label="Pattern controls">
           {([
@@ -311,7 +311,7 @@ export function PatternRoom() {
           </fieldset>
 
           <fieldset id="pattern-panel-weave" className="pattern-control-section pattern-weave" data-tab="weave" data-active={activeTab === "weave"} disabled={!hydrated || !artwork.weft.length}>
-            <legend>Reweave every row <span>real crossings</span></legend>
+            <legend>Reweave every row</legend>
             <div className="pattern-structure-options" role="group" aria-label="Apply weave structure to all woven rows">
               {(Object.keys(STRUCTURES) as Structure[]).map((value) => <button key={value} type="button" aria-pressed={currentStructure === value} title={STRUCTURES[value].description} onClick={() => changeStructure(value)}>{weaveNames[value]}</button>)}
             </div>
@@ -319,7 +319,7 @@ export function PatternRoom() {
           </fieldset>
 
           <fieldset id="pattern-panel-yarn" className="pattern-control-section pattern-yarn" data-tab="yarn" data-active={activeTab === "yarn"} disabled={!hydrated}>
-            <legend>Real yarn colours <span>thread data</span></legend>
+            <legend>Yarn colours</legend>
             <div className="pattern-yarn-axis" role="group" aria-label="Choose yarn direction">
               {(["warp", "weft"] as const).map((value) => <button key={value} type="button" aria-pressed={axis === value} onClick={() => setAxis(value)}>{value === "warp" ? "Warp" : "Weft"}</button>)}
             </div>
